@@ -183,7 +183,7 @@ body {
 }
 
 /* ── QUIZ ── */
-#screen-quiz { background: var(--bg); padding: 0; }
+#screen-quiz { background: var(--bg); padding: 0; overflow-x: hidden; }
 .quiz-topbar {
   display: flex;
   align-items: center;
@@ -241,8 +241,10 @@ body {
 }
 .quiz-card {
   max-width: 760px;
+  width: 100%;
   margin: 32px auto;
-  padding: 0 24px 80px;
+  padding: 0 24px 100px;
+  overflow: hidden;
 }
 .question-num {
   font-family: 'Playfair Display', serif;
@@ -261,6 +263,9 @@ body {
   padding-bottom: 28px;
   border-bottom: 1px solid var(--border);
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
 }
 .options-list {
   display: flex;
@@ -280,10 +285,13 @@ body {
   text-align: left;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.6;
   color: var(--text);
   transition: all 0.18s;
   width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
 }
 .option-btn:hover:not(:disabled) {
   border-color: var(--primary);
@@ -326,7 +334,7 @@ body {
 .explanation-box.wrong-exp { background: #FDEDEC; border: 1px solid #F5B7B1; }
 .explanation-box.info-exp { background: #EEF6FF; border: 1px solid #BFDBFE; }
 .explanation-icon { font-size: 22px; flex-shrink: 0; }
-.explanation-text { font-size: 14px; line-height: 1.6; color: var(--text); }
+.explanation-text { font-size: 14px; line-height: 1.6; color: var(--text); overflow-wrap: break-word; word-break: break-word; flex: 1; }
 .explanation-text strong { display: block; margin-bottom: 4px; font-size: 15px; }
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(-8px); }
@@ -1049,105 +1057,105 @@ Assinale a opção em que o termo sublinhado funciona como sujeito.
 (D) "A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando".
 (E) "Numa democracia, é livre a expressão".
 16
-Assinale o instrumento constitucional mais adequado para impugnar judicialmente o indeferimento da licença paternidade.
+Pedro, servidor público estadual, formulou requerimento de gozo de licença paternidade ao seu superior hierárquico, o qual foi indeferido sem qualquer fundamentação. A licença estava prevista no regime jurídico da categoria como direito subjetivo do servidor, tendo sido o requerimento formulado no prazo legal, devidamente instruído com a certidão de nascimento do filho do requerente. Assinale a opção que indica o instrumento constitucional mais adequado para impugnar judicialmente a decisão de indeferimento da licença.
 (A) Mandado de revogação.
 (B) Mandado de segurança.
 (C) Mandado de injunção.
 (D) Direito de petição.
 (E) Habeas Data.
 17
-Sobre a tramitação de um projeto de lei orgânica municipal, está correto o que se afirma em
+Considerando o processo legislativo previsto na Constituição da República e a observância dos demais requisitos exigidos, sobre a tramitação de um projeto de lei orgânica municipal, analise os itens a seguir. I. O projeto foi aprovado em dois turnos de votação. II. O projeto foi aprovado pelo voto da maioria absoluta dos membros da Câmara Municipal. III. O projeto, ao final, foi sancionado pelo Prefeito Municipal. Está correto o que se afirma em
 (A) II e III, apenas.
 (B) I e III, apenas.
 (C) II, apenas.
 (D) I, apenas.
 (E) I, II e III.
 18
-À luz da sistemática constitucional, o segundo cargo passível de ser ocupado por Artur é o de
+Artur, ocupante de cargo de provimento efetivo na administração pública federal, cujas atribuições eram direcionadas ao desenvolvimento de projetos tecnológicos na área nuclear, foi aprovado em outro concurso público. Seu objetivo era o de permanecer em ambos os cargos, de modo a aumentar sua renda. À luz da sistemática constitucional, o segundo cargo passível de ser ocupado por Artur é o de
 (A) membro do Ministério Público.
 (B) profissional da área de saúde.
 (C) caráter técnico ou científico.
 (D) magistrado.
 (E) professor.
 19
-A referida lei complementar está sujeita aos balizamentos estabelecidos
+Eraldo, estudante de direito, foi informado que as atribuições do Ministério Público estadual seriam detalhadas em lei complementar estadual. À luz da sistemática constitucional, é correto afirmar que a referida lei complementar está sujeita aos balizamentos estabelecidos
 (A) pela lei nacional, editada pela União sob a forma de lei complementar.
 (B) pela lei nacional, editada pela União sob a forma de lei ordinária.
 (C) pela lei nacional, editada pela União em conjunto com os Estados.
 (D) pela Constituição da República, somente.
 (E) pela Constituição Estadual, somente.
 20
-O referido acórdão pode ser impugnado via
+Em ação ajuizada pelo Ministério Público, o Tribunal de Justiça, ao apreciar o recurso de apelação, julgou improcedente o pedido formulado. Após o exaurimento de todos os recursos nas instâncias ordinárias, a Instituição constatou que o acórdão violara frontalmente a Constituição da República de 1988. À luz da sistemática constitucional e, uma vez preenchidos os demais requisitos exigidos, o referido acórdão pode ser impugnado via
 (A) recurso extraordinário, endereçado ao Supremo Tribunal Federal.
 (B) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.
 (C) recurso especial, endereçado ao Supremo Tribunal Federal.
 (D) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.
 (E) reclamação constitucional, endereçada ao Supremo Tribunal Federal.
 21
-João e André praticaram ato de improbidade que consubstancia
+João, servidor público estadual e que permanecia com as chaves da repartição em que trabalhava, permitiu que André, que não era servidor público, ali ingressasse e subtraísse diversos computadores do local. Os bens subtraídos ficaram, em sua integralidade, para André. À luz da sistemática estabelecida na Lei nº 8.429/92, João e André praticaram ato de improbidade que consubstancia
 (A) violação aos princípios regentes da atividade estatal.
 (B) dano ao patrimônio público.
 (C) crime de responsabilidade.
 (D) enriquecimento ilícito.
 (E) excesso de exação.
 22
-Considerando a sistemática da Lei nº 13.019/14, o instrumento indicado é
+O Secretário de Estado decidiu celebrar parceria com organizações da sociedade civil, não qualificadas como organizações sociais ou organizações da sociedade civil de interesse público, com o objetivo de realizar finalidades de interesse público e recíproco, sem repasse de recursos financeiros. Para isso, solicitou à sua assessoria que informasse o instrumento a ser utilizado. Considerando a sistemática estabelecida pela Lei nº 13.019/14, assinale a opção que indica o instrumento indicado.
 (A) Acordo de cooperação.
 (B) Termo de colaboração.
 (C) Termo de fomento.
 (D) Contrato de gestão.
 (E) Termo de parceria.
 23
-À luz da Lei nº 10.520/02, a irregularidade da narrativa é que
-(A) A modalidade licitação é incompatível com o objeto e a habilitação deve ser posterior à fase competitiva.
-(B) O pregão não é uma modalidade específica de licitação.
-(C) Os envelopes não devem ser entregues em sessão, mas pelo correio.
+A Administração Pública divulgou edital de licitação, na modalidade de pregão, no qual pretendia adquirir componentes eletrônicos de alta tecnologia, a serem confeccionados consoante as especificidades indicadas no edital. Para evitar a participação de sociedades empresárias que não preenchessem os requisitos exigidos, foi estatuído que a habilitação dos pretendentes iria anteceder à sessão de entrega dos envelopes contendo as propostas. À luz da sistemática estatuída pela Lei nº 10.520/02, assinale a opção que indica a irregularidade da narrativa acima.
+(A) A modalidade licitação é incompatível com o objeto indicado e a habilitação deve ser posterior à fase competitiva.
+(B) O pregão não é uma modalidade específica de licitação mas uma forma de apresentação da concorrência.
+(C) Os envelopes contendo as propostas não devem ser entregues em sessão, mas pelo correio.
 (D) A modalidade de licitação é incompatível com o objeto indicado.
 (E) A habilitação deve ser sempre posterior à fase competitiva do pregão.
 24
-O referido regime de contratação
+Determinado edital de licitação, elaborado com base no Regime Diferenciado de Contratações Públicas (RDC), dispôs que seria observado, na execução indireta de obras de engenharia, o regime de contratação integrada. Considerando a sistemática prevista na Lei nº 12.462/11, o referido regime de contratação
 (A) compreende a elaboração do projeto básico, não do executivo, bem como a execução da obra.
 (B) compreende a elaboração dos projetos básico e executivo, a execução da obra e outras operações.
 (C) compreende a elaboração dos projetos básico e executivo, mas não a execução da obra.
 (D) não é compatível com o Regime Diferenciado de Contratações Públicas.
 (E) somente poderia ser utilizado na execução direta de obras de engenharia.
 25
-Segundo a sistemática da Lei nº 8.666/93, o motivo que permite a rescisão do contrato é
+A sociedade empresária XK pretendia participar de licitação destinada ao fornecimento de serviços à Administração Pública. Ao analisar a minuta de contrato anexada ao ato convocatório, constatou a possibilidade de rescisão do contrato, ressalvadas certas exceções, caso haja atraso superior a 90 dias dos pagamentos devidos pela Administração Pública. Segundo a sistemática da Lei nº 8.666/93, assinale a opção que indica o motivo que permite a rescisão do contrato administrativo.
 (A) Fato da Administração.
 (B) Alteração unilateral.
 (C) Fato do príncipe.
 (D) Álea econômica.
 (E) Álea ordinária.
 26
-A exigência de residência no Estado organizador do concurso é
-(A) compatível com o princípio da legalidade.
-(B) adequada em relação ao princípio da dignidade da pessoa humana.
+Determinada instituição do Estado abriu concurso público para preenchimento de cargo em seu quadro de carreira. O edital registra que o candidato que reside no Estado organizador do certame há, pelo menos, dois anos e que comprove ser carente, terá direito à isenção da taxa de inscrição. A exigência de residência no Estado organizador do concurso é
+(A) compatível com o princípio da legalidade, por se tratar de cargo em quadro de carreira de instituição estadual.
+(B) adequada em relação ao princípio da dignidade da pessoa humana, considerando moradia como mínimo existencial.
 (C) inconstitucional, por registrar uma discriminação incompatível com o princípio da impessoalidade.
-(D) inconstitucional, por não haver razoabilidade na exigência formulada.
-(E) compatível com o princípio da isonomia material.
+(D) inconstitucional, por não haver razoabilidade na exigência formulada, a qual insere critério subjetivo de difícil verificação, para aferição da carência, que é objetiva.
+(E) compatível com o princípio da isonomia material, ao estabelecer regra de proteção regional aos candidatos carentes do Estado organizador do certame.
 27
-Sobre o caso narrado, a afirmativa correta é
-(A) O Município está obrigado a fornecer a medicação, conforme orientação do médico.
-(B) O Município, ao favorecer Manuel, irá contra o princípio da igualdade.
-(C) O Município só está obrigado a entregar os remédios se houvesse disponibilidade orçamentária.
-(D) O Município não está obrigado a atender aos interesses locais.
-(E) O Município não está obrigado a fornecer a medicação fora da relação municipal de medicamentos.
+Manuel de Souza, idoso e pobre, necessita de medicamento de uso continuado e controlado para se tratar de doença diagnosticada por médico do SUS. A medicação não faz parte das Relações Nacional e Municipal de Medicamentos Essenciais, mas Manuel precisa ter o remédio para recuperar sua saúde. Desta forma recorreu ao Poder Judiciário, acionando o Município de Maceió. Sobre o caso narrado, conforme os princípios inseridos na Carta Magna Estadual, assinale a afirmativa correta.
+(A) O Município está obrigado a fornecer a medicação, conforme orientação do médico, em virtude de seu dever de proteger a vida e a saúde dos munícipes.
+(B) O Município, ao favorecer Manuel, irá contra o princípio da igualdade, já que não somente ele necessita de remédios fora da lista.
+(C) O Município só está obrigado a entregar os remédios se houvesse disponibilidade orçamentária, ante o princípio da preservação da ordem econômica.
+(D) O Município não está obrigado a atender aos interesses locais porque a entrega de medicação a carentes é um programa de abrangência nacional.
+(E) O Município, pelo princípio do controle da Administração Pública, não está obrigado a fornecer a medicação fora da relação municipal de medicamentos essenciais.
 28
-Com relação à revisão de processo disciplinar, está incorreto o que se afirma em
+Com relação à revisão de processo disciplinar, analise as afirmativas a seguir. I. Pode ser arguida a qualquer tempo, unicamente pelo servidor que foi punido, apenas para justificar sua inocência ou abrandar a pena que lhe foi aplicada. II. O interessado questionará os mesmos fatos já examinados quando da instauração do processo disciplinar, vedada a inovação, com o intuito de rever a punição imposta. III. O julgamento da revisão do processo disciplinar caberá à comissão formada por agentes públicos de autoridade hierárquica superior à daquele que aplicou a penalidade. Está incorreto o que se afirma em
 (A) I, apenas.
 (B) II, apenas.
 (C) I e III, apenas.
 (D) I, II e III.
 (E) III, apenas.
 29
-A todas as infrações listadas cabe pena de advertência, à exceção de
-(A) Desobediência à determinação de caráter geral originada do Conselho Superior do MP.
+A todas as infrações listadas a seguir cabe pena de advertência ao membro do Ministério Público comprovadamente faltoso, à exceção de uma. Assinale-a.
+(A) Desobediência à determinação de caráter geral originada do Conselho Superior do Ministério Público.
 (B) Infração à ética funcional, tratando com grave descortesia autoridade judiciária.
-(C) Desatendimento a pedido de informação, que emane de órgão do MP.
+(C) Desatendimento a pedido de informação, que emane de órgão do Ministério Público.
 (D) Desobediência à ordem de caráter geral que tenha emanado do Procurador Geral de Justiça.
 (E) Eventual atuação de forma negligente no exercício de suas funções.
 30
-O fragmento trata do princípio
+Leia o fragmento a seguir. "Cada membro do MP representa o órgão todo, porque o interesse do qual é titular é coletivo e não de uma individualidade concreta. Sendo indisponível o interesse representado pelo Ministério Público, a não fixação de membro (a não ser por distribuição interna e vulnerável do serviço) significa a natureza da totalidade homogênea do Órgão". O fragmento lido trata do princípio
 (A) da autonomia funcional.
 (B) da unidade de atuação.
 (C) da representatividade.
@@ -1556,7 +1564,39 @@ function parseFGV2018(raw) {
     .filter(l => l !== 'Realização');
 
   const qStartIdx = lines.findIndex(l => /^\d+$/.test(l) && l === '1');
-  const textBlock = qStartIdx > 0 ? lines.slice(0, qStartIdx).join('\n') : '';
+
+  // Junta o textBlock (texto da prova) como parágrafo contínuo, separando parágrafos
+  // por linha vazia (dupla quebra). Como todas as linhas já foram trimadas e filtradas,
+  // usamos uma heurística: linha terminando com ponto final, vírgula ou que começa
+  // letra maiúscula após outra = mesmo parágrafo. Simplificado: join com espaço
+  // mas mantém separação de seções (títulos, O Globo etc) com \n\n.
+  function joinParagraph(linesArr) {
+    // Agrupa linhas em parágrafos: nova linha quando detecta início de novo parágrafo
+    // (linha anterior termina com . ou ! ou ? ou : e linha atual começa com maiúscula
+    // e é claramente uma nova frase longa, OU quando é linha de título curta)
+    const paragraphs = [];
+    let current = '';
+    for (const line of linesArr) {
+      if (!current) {
+        current = line;
+        continue;
+      }
+      // Se linha é muito curta (título, numeração, "O Globo, ...") -> novo parágrafo
+      const isShortOrTitle = line.length < 50 && /^[A-ZÀ-Ú0-9"«O]/.test(line) && !/^\(/.test(line);
+      const prevEndsWithPunct = /[.!?]$/.test(current);
+      if (isShortOrTitle && prevEndsWithPunct) {
+        paragraphs.push(current);
+        current = line;
+      } else {
+        // mesma frase: junta com espaço
+        current += ' ' + line;
+      }
+    }
+    if (current) paragraphs.push(current);
+    return paragraphs.join('\n');
+  }
+
+  const textBlock = qStartIdx > 0 ? joinParagraph(lines.slice(0, qStartIdx)) : '';
 
   const blocks = [];
   let i = qStartIdx >= 0 ? qStartIdx : 0;
@@ -1572,20 +1612,21 @@ function parseFGV2018(raw) {
     const num = b[0];
     const body = b.slice(1);
     const optIdx = body.findIndex(l => /^\([A-E]\)/.test(l));
+    // Junta as linhas do stem com espaço (não \n) — quebras de coluna do PDF
     const stemLines = (optIdx >= 0 ? body.slice(0, optIdx) : body).map(normalizeLine).filter(Boolean);
-    const stem = stemLines.join('\n');
+    const stem = stemLines.join(' ').replace(/\s+/g, ' ').trim();
     const opts = [];
     let currentOpt = null;
     for (const line of body.slice(optIdx >= 0 ? optIdx : body.length)) {
       const m = line.match(/^\(([A-E])\)\s*(.*)$/);
       if (m) {
-        if (currentOpt) opts.push(currentOpt.trim());
+        if (currentOpt !== null) opts.push(currentOpt.trim());
         currentOpt = m[2] || '';
       } else if (currentOpt !== null) {
         currentOpt += (currentOpt ? ' ' : '') + normalizeLine(line);
       }
     }
-    if (currentOpt) opts.push(currentOpt.trim());
+    if (currentOpt !== null) opts.push(currentOpt.trim());
     while (opts.length < 5) opts.push('—');
     return { n: Number(num), q: stem, opts: opts.slice(0, 5) };
   });
@@ -1682,7 +1723,7 @@ function renderQuestion() {
   q.opts.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
-    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span style="flex:1;overflow-wrap:break-word;word-break:break-word;">${opt}</span>`;
     btn.onclick = () => selectOption(i);
     optsList.appendChild(btn);
   });
