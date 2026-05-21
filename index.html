@@ -22,11 +22,14 @@
   --shadow-lg: 0 12px 48px rgba(0,0,0,0.14);
   --radius: 16px;
   --radius-sm: 8px;
+  --glass: rgba(255,255,255,0.6);
+  --blur: blur(14px);
 }
 html { scroll-behavior: smooth; }
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
+  letter-spacing: -0.2px;
+  background: linear-gradient(180deg, #F5F2EC 0%, #EFEAE2 100%);
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
@@ -72,6 +75,7 @@ body {
   line-height: 1.0;
   color: var(--primary);
   margin-bottom: 20px;
+  letter-spacing: -1px;
 }
 .home-title em { color: var(--accent); font-style: italic; }
 .home-subtitle {
@@ -90,7 +94,7 @@ body {
 }
 .category-card {
   background: var(--surface);
-  border: 1.5px solid var(--border);
+  border: 1px solid rgba(0,0,0,0.04);
   border-radius: var(--radius);
   padding: 28px 24px;
   cursor: pointer;
@@ -101,8 +105,28 @@ body {
   align-items: center;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
+.category-card,
+.quiz-topbar,
+.progress-wrap {
+  background: var(--glass);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+}
+
+.quiz-topbar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  opacity: 0.3;
+}
+
 .category-card::before {
   content: '';
   position: absolute;
@@ -111,7 +135,11 @@ body {
   opacity: 0;
   transition: opacity 0.25s;
 }
-.category-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
+.category-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 
+    0 10px 30px rgba(0,0,0,0.12),
+    0 0 0 1px rgba(26,58,42,0.05),
+    0 0 20px rgba(200,169,122,0.15);
+    border-color: var(--primary); }
 .category-card:hover::before { opacity: 0.04; }
 .cat-icon {
   grid-row: 1 / 3;
@@ -125,6 +153,7 @@ body {
   color: var(--primary);
   border: 1.5px solid var(--border);
   flex-shrink: 0;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
   position: relative; z-index: 1;
 }
 .cat-info { position: relative; z-index: 1; }
@@ -183,7 +212,7 @@ body {
 }
 
 /* ── QUIZ ── */
-#screen-quiz { background: var(--bg); padding: 0; overflow-x: hidden; }
+#screen-quiz { background: var(--bg); padding: 0; }
 .quiz-topbar {
   display: flex;
   align-items: center;
@@ -232,7 +261,7 @@ body {
 .progress-bar-fill {
   background: linear-gradient(90deg, var(--accent2), var(--accent));
   height: 100%; border-radius: 100px;
-  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .progress-label {
   font-size: 12px; color: var(--text-muted);
@@ -241,10 +270,8 @@ body {
 }
 .quiz-card {
   max-width: 760px;
-  width: 100%;
   margin: 32px auto;
-  padding: 0 24px 100px;
-  overflow: hidden;
+  padding: 0 24px 80px;
 }
 .question-num {
   font-family: 'Playfair Display', serif;
@@ -255,7 +282,7 @@ body {
   margin-bottom: -8px;
 }
 .question-text {
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.7;
   color: var(--text);
   font-weight: 400;
@@ -263,10 +290,12 @@ body {
   padding-bottom: 28px;
   border-bottom: 1px solid var(--border);
   white-space: pre-wrap;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
 }
+
+.option-btn:active {
+  transform: scale(0.98);
+}
+
 .options-list {
   display: flex;
   flex-direction: column;
@@ -285,18 +314,15 @@ body {
   text-align: left;
   font-family: 'DM Sans', sans-serif;
   font-size: 15px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--text);
-  transition: all 0.18s;
+  transition: transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  white-space: normal;
 }
 .option-btn:hover:not(:disabled) {
   border-color: var(--primary);
   background: #F0EDE8;
-  transform: translateX(4px);
+  transform: translateX(6px);
 }
 .option-letter {
   display: flex;
@@ -308,7 +334,7 @@ body {
   font-size: 13px;
   font-weight: 700;
   color: var(--text-muted);
-  transition: all 0.18s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
   margin-top: 1px;
 }
@@ -334,7 +360,7 @@ body {
 .explanation-box.wrong-exp { background: #FDEDEC; border: 1px solid #F5B7B1; }
 .explanation-box.info-exp { background: #EEF6FF; border: 1px solid #BFDBFE; }
 .explanation-icon { font-size: 22px; flex-shrink: 0; }
-.explanation-text { font-size: 14px; line-height: 1.6; color: var(--text); overflow-wrap: break-word; word-break: break-word; flex: 1; }
+.explanation-text { font-size: 14px; line-height: 1.6; color: var(--text); }
 .explanation-text strong { display: block; margin-bottom: 4px; font-size: 15px; }
 @keyframes fadeSlideIn {
   from { opacity: 0; transform: translateY(-8px); }
@@ -343,7 +369,8 @@ body {
 .btn-next {
   width: 100%;
   padding: 18px;
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--accent2));
+  box-shadow: 0 6px 18px rgba(26,58,42,0.25);
   color: white;
   border: none;
   border-radius: var(--radius-sm);
@@ -351,13 +378,13 @@ body {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   letter-spacing: 0.3px;
 }
-.btn-next:hover { background: #2d5e40; transform: translateY(-1px); }
+.btn-next:hover { background: #2d5e40; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(26,58,42,0.35);}
 .btn-next:active { transform: translateY(0); }
-
-/* ── RESULT ── */
+.btn-skip { width: 100%; margin-top: 12px; padding: 14px; background: transparent; color: var(--primary); border: 2px solid var(--primary); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+.btn-skip:hover { background: #F0EDE8; }
 #screen-result {
   align-items: center;
   justify-content: center;
@@ -389,7 +416,7 @@ body {
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid var(--primary);
 }
 .btn-retry { background: var(--primary); color: white; }
@@ -416,12 +443,50 @@ body {
     <header class="home-header">
       <div class="logo-badge">MPAL</div>
       <h1 class="home-title">Treino de<br><em>Questões</em></h1>
-      <p class="home-subtitle">Ministério Público do Estado de Alagoas<br>Prepare-se com questões de nível concurso</p>
+      <p class="home-subtitle">Ministério Público do Estado de Alagoas<br>Prepare-se com 240 questões de nível concurso</p>
     </header>
+    <div class="categories-grid">
+      <div class="category-card" onclick="startCategory('portugues')">
+        <div class="cat-icon">Aa</div>
+        <div class="cat-info"><h2>Português</h2><p>Gramática, interpretação, sintaxe e redação</p></div>
+        <div class="cat-count">60 questões</div>
+        <div class="cat-arrow">→</div>
+      </div>
+      <div class="category-card" onclick="startCategory('cebraspe')">
+        <div class="cat-icon">Cb</div>
+        <div class="cat-info"><h2>Cebraspe</h2><p>Simulado de Português Cebraspe — Certo ou Errado</p></div>
+        <div class="cat-count">50 questões</div>
+        <div class="cat-arrow">→</div>
+      </div>
+      <div class="category-card" onclick="startCategory('legislacao')">
+        <div class="cat-icon">§</div>
+        <div class="cat-info"><h2>Legislação</h2><p>Lei Orgânica MPAL, Regime Jurídico e Organização Administrativa</p></div>
+        <div class="cat-count">60 questões</div>
+        <div class="cat-arrow">→</div>
+      </div>
+      <div class="category-card" onclick="startCategory('comunicacao')">
+        <div class="cat-icon">📡</div>
+        <div class="cat-info"><h2>Comunicação Social</h2><p>Teorias, assessoria, jornalismo e comunicação digital</p></div>
+        <div class="cat-count">60 questões</div>
+        <div class="cat-arrow">→</div>
+      </div>
+      <div class="category-card" onclick="startCategory('sistemas')">
+        <div class="cat-icon">&lt;/&gt;</div>
+        <div class="cat-info"><h2>Analista de Sistemas</h2><p>Engenharia de software, cloud, segurança e tecnologias modernas</p></div>
+        <div class="cat-count">60 questões</div>
+        <div class="cat-arrow">→</div>
+      </div>
+    </div>
     <section class="home-section">
       <div class="home-section-title">Provas anteriores</div>
       <div class="home-section-subtitle">Refaça a prova completa de 2018 (FGV) com gabarito oficial.</div>
       <div class="exam-grid">
+        <div class="category-card" onclick="startExam('2018-comunicacao')">
+          <div class="cat-icon">📄</div>
+          <div class="cat-info"><h2>2018 — Comunicação Social</h2><p>Prova tipo 1 (Branca) — 80 questões com gabarito oficial</p></div>
+          <div class="cat-count">Prova completa</div>
+          <div class="cat-arrow">→</div>
+        </div>
         <div class="category-card" onclick="startExam('2018-desenvolvimento')">
           <div class="cat-icon">📄</div>
           <div class="cat-info"><h2>2018 — Desenvolvimento de Sistemas</h2><p>Prova tipo 1 (Branca) — 80 questões</p></div>
@@ -430,7 +495,7 @@ body {
         </div>
       </div>
     </section>
-    <footer class="home-footer">Baseado no edital do concurso público MPAL 2018 — FGV</footer>
+    <footer class="home-footer">Baseado no edital do concurso público MPAL</footer>
   </div>
 
   <!-- Tela de Quiz -->
@@ -452,6 +517,7 @@ body {
       <div class="question-num" id="question-num">01</div>
       <div class="question-text" id="question-text"></div>
       <div class="options-list" id="options-list"></div>
+      <button class="btn-skip" id="btn-skip" style="display:none" onclick="skipQuestion()">Pular Questão</button>
       <div class="explanation-box" id="explanation-box" style="display:none">
         <div class="explanation-icon" id="explanation-icon"></div>
         <div class="explanation-text" id="explanation-text"></div>
@@ -481,1159 +547,1526 @@ body {
 
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
-// GABARITO OFICIAL — 2018 Desenvolvimento de Sistemas Tipo 1
-// index 1..80; null = gabarito pendente; 0=A, 1=B, 2=C, 3=D, 4=E
+// GABARITO OFICIAL — 2018 Comunicação Social Tipo 1
+// index 1..80; null = questão anulada; 0=A, 1=B, 2=C, 3=D, 4=E
 // ══════════════════════════════════════════════════════════════════════════════
-const GABARITO_2018_DEV = [
+const GABARITO_2018_COM = [
   null, // [0] não usado
   0,1,2,1,2,3,3,1,0,3,  // 1-10:  A B C B C D D B A D
   4,4,0,2,2,1,3,4,1,0,  // 11-20: E E A C C B D E B A
   1,0,0,1,0,null,0,3,1,3, // 21-30: B A A B A *(anulada) A D B D
-  0,1,2,2,0,2,2,4,4,0,  // 31-40: A B C C A C C E E A
-  0,2,3,4,1,3,4,3,4,1,  // 41-50: A C D E B D E D E B
-  1,3,0,null,0,2,2,0,2,0, // 51-60: B D A *(anulada) A C C A C A
-  null,null,null,null,null,null,null,null,null,null, // 61-70: a ser inserido
-  null,null,null,null,null,null,null,null,null,null  // 71-80: a ser inserido
+  2,0,2,2,4,3,1,4,1,4,  // 31-40: C A C C E D B E B E
+  3,2,3,1,0,3,3,4,3,1,  // 41-50: D C D B A D D E D B
+  0,2,0,3,0,2,4,2,0,1,  // 51-60: A C A D A C E C A B
+  0,0,2,4,2,4,0,2,1,4,  // 61-70: A A C E C E A C B E
+  1,4,1,1,3,3,3,4,1,0   // 71-80: B E B B D D D E B A
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
-// BANCO DE QUESTÕES — MPAL 2018 — DESENVOLVIMENTO DE SISTEMAS (Tipo 1, Branca)
+// BANCO DE QUESTÕES
 // ══════════════════════════════════════════════════════════════════════════════
 
-// ─── LÍNGUA PORTUGUESA (Q1–Q15) ───────────────────────────────────────────────
-const TEXTO1_PORT = `OPORTUNISMO À DIREITA E À ESQUERDA
-
-Numa democracia, é livre a expressão, estão garantidos o direito de reunião e de greve, entre outros, obedecidas leis e regras, lastreadas na Constituição. Em um regime de liberdades, há sempre o risco de excessos, a serem devidamente contidos e seus responsáveis, punidos, conforme estabelecido na legislação.
-
-É o que precisa acontecer no rescaldo da greve dos caminhoneiros, concluídas as investigações, por exemplo, da ajuda ilegal de patrões ao movimento, interessados em se beneficiar do barateamento do combustível.
-
-Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise. Inclusive, neste ano de eleição, com o objetivo de obter apoio a candidatos. Não faltam, também, os arautos do quanto pior, melhor, para desgastar governantes e reforçar seus projetos de poder, por mais delirantes que sejam. Também aqui vale o que está delimitado pelo estado democrático de direito, defendido pelos diversos instrumentos institucionais de que conta o Estado – Polícia, Justiça, Ministério Público, Forças Armadas etc.
-
-A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando, do qual depende a sobrevivência física da população. Isso não pode ser esquecido e serve de alerta para que as autoridades desenvolvam planos de contingência.
-
-(O Globo, 31/05/2018)`;
-
-const questoes_2018_dev = [
-// ── Q1 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 1
-
-"Numa democracia, (1) é livre a expressão, estão garantidos o direito de reunião e de greve, (2) entre outros, obedecidas leis e regras, (3) lastreadas na Constituição. Em um regime de liberdades, (4) há sempre o risco de excessos, (5) a serem devidamente contidos e seus responsáveis, punidos, conforme estabelecido na legislação".
-
-Nesse segmento inicial do texto, a vírgula que tem caráter optativo é a indicada pelo número`,
-opts:["A) (1).","B) (2).","C) (3).","D) (4).","E) (5)."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q2 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 2
-
-"Numa democracia, é livre a expressão, estão garantidos o direito de reunião e de greve, entre outros, / obedecidas leis e regras, lastreadas na Constituição".
-
-No segmento acima, o conectivo que substituiria adequadamente a barra inserida entre as duas orações é:`,
-opts:["A) apesar de.","B) desde que.","C) embora.","D) além de.","E) após."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q3 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 3
-
-Assinale a opção que apresenta o tom presente no primeiro parágrafo do texto.`,
-opts:["A) Anarquista.","B) Libertário.","C) Legalista.","D) Socialista.","E) Individualista."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q4 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 4
-
-O texto, em sua organização, deve ser caracterizado como`,
-opts:["A) narrativo, já que expõe uma série de fatos.","B) argumentativo, pois defende uma tese.","C) expositivo, já que informa fatos recentemente ocorridos.","D) descritivo, porque fornece características e qualidades.","E) poético, pois expõe uma realidade de forma sentimental."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q5 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 5
-
-Uma das maneiras de tornar mais clara a expressão escrita é redigir as frases em ordem direta. A frase a seguir,
-
-"Numa democracia, é livre a expressão, estão garantidos o direito de reunião e de greve."
-
-se colocada em ordem direta, seria redigida do seguinte modo:`,
-opts:[`A) "Numa democracia, é livre a expressão, o direito de reunião e de greve estão garantidos".`,`B) "É livre a expressão, estão garantidos o direito de reunião e de greve numa democracia."`,`C) "A expressão é livre, o direito de reunião e de greve estão garantidos, numa democracia."`,`D) "Numa democracia a expressão é livre e estão garantidos o direito de reunião e de greve."`,`E) "A expressão é livre numa democracia e estão garantidos o direito de reunião e de greve."`],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q6 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 6
-
-"Numa democracia, é livre a expressão, estão garantidos o direito de reunião e de greve, entre outros, obedecidas leis e regras, lastreadas na Constituição. / Em um regime de liberdades, há sempre o risco de excessos, a serem devidamente contidos e seus responsáveis, punidos, conforme estabelecido na legislação".
-
-Entre os dois segmentos separados por uma barra inclinada há uma relação lógica de`,
-opts:["A) explicação.","B) concessão.","C) conclusão.","D) oposição.","E) adição."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q7 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 7
-
-"É o que precisa acontecer no rescaldo da greve dos caminhoneiros, concluídas as investigações, por exemplo, da ajuda ilegal de patrões ao movimento, interessados em se beneficiar do barateamento do combustível."
-
-Segundo esse parágrafo do texto, o que "precisa acontecer" é`,
-opts:["A) manter-se o direito de livre expressão do pensamento.","B) garantir-se o direito de reunião e de greve.","C) lastrear leis e regras na Constituição.","D) punirem-se os responsáveis por excessos.","E) concluírem-se as investigações sobre a greve."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q8 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 8
-
-"É o que precisa acontecer no rescaldo da greve dos caminhoneiros, / concluídas as investigações, por exemplo, da ajuda ilegal de patrões ao movimento, / interessados em se beneficiar do barateamento do combustível."
-
-As conjunções que poderiam ser empregadas, de forma adequada ao contexto, em lugar das barras inclinadas, são, respectivamente,`,
-opts:["A) depois de / quando.","B) após / já que.","C) assim que / caso.","D) apesar de / visto que.","E) caso / dado que."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q9 ──────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 9
-
-"Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise".
-
-Explica-se o emprego de "também" nesse segmento, porque`,
-opts:["A) marca o acréscimo de aspectos negativos ligados à greve.","B) indica a adição de punições que devem ser aplicadas.","C) mostra um novo aspecto de aproveitamento positivo da crise.","D) demonstra mais uma lembrança afetiva da recente crise.","E) comprova a necessidade de retificar uma informação dada."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q10 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 10
-
-Em muitos casos, os infinitivos podem ser substituídos por substantivos cognatos. Assinale a opção que apresenta, em função do contexto, a substituição INADEQUADA.`,
-opts:[`A) "...interessados em se beneficiar do barateamento do combustível" / interessados no benefício do barateamento do combustível.`,`B) "...para desgastar governantes" / para o desgaste dos governantes.`,`C) "...com o objetivo de obter apoio a candidatos" / com o objetivo de obtenção de apoio a candidatos.`,`D) "...para se aproveitar da crise" / para o proveito da crise.`,`E) "...e reforçar seus projetos de poder" / e reforço de seus projetos de poder.`],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q11 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 11
-
-"Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise. Inclusive, neste ano de eleição, com o objetivo de obter apoio a candidatos. Não faltam, também, os arautos do quanto pior, melhor, para desgastar governantes e reforçar seus projetos de poder, por mais delirantes que sejam. Também aqui vale o que está delimitado pelo estado democrático de direito, defendido pelos diversos instrumentos institucionais de que conta o Estado – Polícia, Justiça, Ministério Público, Forças Armadas etc."
-
-O emprego de etc ao final do segmento indica que`,
-opts:["A) há outros instrumentos institucionais de menor importância.","B) existem outros instrumentos não lembrados pelo enunciador.","C) não há qualquer outro instrumento institucional a ser citado.","D) existem outros instrumentos, mas não pertinentes ao texto.","E) não há necessidade textual de citar outros instrumentos."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q12 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 12
-
-"A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando, do qual depende a sobrevivência física da população."
-
-Ao dizer que "a greve atravessou vários sinais", o autor do texto quer dizer que a greve`,
-opts:["A) foi anunciada muitas vezes antes de ocorrer.","B) foi preparada cuidadosamente antes de ser deflagrada.","C) atravessou várias etapas antes de chegar ao clímax.","D) preveniu as autoridades muitas vezes.","E) cometeu várias irregularidades."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q13 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 13
-
-"A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando, do qual depende a sobrevivência física da população."
-
-Assinale a opção em que a substituição de termos desse segmento do texto é INADEQUADA.`,
-opts:[`A) "vários sinais" por "sinais vários".`,`B) "ao estrangular" por "quando estrangulou".`,`C) "que mantêm o" por "mantenedoras do".`,`D) "funcionando" por "em funcionamento".`,`E) "da população" por "populacional".`],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q14 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 14
-
-A frase a seguir que apresenta uma forma de voz passiva é:`,
-opts:[`A) "Numa democracia, é livre a expressão".`,`B) "A greve atravessou vários sinais ao estrangular as vias de suprimento...".`,`C) "Em um regime de liberdades, há sempre o risco de excessos, a serem devidamente contidos".`,`D) "Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise".`,`E) "...que mantêm o sistema produtivo funcionando".`],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q15 ─────────────────────────────────────────────────────────────────────
-{q:`${TEXTO1_PORT}
-
-Questão 15
-
-Assinale a opção em que o termo sublinhado funciona como sujeito.`,
-opts:[`A) "Em um regime de liberdades, há sempre o risco de excessos". [o risco]`,`B) "Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise". [o oportunismo]`,`C) "Não faltam, também, os arautos do quanto pior, melhor, ...". [os arautos]`,`D) "A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando". [vários sinais]`,`E) "Numa democracia, é livre a expressão". [Numa democracia]`],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ─── NOÇÕES DE DIREITO ADMINISTRATIVO E CONSTITUCIONAL (Q16–Q25) ─────────────
-
-// ── Q16 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 16 — Noções de Direito Administrativo e Constitucional
-
-Pedro, servidor público estadual, formulou requerimento de gozo de licença paternidade ao seu superior hierárquico, o qual foi indeferido sem qualquer fundamentação.
-
-A licença estava prevista no regime jurídico da categoria como direito subjetivo do servidor, tendo sido o requerimento formulado no prazo legal, devidamente instruído com a certidão de nascimento do filho do requerente.
-
-Assinale a opção que indica o instrumento constitucional mais adequado para impugnar judicialmente a decisão de indeferimento da licença.`,
-opts:["A) Mandado de revogação.","B) Mandado de segurança.","C) Mandado de injunção.","D) Direito de petição.","E) Habeas Data."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q17 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 17 — Noções de Direito Administrativo e Constitucional
-
-Considerando o processo legislativo previsto na Constituição da República e a observância dos demais requisitos exigidos, sobre a tramitação de um projeto de lei orgânica municipal, analise os itens a seguir.
-
-I. O projeto foi aprovado em dois turnos de votação.
-II. O projeto foi aprovado pelo voto da maioria absoluta dos membros da Câmara Municipal.
-III. O projeto, ao final, foi sancionado pelo Prefeito Municipal.
-
-Está correto o que se afirma em`,
-opts:["A) II e III, apenas.","B) I e III, apenas.","C) II, apenas.","D) I, apenas.","E) I, II e III."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q18 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 18 — Noções de Direito Administrativo e Constitucional
-
-Artur, ocupante de cargo de provimento efetivo na administração pública federal, cujas atribuições eram direcionadas ao desenvolvimento de projetos tecnológicos na área nuclear, foi aprovado em outro concurso público. Seu objetivo era o de permanecer em ambos os cargos, de modo a aumentar sua renda.
-
-À luz da sistemática constitucional, o segundo cargo passível de ser ocupado por Artur é o de`,
-opts:["A) membro do Ministério Público.","B) profissional da área de saúde.","C) caráter técnico ou científico.","D) magistrado.","E) professor."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q19 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 19 — Noções de Direito Administrativo e Constitucional
-
-Eraldo, estudante de direito, foi informado que as atribuições do Ministério Público estadual seriam detalhadas em lei complementar estadual.
-
-À luz da sistemática constitucional, é correto afirmar que a referida lei complementar está sujeita aos balizamentos estabelecidos`,
-opts:["A) pela lei nacional, editada pela União sob a forma de lei complementar.","B) pela lei nacional, editada pela União sob a forma de lei ordinária.","C) pela lei nacional, editada pela União em conjunto com os Estados.","D) pela Constituição da República, somente.","E) pela Constituição Estadual, somente."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q20 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 20 — Noções de Direito Administrativo e Constitucional
-
-Em ação ajuizada pelo Ministério Público, o Tribunal de Justiça, ao apreciar o recurso de apelação, julgou improcedente o pedido formulado. Após o exaurimento de todos os recursos nas instâncias ordinárias, a Instituição constatou que o acórdão violara frontalmente a Constituição da República de 1988.
-
-À luz da sistemática constitucional e, uma vez preenchidos os demais requisitos exigidos, o referido acórdão pode ser impugnado via`,
-opts:["A) recurso extraordinário, endereçado ao Supremo Tribunal Federal.","B) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.","C) recurso especial, endereçado ao Supremo Tribunal Federal.","D) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.","E) reclamação constitucional, endereçada ao Supremo Tribunal Federal."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q21 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 21 — Noções de Direito Administrativo e Constitucional
-
-João, servidor público estadual e que permanecia com as chaves da repartição em que trabalhava, permitiu que André, que não era servidor público, ali ingressasse e subtraísse diversos computadores do local. Os bens subtraídos ficaram, em sua integralidade, para André.
-
-À luz da sistemática estabelecida na Lei nº 8.429/92, João e André praticaram ato de improbidade que consubstancia`,
-opts:["A) violação aos princípios regentes da atividade estatal.","B) dano ao patrimônio público.","C) crime de responsabilidade.","D) enriquecimento ilícito.","E) excesso de exação."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q22 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 22 — Noções de Direito Administrativo e Constitucional
-
-O Secretário de Estado decidiu celebrar parceria com organizações da sociedade civil, não qualificadas como organizações sociais ou organizações da sociedade civil de interesse público, com o objetivo de realizar finalidades de interesse público e recíproco, sem repasse de recursos financeiros. Para isso, solicitou à sua assessoria que informasse o instrumento a ser utilizado.
-
-Considerando a sistemática estabelecida pela Lei nº 13.019/14, assinale a opção que indica o instrumento indicado.`,
-opts:["A) Acordo de cooperação.","B) Termo de colaboração.","C) Termo de fomento.","D) Contrato de gestão.","E) Termo de parceria."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q23 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 23 — Noções de Direito Administrativo e Constitucional
-
-A Administração Pública divulgou edital de licitação, na modalidade de pregão, no qual pretendia adquirir componentes eletrônicos de alta tecnologia, a serem confeccionados consoante as especificidades indicadas no edital. Para evitar a participação de sociedades empresárias que não preenchessem os requisitos exigidos, foi estatuído que a habilitação dos pretendentes iria anteceder à sessão de entrega dos envelopes contendo as propostas.
-
-À luz da sistemática estatuída pela Lei nº 10.520/02, assinale a opção que indica a IRREGULARIDADE da narrativa acima.`,
-opts:["A) A modalidade licitação é incompatível com o objeto indicado e a habilitação deve ser posterior à fase competitiva.","B) O pregão não é uma modalidade específica de licitação mas uma forma de apresentação da concorrência.","C) Os envelopes contendo as propostas não devem ser entregues em sessão, mas pelo correio.","D) A modalidade de licitação é incompatível com o objeto indicado.","E) A habilitação deve ser sempre posterior à fase competitiva do pregão."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q24 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 24 — Noções de Direito Administrativo e Constitucional
-
-Determinado edital de licitação, elaborado com base no Regime Diferenciado de Contratações Públicas (RDC), dispôs que seria observado, na execução indireta de obras de engenharia, o regime de contratação integrada.
-
-Considerando a sistemática prevista na Lei nº 12.462/11, o referido regime de contratação`,
-opts:["A) compreende a elaboração do projeto básico, não do executivo, bem como a execução da obra.","B) compreende a elaboração dos projetos básico e executivo, a execução da obra e outras operações.","C) compreende a elaboração dos projetos básico e executivo, mas não a execução da obra.","D) não é compatível com o Regime Diferenciado de Contratações Públicas.","E) somente poderia ser utilizado na execução direta de obras de engenharia."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q25 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 25 — Noções de Direito Administrativo e Constitucional
-
-A sociedade empresária XK pretendia participar de licitação destinada ao fornecimento de serviços à Administração Pública. Ao analisar a minuta de contrato anexada ao ato convocatório, constatou a possibilidade de rescisão do contrato, ressalvadas certas exceções, caso haja atraso superior a 90 dias dos pagamentos devidos pela Administração Pública.
-
-Segundo a sistemática da Lei nº 8.666/93, assinale a opção que indica o motivo que permite a rescisão do contrato administrativo.`,
-opts:["A) Fato da Administração.","B) Alteração unilateral.","C) Fato do príncipe.","D) Álea econômica.","E) Álea ordinária."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ─── LEGISLAÇÃO ESPECÍFICA (Q26–Q30) ─────────────────────────────────────────
-
-// ── Q26 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 26 — Legislação Específica
-
-Determinada instituição do Estado abriu concurso público para preenchimento de cargo em seu quadro de carreira. O edital registra que o candidato que reside no Estado organizador do certame há, pelo menos, dois anos e que comprove ser carente, terá direito à isenção da taxa de inscrição.
-
-A exigência de residência no Estado organizador do concurso é`,
-opts:["A) compatível com o princípio da legalidade, por se tratar de cargo em quadro de carreira de instituição estadual.","B) adequada em relação ao princípio da dignidade da pessoa humana, considerando moradia como mínimo existencial.","C) inconstitucional, por registrar uma discriminação incompatível com o princípio da impessoalidade.","D) inconstitucional, por não haver razoabilidade na exigência formulada, a qual insere critério subjetivo de difícil verificação, para aferição da carência, que é objetiva.","E) compatível com o princípio da isonomia material, ao estabelecer regra de proteção regional aos candidatos carentes do Estado organizador do certame."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q27 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 27 — Legislação Específica
-
-Manuel de Souza, idoso e pobre, necessita de medicamento de uso continuado e controlado para se tratar de doença diagnosticada por médico do SUS. A medicação não faz parte das Relações Nacional e Municipal de Medicamentos Essenciais, mas Manuel precisa ter o remédio para recuperar sua saúde. Desta forma recorreu ao Poder Judiciário, acionando o Município de Maceió. Sobre o caso narrado, conforme os princípios inseridos na Carta Magna Estadual, assinale a afirmativa correta.`,
-opts:["A) O Município está obrigado a fornecer a medicação, conforme orientação do médico, em virtude de seu dever de proteger a vida e a saúde dos munícipes.","B) O Município, ao favorecer Manuel, irá contra o princípio da igualdade, já que não somente ele necessita de remédios fora da lista.","C) O Município só está obrigado a entregar os remédios se houvesse disponibilidade orçamentária, ante o princípio da preservação da ordem econômica.","D) O Município não está obrigado a atender aos interesses locais porque a entrega de medicação a carentes é um programa de abrangência nacional.","E) O Município, pelo princípio do controle da Administração Pública, não está obrigado a fornecer a medicação fora da relação municipal de medicamentos essenciais."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q28 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 28 — Legislação Específica
-
-Com relação à revisão de processo disciplinar, analise as afirmativas a seguir.
-
-I. Pode ser arguida a qualquer tempo, unicamente pelo servidor que foi punido, apenas para justificar sua inocência ou abrandar a pena que lhe foi aplicada.
-II. O interessado questionará os mesmos fatos já examinados quando da instauração do processo disciplinar, vedada a inovação, com o intuito de rever a punição imposta.
-III. O julgamento da revisão do processo disciplinar caberá à comissão formada por agentes públicos de autoridade hierárquica superior à daquele que aplicou a penalidade.
-
-Está INCORRETO o que se afirma em`,
-opts:["A) I, apenas.","B) II, apenas.","C) I e III, apenas.","D) I, II e III.","E) III, apenas."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q29 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 29 — Legislação Específica
-
-A todas as infrações listadas a seguir cabe pena de advertência ao membro do Ministério Público comprovadamente faltoso, À EXCEÇÃO DE UMA. Assinale-a.`,
-opts:["A) Desobediência à determinação de caráter geral originada do Conselho Superior do Ministério Público.","B) Infração à ética funcional, tratando com grave descortesia autoridade judiciária.","C) Desatendimento a pedido de informação, que emane de órgão do Ministério Público.","D) Desobediência à ordem de caráter geral que tenha emanado do Procurador Geral de Justiça.","E) Eventual atuação de forma negligente no exercício de suas funções."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q30 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 30 — Legislação Específica
-
-Leia o fragmento a seguir.
-
-"Cada membro do MP representa o órgão todo, porque o interesse do qual é titular é coletivo e não de uma individualidade concreta. Sendo indisponível o interesse representado pelo Ministério Público, a não fixação de membro (a não ser por distribuição interna e vulnerável do serviço) significa a natureza da totalidade homogênea do Órgão".
-
-O fragmento lido trata do princípio`,
-opts:["A) da autonomia funcional.","B) da unidade de atuação.","C) da representatividade.","D) da indivisibilidade.","E) do promotor natural."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ─── CONHECIMENTOS ESPECÍFICOS (Q31–Q80) ─────────────────────────────────────
-
-// ── Q31 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 31 — Conhecimentos Específicos (UML)
-
-Em um diagrama de atividades da UML, para representar um nó de controle que sincroniza múltiplos fluxos (barra de junção — join), deve-se usar o elemento que corresponde à alternativa:
-
-[Nota: a questão original continha imagens de elementos UML. A barra de junção/sincronização é representada por uma barra horizontal espessa que une múltiplas setas de entrada em uma única saída.]`,
-opts:["A) Barra de bifurcação (fork)","B) Barra de junção (join/sincronização)","C) Nó de decisão (losango)","D) Nó de mesclagem (merge)","E) Ponto de início (círculo cheio)"],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q32 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 32 — Conhecimentos Específicos (Engenharia de Software)
-
-O Processo Unificado de software é uma tentativa de aproveitar os melhores recursos e características dos modelos tradicionais de processo de software.
-
-Sobre o Processo Unificado de software, assinale a afirmativa correta.`,
-opts:["A) O software é dirigido a casos de uso, centrado na arquitetura, sequencial e incremental.","B) O software é entregue aos usuários finais na fase de transição.","C) Os modelos de caso de uso, análise, projeto e implementação são desenvolvidos na fase de concepção.","D) O planejamento é realizado na fase de elaboração.","E) Os requisitos não funcionais são descritos em um conjunto de casos de uso preliminares."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q33 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 33 — Conhecimentos Específicos (Análise de Ponto de Função)
-
-Carlos é o responsável técnico pelo Sistema de Informação Financeiro (SISFIN) de sua corporação. O SISFIN passou por um processo de melhorias que corrigiu erros em duas funcionalidades, incluiu três novas funcionalidades e excluiu uma funcionalidade. Com o intuito de atualizar o tamanho funcional do SISFIN, ao término das alterações, as funções do SISFIN serão contadas utilizando a técnica de Análise de Ponto de Função (APF).
-
-Sendo assim, é correto afirmar que o tamanho funcional do SISFIN foi alterado por causa da contagem dos pontos de função da(s)`,
-opts:["A) seis funcionalidades.","B) três novas funcionalidades.","C) três funcionalidades novas e da excluída.","D) funcionalidade excluída.","E) duas correções e da funcionalidade excluída."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q34 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 34 — Conhecimentos Específicos (Testes de Software)
-
-Eduardo é o líder técnico do Sistema de Vendas de uma rede de farmácias. O sistema deve ser utilizado em mais de 40 unidades espalhadas por vários estados.
-
-O sistema entrou em produção e, já na primeira semana de uso, ficou muito lento e diversas vezes indisponível para os operadores das lojas.
-
-Diante deste cenário, assinale a opção que indica a técnica de teste que foi negligenciada.`,
-opts:["A) de fumaça.","B) funcional de limite.","C) de desempenho.","D) caixa-branca.","E) de análise de valor-limite."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q35 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 35 — Conhecimentos Específicos (Arquitetura Corporativa)
-
-Considere os princípios básicos de um método de desenvolvimento arquitetural, a seguir.
-
-I. É um método iterativo que envolve a reutilização de ativos e a tomada de novas decisões a cada iteração; e
-II. As decisões são baseadas na competência, na disponibilidade de recursos e no valor acumulado para a empresa.
-
-Os princípios apresentados são básicos para o framework de arquitetura`,
-opts:["A) TOGAF.","B) Zachman.","C) FEAF.","D) DoDAF.","E) TEAF."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q36 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 36 — Conhecimentos Específicos (Segurança Web / OWASP)
-
-Controles e Testes de Segurança são objeto de atenção do desenvolvedor de sistemas, sempre que estiver codificando para o ambiente Web.
-
-Nesse contexto, a Open Web Application Security Project (OWASP), comunidade dedicada à segurança na Web, organizou, em seu site institucional, um guia de boas práticas de programação, assim como um guia de testes de segurança para aplicações web (OWASP Testing Guide), atualmente na versão 4.0.
-
-Assinale a opção que contém um princípio dos testes, de acordo com o OWASP Testing Guide 4.0.`,
-opts:["A) Pense estrategicamente e taticamente (Think Strategically and Tactically).","B) Teste tardia e frequentemente (Test Late and Test Often).","C) Entenda o assunto em questão (Understand the Subject).","D) Desenvolva testes de caixa preta (Develop black box Tests).","E) Documente o resultado das métricas (Document Metric Results)."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q37 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 37 — Conhecimentos Específicos (SOA)
-
-A Arquitetura Orientada a Serviços (SOA - Service Oriented Architecture) é uma maneira de arquitetar o software na qual as funcionalidades da aplicação são expostas na forma de serviços. Sua implementação segue os princípios de design.
-
-De acordo com os princípios do SOA, ao delegar o controle da lógica encapsulada no serviço para uma classe estranha ao serviço, é ferido o princípio da`,
-opts:["A) abstração do serviço.","B) reusabilidade do serviço.","C) autonomia do serviço.","D) composição do serviço.","E) baixo acoplamento do serviço."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q38 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 38 — Conhecimentos Específicos (XML/XSLT)
-
-Considere o seguinte código XML, que lista o catálogo de uma livraria.
-
-[A questão original continha código XML e XSLT com imagens. O enunciado pede para completar um trecho XSLT dentro de <table border="1"> ... </table> de forma a gerar uma tabela HTML com os dados do catálogo XML.]
-
-A alternativa que lista corretamente o conteúdo marcado por três pontos no trecho <table border="1"> ... </table>, de forma a gerar a tabela supracitada é:`,
-opts:["A) Alternativa A (conforme imagem original da prova)","B) Alternativa B (conforme imagem original da prova)","C) Alternativa C (conforme imagem original da prova)","D) Alternativa D (conforme imagem original da prova)","E) Alternativa E (conforme imagem original da prova)"],
-r:4,exp:"Gabarito oficial: alternativa E. Questão com imagens — consultar a prova original."},
-
-// ── Q39 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 39 — Conhecimentos Específicos (Programação Segura)
-
-Na prática de programação segura, a ação que pode ser adotada para mitigar ataques que exploram a inserção de comandos em campos de formulários dos sistemas, especialmente em sistemas web, como o ataque de "SQL Injection", é descrita como`,
-opts:["A) codificação dos dados de entrada.","B) criptografia dos dados de entrada.","C) autenticação de usuários.","D) controle de acesso dos dados de entrada.","E) validação dos dados de entrada."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q40 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 40 — Conhecimentos Específicos (Sistemas Operacionais — Windows)
-
-Sobre o Windows 10, analise as afirmativas a seguir.
-
-I. Possui versões para operar em computadores pessoais, smartphones e tablets.
-II. É um sistema operacional não-preemptivo.
-III. Não permite multisessão, pois se trata de um sistema operacional cliente.
-
-Está correto o que se afirma em`,
-opts:["A) I, apenas.","B) II, apenas.","C) III, apenas.","D) I e II, apenas.","E) I, II e III."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q41 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 41 — Conhecimentos Específicos (Linux — Gerenciamento de Pacotes)
-
-Instalar, atualizar e remover pacotes no sistema operacional CentOS 7 é uma tarefa frequente para desenvolvedores de sistemas. Por isso, eventualmente podem ocorrer dúvidas sobre se determinado pacote está instalado ou qual é a versão que está sendo utilizada.
-
-Para dirimir essas dúvidas, sobre o pacote httpd devemos utilizar o comando`,
-opts:["A) rpm -q httpd","B) yum check httpd","C) apt-get find httpd","D) find -iname httpd","E) crontab -l httpd"],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q42 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 42 — Conhecimentos Específicos (Windows — Explorador de Arquivos)
-
-Dentro do Explorador de Arquivos do Windows 10, você selecionou um arquivo qualquer com o mouse e o arrastou para a pasta Documentos.
-
-Para que essa ação crie um atalho para o arquivo selecionado dentro da pasta Documentos, você deve, junto dessa ação de arrastar com o mouse, manter pressionada a tecla`,
-opts:["A) Shift.","B) Ctrl.","C) Alt.","D) Tab.","E) Esc."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q43 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 43 — Conhecimentos Específicos (Linux — Cron)
-
-O cron é um serviço que executa tarefas agendadas no sistema operacional Linux.
-
-Analise a configuração do cron a seguir.
-
-20 06 * * 0 root /usr/local/bin/script
-
-Essa configuração indica que o script deve ser executado`,
-opts:["A) de seis em seis minutos, todos os dias.","B) de segunda a sexta-feira, às 20 horas e 6 minutos.","C) todos os dias, às 6 horas e 20 minutos.","D) somente uma vez, aos domingos.","E) nos primeiros vinte dias do mês, às 6 horas da manhã."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q44 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 44 — Conhecimentos Específicos (Windows — Barra de Tarefas)
-
-O sistema operacional Windows 10 oferece uma barra de tarefas localizada, por padrão, na parte inferior da tela.
-
-[A questão original continha uma imagem da barra de tarefas com uma seta indicando o botão "Task View".]
-
-O botão da barra de tarefas indicado pela seta é utilizado para`,
-opts:["A) organizar as janelas abertas em uma única pilha em leque.","B) minimizar/restaurar todas as janelas.","C) abrir todos os sites da barra de favoritos com um clique.","D) alternar do modo PC para tablete.","E) criar e gerenciar áreas de trabalho virtuais."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q45 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 45 — Conhecimentos Específicos (Linux — Permissões de Arquivo)
-
-Um usuário do sistema operacional Linux executa, no prompt de um terminal shell, o comando ls -ltr e a seguinte informação é mostrada:
-
--r---w---- 1 net net 58 Mar 01 21:08 pagina
-
-Considerando as permissões de acesso apresentadas para este arquivo, assinale a afirmativa correta.`,
-opts:["A) Nenhum usuário pode escrever no arquivo pagina.","B) Somente o usuário net pode ler o arquivo pagina.","C) Qualquer usuário pode ler o arquivo pagina.","D) Somente o usuário net pode escrever no arquivo pagina.","E) Qualquer usuário pode executar o arquivo pagina."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q46 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 46 — Conhecimentos Específicos (Windows 10 — Aplicações)
-
-Sobre aplicações presentes no sistema operacional Windows 10, analise as afirmativas a seguir.
-
-I. Microsoft Edge permite que sejam feitas anotações, rabiscos e marcações diretamente na página que está sendo exibida.
-II. Windows Hello oferece suporte para autenticação biométrica.
-III. Arquivos só podem ser salvos em uma pasta do OneDrive via Explorador de Arquivos se o computador estiver conectado à Internet.
-
-Está correto o que se afirma em`,
-opts:["A) I, apenas.","B) II, apenas.","C) III, apenas.","D) I e II, apenas.","E) I, II e III."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q47 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 47 — Conhecimentos Específicos (Linux — Comandos)
-
-Assinale a opção que indica o comando do sistema operacional Linux que pode ser utilizado para exibir o conteúdo de um arquivo texto.`,
-opts:["A) ln","B) touch","C) bg","D) cal","E) less"],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q48 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 48 — Conhecimentos Específicos (CSS3)
-
-Observe a construção CSS3 exibida a seguir.
-
-p { color: initial; }
-
-Assinale a opção que melhor descreve a finalidade dessa construção.`,
-opts:["A) Alterar randomicamente a cor do parágrafo.","B) Atribuir à cor do parágrafo o valor previamente atribuído no cabeçalho da página, para a constante initial.","C) Atribuir à cor do parágrafo o valor retornado pela função initial, previamente declarada em um Javascript.","D) Forçar o valor inicial da propriedade como definido no CSS3, anulando o efeito herança.","E) Permitir a definição de propriedades neutras, em páginas dinamicamente construídas."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q49 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 49 — Conhecimentos Específicos (CSS3 — Padding)
-
-Analise as construções exibidas a seguir para definição da propriedade CSS "padding" de um elemento.
-
-p { padding: 50px; }
-p { padding: 50px 20px; }
-p { padding: 50px 20px 30px; }
-p { padding: 50px 20px 30px 70px; }
-
-Assinale o número de linhas que estão corretamente declarados.`,
-opts:["A) Zero.","B) Uma.","C) Duas.","D) Três.","E) Quatro."],
-r:4,exp:"Gabarito oficial: alternativa E."},
-
-// ── Q50 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 50 — Conhecimentos Específicos (Gerenciamento de Memória)
-
-A implementação de linguagens de programação em geral depara-se com a questão do gerenciamento de memória.
-
-Nesse contexto, assinale a opção que melhor descreve o que é conhecido como "memory leak".`,
-opts:["A) A liberação de trechos de memória ainda em uso por um ou mais objetos.","B) A impossibilidade de liberar a memória ocupada por objetos que se tornaram inalcançáveis.","C) A incapacidade de recuperar trechos de memória virtualizados.","D) A invasão de trechos de memória por objetos não autorizados.","E) O compartilhamento indesejado de trechos de memória por dois ou mais objetos."],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q51 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 51 — Conhecimentos Específicos (Algoritmos e Complexidade)
-
-A complexidade do algoritmo de busca binária, sobre uma lista indexada ordenada pela chave de busca, é`,
-opts:["A) O(N)","B) O(log₂ N)","C) O(2 log₂ N)","D) O(N log₂ N)","E) O(N²)"],
-r:1,exp:"Gabarito oficial: alternativa B."},
-
-// ── Q52 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 52 — Conhecimentos Específicos (Compiladores)
-
-Na implementação de compiladores, a fase de parser do programa baseia-se, em parte, no resultado de um analisador léxico.
-
-Assinale a opção que descreve o papel de um analisador léxico.`,
-opts:["A) Representar as regras da gramática da linguagem.","B) Verificar a conformidade do código fonte com as regras da gramática da linguagem.","C) Definir a notação em que as regras da gramática são expressas.","D) Identificar os tokens gramaticais no código fonte.","E) Exprimir a semântica das construções da linguagem."],
-r:3,exp:"Gabarito oficial: alternativa D."},
-
-// ── Q53 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 53 — Conhecimentos Específicos (Python)
-
-Analise o código Python 2.7 a seguir.
-
-L=[10, 12, 14, 16]
-for k in range(4, -5,-1):
-    print L[k]
-
-Esse programa causa`,
-opts:["A) erro de sintaxe.","B) erro de execução.","C) a exibição de 4 valores, 16,14,12,10, nessa ordem.","D) a exibição de 8 valores, 16,14,12,10,16,14,12,10, nessa ordem.","E) a exibição do valor 16, somente."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q54 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 54 — Conhecimentos Específicos (Python — Generators)
-
-Analise o código Python 2.7 a seguir.
-
-def f(x):
-    for a in x[::-1]:
-        yield a
-
-L1=[]
-L2=[1,2,3,4]
-for k in f(L2):
-    L1.append(k)
-for x in L1:
-    print x
-
-Esse programa causa`,
-opts:["A) a exibição dos valores 4,3,2,1, nessa ordem.","B) a exibição dos valores 1,2,3,4, nessa ordem.","C) a exibição do valor 4, somente.","D) erro de sintaxe.","E) erro de execução."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q55 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 55 — Conhecimentos Específicos (JavaScript — Eventos)
-
-Observe o código a seguir.
-
-<button onmouseover="this.innerHTML='ON'" onmouseout="this.innerHTML='OFF'">Aqui</button>
-
-Supondo que o cursor do mouse inicialmente esteja fora da área de botão, assinale o texto exibido no botão quando a página que o contém estiver carregada.`,
-opts:[`A) "Aqui" inicialmente, "ON" quando o cursor do mouse entra na área do botão, e "OFF" quando o cursor do mouse sai da área do botão, assim mudando a cada movimentação para dentro ou para fora.`,`B) "Aqui" inicialmente, "ON" quando o cursor do mouse entra na área do botão, e assim permanece.`,`C) "Aqui" inicialmente, "ON" quando o cursor do mouse entra na área do botão, e "OFF" quando o cursor do mouse sai da área do botão, e assim permanece mesmo que o mouse seja movimentado sobre o botão.`,`D) "Aqui" inicialmente, "ON" quando o cursor do mouse entra na área do botão, e "Aqui" quando o cursor do mouse sai da área do botão, assim mudando a cada movimentação para dentro ou para fora.`,`E) "Aqui" inicialmente, "ON" quando o cursor do mouse entra na área do botão, e "OFF" quando o cursor do mouse sai da área do botão pela primeira vez. Nas demais saídas, mudar para "Aqui".`],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q56 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 56 — Conhecimentos Específicos (JavaScript — Try/Catch)
-
-Analise o script a seguir.
-
-<p id="demo"></p>
-<script>
-try {
-  a = 10/0;
-  document.getElementById("demo").innerHTML = "OK";
-}
-catch(err) {
-  document.getElementById("demo").innerHTML = err.message;
-}
-</script>
-
-A execução desse script produz`,
-opts:["A) um erro de sintaxe.","B) um erro de execução.","C) a exibição de "OK" no parágrafo.","D) a exibição de uma mensagem de erro no parágrafo.","E) a exibição de "Infinity" no parágrafo."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q57 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 57 — Conhecimentos Específicos (jQuery — CDN)
-
-A biblioteca jQuery pode ser obtida por download de arquivos, em sites como "http://jquery.com/download/", ou a partir de um CDN (Content Delivery Network) como, por exemplo, Google/Microsoft.
-
-Assinale a opção que descreve uma vantagem da segunda alternativa (CDN) sobre a primeira (download local).`,
-opts:["A) Inclui, adicionalmente, todas as bibliotecas do JavaScript.","B) Não requer licença, pois é de domínio público.","C) Os dados poderão ser obtidos rapidamente, do cache do servidor.","D) Permite acesso ao código fonte.","E) Utiliza alto grau de compactação."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q58 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 58 — Conhecimentos Específicos (jQuery — $.get)
-
-Analise o trecho de um script jQuery exibido a seguir.
-
-$(document).ready(function(){
-  $("button").click(function(){
-    $.get("test.asp", function(data, status){
-      $("#texto").text(data);
-    });
-  });
-});
-
-Assinale a função desempenhada pelo método get no script.`,
-opts:["A) Executar um HTTP request.","B) Executar upload de um arquivo.","C) Ler um arquivo do lado cliente.","D) Testar o status de uma página.","E) Verificar a existência de um arquivo."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q59 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 59 — Conhecimentos Específicos (Java — Static)
-
-Analise o código Java a seguir.
-
-public class Exemplo {
-  static class C {
-    static int a;
-    int b;
-    void metodo() {
-      System.out.println(String.format("%d %d", a, b));
-    }
-  }
-  public static void main(String[] args) {
-    C myC1 = new C();
-    C myC2 = new C();
-    myC1.a = 10;
-    myC2.b = 20;
-    myC1.metodo();
-    myC2.metodo();
-  }
-}
-
-A execução desse código produz`,
-opts:["A) um erro de sintaxe.","B) um erro de execução.","C) as linhas \"10 0\" e \"10 20\".","D) as linhas \"10 0\" e \"0 20\".","E) as linhas \"10 20\" e \"10 20\"."],
-r:2,exp:"Gabarito oficial: alternativa C."},
-
-// ── Q60 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 60 — Conhecimentos Específicos (CSS3 — Seletores)
-
-Observe o emprego de seletores do CSS3 nos trechos a seguir.
-
-p.exemplo.didatico { color: red; }
-.quadro { color: red; }
-#abc { color: red; }
-
-Essa sintaxe significa que serão coloridos com vermelho`,
-opts:["A) todos os parágrafos que têm \"exemplo\" e \"didatico\" como atributos class, todos os elementos que têm \"quadro\" como atributo class e todos os elementos que têm \"abc\" como atributo id.","B) todos os elementos que têm \"p.exemplo.didatico\" como atributo class, todos os elementos que têm \"quadro\" como atributo id e todos os elementos que têm \"abc\" como atributo name.","C) todos os elementos que têm \"p\", \"exemplo\" e \"didatico\" como atributos class, todos os elementos que têm \"quadro\" como atributo id e todos os elementos que têm \"abc\" como atributo name.","D) todos os elementos que têm \"p.exemplo.didatico\" ou \"quadro\" como atributos class e todos os elementos que têm \"abc\" como atributo name.","E) todos os parágrafos que têm \"exemplo\" ou \"didatico\" como atributo name, todos os elementos que têm \"quadro\" como atributo name e todos os elementos que têm \"abc\" como atributo id."],
-r:0,exp:"Gabarito oficial: alternativa A."},
-
-// ── Q61 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 61 — Conhecimentos Específicos (Node.js — require)
-
-Observe a linha de código Node.js exibida a seguir.
-
-var http = require('http');
-
-Assinale a opção que melhor descreve esse comando.`,
-opts:["A) Criar um objeto da classe require.","B) Criar um objeto HTMLrequest.","C) Disparar um request HTML.","D) Incluir o módulo HTTP.","E) Invocar a função require, definida pelo usuário."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q62 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 62 — Conhecimentos Específicos (Node.js — exports)
-
-No script Node.js
-
-exports.myDateTime = function () {
-  return Date();
-};
-
-o papel do termo exports é`,
-opts:["A) definir o nome da biblioteca corrente como \"exports\".","B) definir um método para a classe exports.","C) definir uma função externa que ficará localizada no módulo exports.","D) fazer referência a uma variável externa localizada no módulo exports.","E) permitir que a função myDateTime seja acessível para outros módulos."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q63 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 63 — Conhecimentos Específicos (C# — Delegates)
-
-Analise o código C# exibido a seguir.
-
-using System;
-delegate void Enigma(int n);
-namespace DelegateAppl {
-  class TestDelegate {
-    static int num = 9;
-    public static void F1(int p) {
-      num += p;
-      Console.WriteLine("caso 1: {0}", num);
-    }
-    public static void F2(int q) {
-      num /= q;
-      Console.WriteLine("caso 2: {0}", num);
-    }
-    static void Main(string[] args) {
-      Enigma nc = delegate(int x) {
-        Console.WriteLine("caso 3: {0}", x);
-      };
-      nc(20);
-      nc = new Enigma(F1); nc(6);
-      nc = new Enigma(F2); nc(3);
-    }
-  }
-}
-
-Assinale o item com o resultado da execução desse código.`,
-opts:[`A) caso 1: 15\ncaso 2: 5`,`B) caso 3: 10\ncaso 1: 15\ncaso 2: 5`,`C) caso 3: 20\ncaso 1: 15\ncaso 2: 5`,`D) caso 3: 20\ncaso 1: 25\ncaso 2: 8`,`E) caso 3: 20\ncaso 1: 10\ncaso 2: 3`],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q64 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 64 — Conhecimentos Específicos (C# — Exception Handling)
-
-Analise o código C# exibido a seguir.
-
-using System;
-namespace ErrorHandlingApplication {
-  class DivNumbers {
-    int result;
-    DivNumbers() { result = 0; }
-    public void division(int num1, int num2) {
-      try {
-        result = num1 / num2;
-      }
-      catch (SystemException e) {
-        Console.WriteLine(e.ToString().Split(':')[0]);
-      }
-      finally {
-        Console.WriteLine("Resultado: {0}", result);
-      }
-    }
-    static void Main(string[] args) {
-      DivNumbers d = new DivNumbers();
-      d.division(24, 2 >> 1);
-    }
-  }
-}
-
-Assinale a opção que exibe o resultado da execução desse código.`,
-opts:["A) Resultado: 0","B) Resultado: 6","C) Resultado: 24","D) System.DivideByZeroException\nResultado: 0","E) System.DivideByZeroException: Attempted to divide by zero.\nResultado: 0"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q65 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 65 — Conhecimentos Específicos (Oracle — Sequences)
-
-No Oracle, considere que o comando a seguir tenha sido executado com sucesso.
-
-CREATE SEQUENCE exemplo START WITH 100 INCREMENT BY 10 ORDER;
-
-Logo na sequência, os comandos
-
-SELECT exemplo.NEXTVAL FROM dual;
-SELECT exemplo.NEXTVAL FROM dual;
-SELECT exemplo.CURRVAL FROM dual;
-
-são executados em bloco.
-
-Assinale a opção que exibe o resultado produzido.`,
-opts:["A) 100 / 100 / 100","B) 100 / 110 / 110","C) 110 / 110 / 110","D) 110 / 100 / 100","E) 110 / 120 / 130"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q66 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 66 — Conhecimentos Específicos (Oracle — Synonyms)
-
-No Oracle, o comando CREATE SYNONYM pode ser aplicado aos tipos de objetos listados a seguir, À EXCEÇÃO DE UM. Assinale-o:`,
-opts:["A) Coluna.","B) Outro synonym.","C) Sequence.","D) Stored function.","E) View."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q67 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 67 — Conhecimentos Específicos (MySQL — Comandos)
-
-No âmbito do MySQL, assinale o comando que exibe as tabelas de um banco de dados.`,
-opts:["A) catalog -t","B) list","C) print -t","D) schema -t","E) show tables"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q68 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 68 — Conhecimentos Específicos (MySQL — Palavras Reservadas)
-
-Num banco de dados MySQL, a tabela teste foi criada com uma coluna intitulada having, que sabidamente é uma palavra reservada.
-
-Assinale o comando SQL que NÃO referencia corretamente a coluna citada.`,
-opts:["A) select having from teste","B) select \"having\" from teste","C) select 'having' from teste","D) select `having` from teste","E) select [having] from teste"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q69 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 69 — Conhecimentos Específicos (MySQL — CREATE TABLE ... SELECT)
-
-Analise o comando a seguir, no âmbito do MySQL.
-
-CREATE TABLE teste1 (
-  numeracao INT AUTO_INCREMENT UNIQUE,
-  d FLOAT NOT NULL
-) TYPE = INNODB SELECT a, b, c FROM teste2;
-
-Sobre a tabela teste2, considerando-se que a tabela teste1 tem 1.000 registros e que o comando acima foi executado, analise as afirmativas a seguir.
-
-I. Possui três colunas.
-II. Possui uma coluna intitulada "d", cujos valores estão zerados.
-III. Possui zero registros.
-
-Está correto o que se afirma em`,
-opts:["A) I, apenas.","B) II, apenas.","C) III, apenas.","D) I e II, apenas.","E) II e III, apenas."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q70 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 70 — Conhecimentos Específicos (SQL — TRUNCATE)
-
-Analise o comando exibido a seguir.
-
-TRUNCATE TABLE T
-
-Esse comando está disponível`,
-opts:["A) no MySQL, somente.","B) no Oracle, somente.","C) no MS SQL Server, somente.","D) no MySQL e no MS SQL Server, somente.","E) no MySQL, no Oracle e no MS SQL Server."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q71 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 71 — Conhecimentos Específicos (MS SQL Server — Server Roles)
-
-Numa instalação MS SQL Server, há um conjunto de funções de nível de servidor (server roles), previamente definidas.
-
-Assinale a opção que indica a função que permite qualquer atividade.`,
-opts:["A) admin","B) dbo","C) serveradmin","D) system","E) sysadmin"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q72 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 72 — Conhecimentos Específicos (MS SQL Server — Constraints)
-
-Analise o comando de criação da tabela teste, com cinco constraints, exibido a seguir.
-
-CREATE TABLE teste (
-  a INT NULL,
-  b VARCHAR(40) NOT NULL,
-  c INT,
-  CONSTRAINT pk_a PRIMARY KEY (a),
-  CONSTRAINT fk_a_c FOREIGN KEY (c) REFERENCES teste,
-  CONSTRAINT uq_b UNIQUE (b),
-  CONSTRAINT up_c UNIQUE (c),
-  CONSTRAINT ch_1 CHECK (a >= 0.5 * c)
-)
-
-Assinale a constraint desse script que seria rejeitada no MS SQL Server.`,
-opts:["A) A primeira (pk_a — PRIMARY KEY em coluna NULL).","B) A segunda (fk_a_c — FOREIGN KEY).","C) A terceira (uq_b — UNIQUE).","D) A quarta (up_c — UNIQUE).","E) A quinta (ch_1 — CHECK)."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q73 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 73 — Conhecimentos Específicos (Banco de Dados — Dependências Funcionais)
-
-Considere uma tabela de banco de dados contendo informações de contato dos clientes de uma empresa. Sabe-se que cada cliente pode ter um número variado de contatos, da mesma natureza ou não. A seguir, um extrato da instância dessa tabela:
-
-CódigoCliente | Natureza | Contato
-123           | e-mail   | jo@xxx.br
-123           | celular  | 987654321
-234           | e-mail   | az@yyy.br
-234           | e-mail   | az@www.br
-345           | skype    | zz412
-647           | fixo     | 23456789
-815           | fixo     | 23456789
-
-Sobre as dependências funcionais e multivaloradas para essa tabela, assinale a afirmativa correta.`,
-opts:["A) CódigoCliente → Natureza, Contato","B) CódigoCliente, Natureza → Contato","C) CódigoCliente → Natureza","D) Contato, Natureza → CódigoCliente","E) Além das dependências triviais, nenhuma outra dependência pode ser deduzida."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q74 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 74 — Conhecimentos Específicos (Banco de Dados — Normalização)
-
-Teoricamente, um banco de dados relacional poderia ser construído em uma única tabela, chamada universal, na qual estariam presentes todos os atributos. Na prática, porém, isso causaria enormes transtornos.
-
-Uma técnica de projeto de bancos é a de decomposição sucessiva das tabelas, à luz das dependências entre atributos, até que se chegue a um projeto normalizado com um nível de decomposição aceitável. Nesse processo, deve haver uma preocupação especial para que essa decomposição seja sem perda.
-
-Assinale a opção que apresenta o significado técnico da "decomposição sem perda", no presente contexto.`,
-opts:["A) Cada atributo deve aparecer em uma ou mais tabelas, após a decomposição.","B) Cada atributo deve aparecer em apenas uma das tabelas obtidas pela decomposição.","C) Todos os estados representáveis na tabela universal deveriam ser alcançáveis por meio da combinação das tabelas obtidas pela decomposição.","D) Todos os valores dos atributos que compõem a tabela universal podem estar presentes em um ou mais dos atributos que compõem as tabelas obtidas pela decomposição.","E) O número de atributos da tabela universal deve ser igual ao somatório do número de atributos em cada uma das tabelas obtidas pela decomposição."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q75 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 75 — Conhecimentos Específicos (Banco de Dados — Normalização / BCNF)
-
-Num banco de dados relacional, considere uma tabela T, não normalizada, contendo os atributos CPF, Matrícula, Nome, Endereço, Telefone.
-
-Sobre esses atributos, foram apuradas as seguintes dependências funcionais:
-  Matrícula → CPF
-  CPF → Nome
-  Matrícula → Endereço
-  Telefone → Matrícula
-
-Assinale o esquema (com as chaves primárias sublinhadas) que está normalizado e produzido com decomposição sem perda.`,
-opts:[`A) T1 (CPF, Nome)\n   T2 (Matrícula, CPF)\n   T3 (Telefone, Matrícula, Endereço)`,`B) T1 (CPF, Matrícula, Nome, Endereço)\n   T2 (Telefone, Matrícula)`,`C) T1 (CPF, Nome)\n   T2 (Matrícula, CPF, Endereço)\n   T3 (Telefone, Matrícula)\n   [chave T2 = Matrícula]`,`D) T1 (CPF, Nome)\n   T2 (Matrícula, CPF, Endereço)\n   T3 (Telefone, Matrícula)\n   [chave T2 = CPF]`,`E) T1 (CPF, Nome)\n   T2 (Matrícula, CPF)\n   T3 (Nome, Endereço)\n   T4 (Telefone, Matrícula)`],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q76 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 76 — Conhecimentos Específicos (Banco de Dados — Lógica Três Valores)
-
-Gerenciadores de bancos de dados costumam trabalhar com uma lógica de três estados no tratamento de valores nulos. A tabela a seguir mostra operadores lógicos combinando os operandos V (verdadeiro), F (falso) e ? (desconhecido). Por exemplo, o valor da disjunção lógica entre V e ? é V.
-
-Expressão | Valor
-V AND ?   | ?
-F AND ?   | ?
-? AND ?   | ?
-V OR  ?   | V  ← (dado)
-F OR  ?   | ?
-? OR  ?   | ?
-NOT  ?    | ?
-
-Assinale a lista de valores lógicos que, da esquerda para a direita, completa a tabela, de cima para baixo (excluindo o V dado).`,
-opts:["A) V  F  ?  V  ?  ?  F","B) ?  F  ?  V  ?  ?  ?","C) ?  F  ?  V  ?  ?  F","D) ?  F  ?  V  ?  V  ?","E) ?  F  F  V  ?  ?  ?"],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q77 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 77 — Conhecimentos Específicos (Banco de Dados — Índice Bitmap)
-
-Considere a tabela e a configuração de um índice bitmap exibidos a seguir.
-
-Tabela:
-C1  | C2 | C3 | C4 | C5
-102 | 17 | 15 |  4 |  0
-103 | 10 |  2 |  4 |  1
-110 | 18 | 12 |  2 |  0
-112 |  3 | 17 |  2 |  1
-115 |  4 | 10 |  4 |  0
-117 |  3 | 18 |  3 |  1
-118 |  4 |  3 |  4 |  0
-
-Índice Bitmap:
- 2 → 0100000
- 3 → 0000001 (ou 0000011?)
-10 → 0000100 (ou 0100000?)
-12 → 0010000
-15 → 1000000
-17 → 0001000
-18 → 0000010
-
-Assinale a opção que indica a coluna que está sendo indexada.`,
-opts:["A) C1.","B) C2.","C) C3.","D) C4.","E) C5."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q78 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 78 — Conhecimentos Específicos (Banco de Dados — IDEF1X / SQL DDL)
-
-[A questão original continha um diagrama IDEF1X mostrando a tabela E1 com atributos A1 (chave primária, not null), B1 (nullable) e AA (nullable, unique, foreign key referenciando A1 da própria tabela E1).]
-
-Assinale a opção que indica o script SQL que cria a tabela E1 corretamente.`,
-opts:[`A) CREATE TABLE E1 (\n   A1 INT NULL PRIMARY KEY, B1 INT NULL,\n   AA INT NULL UNIQUE,\n   CONSTRAINT FK_X FOREIGN KEY (AA) REFERENCES E1(A1) )`,`B) CREATE TABLE E1 (\n   A1 INT NOT NULL PRIMARY KEY, B1 INT NULL,\n   AA INT NULL,\n   CONSTRAINT FK_X FOREIGN KEY (A1) REFERENCES E1(AA) )`,`C) CREATE TABLE E1 (\n   A1 INT NOT NULL UNIQUE, B1 INT NULL,\n   AA INT NULL PRIMARY KEY,\n   CONSTRAINT FK_X FOREIGN KEY (AA) REFERENCES E1(A1) )`,`D) CREATE TABLE E1 (\n   A1 INT NOT NULL PRIMARY KEY, B1 INT NULL,\n   AA INT NULL UNIQUE,\n   CONSTRAINT FK_X FOREIGN KEY (A1) REFERENCES E1(AA) )`,`E) CREATE TABLE E1 (\n   A1 INT NOT NULL PRIMARY KEY, B1 INT NULL,\n   AA INT NULL UNIQUE,\n   CONSTRAINT FK_X FOREIGN KEY (AA) REFERENCES E1(A1) )`],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q79 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 79 — Conhecimentos Específicos (Segurança da Informação — ISO/IEC 27005)
-
-No contexto da norma internacional ISO/IEC 27005, o processo de gestão de risco é definido por oito atividades coordenadas, das quais sete estão listadas a seguir.
-
-1. Definição do contexto
-2. Identificação
-3. Estimativa
-4. Avaliação
-5. Tratamento
-6. Monitoramento e análise crítica
-7. Comunicação
-
-Assinale a opção que apresenta a atividade que completa a lista acima.`,
-opts:["A) Aceitação do risco.","B) Administração do risco.","C) Eliminação do risco.","D) Incorporação do risco.","E) Responsabilização do risco."],
-r:null,exp:"Questão anulada no gabarito oficial."},
-
-// ── Q80 ─────────────────────────────────────────────────────────────────────
-{q:`Questão 80 — Conhecimentos Específicos (Segurança da Informação — ISO/IEC 27001)
-
-Assinale a opção que melhor descreve o princípio geral da norma ISO/IEC 27001.`,
-opts:["A) Definir os procedimentos e tarefas adequados à mitigação de riscos no âmbito de um sistema de gestão de segurança da informação.","B) Definir os requisitos necessários para estabelecer, implementar, manter e melhorar, de forma contínua, um sistema de gestão de segurança da informação.","C) Estabelecer os papéis, responsabilidades e atuação dos profissionais de segurança da informação em uma organização.","D) Orientar e alertar as organizações e seus respectivos profissionais em diversos aspectos relativos à gestão de segurança da informação.","E) Prover uma coleção de artefatos tecnológicos que permitam a identificação, avaliação e eliminação de ataques aos ativos de segurança da informação."],
-r:null,exp:"Questão anulada no gabarito oficial."},
+const questoes_portugues = [
+{q:`TEXTO 1\n\nNuma democracia, o debate público não se mede pelo volume da voz, mas pela força dos argumentos. Ainda assim, quando uma crise se instala, cresce a tentação de reduzir problemas complexos a slogans: busca-se um culpado único, uma solução instantânea, um atalho que dispense o incômodo do contraditório. Em geral, é nesse momento que surgem, com ares de urgência moral, os que defendem o "vale tudo" — ora em nome da eficiência, ora em nome da justiça.\n\nAssinale a opção que melhor expressa a tese central do texto.`,
+opts:["A) A democracia depende mais de medidas rápidas do que de debate público.","B) A crise elimina a necessidade de contraditório, pois o consenso é indispensável.","C) Em cenários de crise, há risco de simplificação oportunista que substitui argumentos por slogans e soluções fáceis.","D) A eficiência administrativa é incompatível com o debate democrático.","E) O debate público é sempre determinado pelo volume da voz de grupos organizados."],
+r:2,exp:"O texto contrapõe debate (argumentos, contraditório) a slogans e atalhos em momentos de crise, apontando o risco de oportunismo e simplificação."},
+{q:`Considere o período:\n\n"Em geral, é nesse momento que surgem, com ares de urgência moral, os que defendem o 'vale tudo'."\n\nA expressão "com ares de urgência moral" exerce função de:`,
+opts:["A) Aposto explicativo do termo 'momento'.","B) Adjunto adverbial, indicando circunstância/qualificação do modo como 'surgem'.","C) Objeto direto do verbo 'surgem'.","D) Predicativo do sujeito 'os que defendem'.","E) Complemento nominal do substantivo 'momento'."],
+r:1,exp:"Qualifica o modo/atitude com que 'surgem' tais agentes, funcionando como adjunto adverbial (valor modal avaliativo)."},
+{q:`No trecho "busca-se um culpado único, uma solução instantânea, um atalho...", as vírgulas são empregadas para:`,
+opts:["A) Isolar oração subordinada adjetiva explicativa.","B) Separar vocativo e aposto simultaneamente.","C) Marcar uma enumeração de termos em série.","D) Indicar elipse do verbo 'ser'.","E) Separar sujeito e predicado para dar ênfase."],
+r:2,exp:"As vírgulas separam itens coordenados de uma enumeração (culpado / solução / atalho)."},
+{q:`O emprego de aspas em "vale tudo" indica, principalmente:`,
+opts:["A) Citação literal de documento jurídico.","B) Neologismo técnico consagrado na norma culta.","C) Distanciamento/ironia avaliativa do enunciador em relação à expressão.","D) Marcação de estrangeirismo.","E) Realce de termo cujo sentido é estritamente denotativo."],
+r:2,exp:"As aspas sinalizam uso metalinguístico e avaliação crítica: o enunciador se distancia do rótulo."},
+{q:`(FCC) Assinale a alternativa em que TODAS as palavras estão grafadas corretamente:`,
+opts:["A) Ressuscitar, transtorno, beneficente, suscinto","B) Ressuscitar, transtorno, beneficente, sucinto","C) Recussitar, transtorno, beneficente, sucinto","D) Ressuscitar, trantorno, beneficiente, sucinto","E) Ressuscitar, transtorno, beneficente, suçinto"],
+r:1,exp:"'sucinto' (com 'c', não 'ss'). A alternativa B reúne todas corretas."},
+{q:`(FCC) Assinale a alternativa em que a acentuação está INCORRETA:`,
+opts:["A) O nível de poluição do rio preocupa os moradores.","B) O bônus oferecido pela empresa atraiu muitos candidatos.","C) Eles vêem o pôr do sol da varanda todos os dias.","D) A raiz do problema estava no modelo de gestão.","E) O país atravessa um período de grandes transformações."],
+r:2,exp:"'Vêem' perdeu o acento com o Acordo Ortográfico de 1990. A forma correta é 'veem'."},
+{q:`(CESPE) Em qual alternativa a palavra está corretamente acentuada segundo o Acordo de 1990?`,
+opts:["A) A platéia aplaudiu de pé o espetáculo.","B) O herói foi recebido com festa na cidade natal.","C) A assembléia votou contra a proposta.","D) A idéia surgiu durante uma viagem.","E) O corréia do relógio se partiu."],
+r:1,exp:"'Herói' é oxítona terminada em ditongo aberto 'ói', regra mantida pelo Acordo de 1990."},
+{q:`(FCC) Assinale a alternativa em que o emprego da crase está CORRETO:`,
+opts:["A) Ele se referiu à ela como a melhor jogadora.","B) Vou à praia amanhã cedo para assistir ao nascer do sol.","C) Entregou o presente à mão da criança.","D) O trem parte às três horas à tarde.","E) Chegamos à bordo do navio após dois dias."],
+r:1,exp:"'Vou à praia' — verbo 'ir' + preposição 'a' + artigo 'a' antes de substantivo feminino → crase obrigatória."},
+{q:`(CESPE) Em qual frase a crase é FACULTATIVA?`,
+opts:["A) Fomos à São Paulo para a conferência.","B) Ela saiu às pressas quando ouviu o barulho.","C) Fui a pé até a padaria.","D) Refiro-me a uma cidade distante.","E) Ele olhou à distância e viu a tempestade."],
+r:4,exp:"'À distância' / 'a distância' — quando 'distância' tem sentido genérico, a crase é facultativa."},
+{q:`(FCC) Assinale a alternativa em que a concordância verbal está CORRETA:`,
+opts:["A) Fazem dois anos que minha família mudou para esta cidade.","B) Faz dois anos que minha família mudou para esta cidade.","C) Havia muitos passarinhos cantando na árvore.","D) B e C estão corretas.","E) Apenas A está correta."],
+r:3,exp:"B e C estão corretas: 'Faz' é impessoal e 'Havia' no sentido de existir é impessoal (singular)."},
+{q:`(CESPE) Assinale a alternativa em que há ERRO de concordância verbal:`,
+opts:["A) Nenhum dos participantes chegou a tempo.","B) A maioria dos estudantes não compareceu.","C) Mais de um aluno pediu revisão de prova.","D) Foram muitas as surpresas ao longo da viagem.","E) Metade dos ingressos foram vendidos em menos de uma hora."],
+r:4,exp:"'Metade dos ingressos foram vendidos' — a concordância mais adequada seria 'foi vendida' (com o núcleo 'metade', singular)."},
+{q:`(VUNESP) Assinale a alternativa em que a concordância verbal está INCORRETA:`,
+opts:["A) Choveu muito neste inverno.","B) Existem poucas opções de lazer.","C) Deve haver muitas crianças esperando.","D) Tratam-se de assuntos que merecem atenção.","E) Vendem-se apartamentos neste edifício."],
+r:3,exp:"'Tratam-se de assuntos' — 'tratar-se de' é impessoal: 'Trata-se de assuntos'."},
+{q:`(FCC) A palavra 'entardecer' foi formada pelo processo de:`,
+opts:["A) Composição por justaposição.","B) Derivação prefixal apenas.","C) Parassíntese — acréscimo simultâneo de prefixo 'en-' e sufixo '-ecer'.","D) Derivação sufixal apenas.","E) Derivação regressiva."],
+r:2,exp:"Parassíntese: 'en-' + 'tarde' + '-ecer'. Nem *'entarde' nem *'tardecer' existem isolados."},
+{q:`(FCC) "O vento uivava entre as árvores da floresta escura." A figura de linguagem presente é:`,
+opts:["A) Metáfora","B) Hipérbole","C) Personificação (prosopopeia)","D) Antítese","E) Eufemismo"],
+r:2,exp:"'Uivava' é ação de ser vivo atribuída ao vento (inanimado) — personificação."},
+{q:`(CESPE) "Ela tem um coração de ouro." A figura de linguagem identificada é:`,
+opts:["A) Comparação (símile).","B) Metáfora — identificação implícita entre 'coração' e 'ouro'.","C) Metonímia.","D) Sinestesia.","E) Hipérbole."],
+r:1,exp:"Metáfora: identificação implícita sem conectivo explícito ('coração de ouro' = pessoa de grande valor)."},
+{q:`(FCC) "Ele subiu lá em cima para ver a vista do mirante." O vício de linguagem presente é:`,
+opts:["A) Barbarismo.","B) Solecismo.","C) Pleonasmo vicioso — redundância desnecessária.","D) Ambiguidade.","E) Cacófato."],
+r:2,exp:"'Subiu lá em cima' — 'subir' já implica ir para cima; 'lá em cima' é redundante."},
+{q:`(CESPE) Assinale a alternativa que apresenta AMBIGUIDADE:`,
+opts:["A) O gato bebeu o leite que estava na tigela azul.","B) Ela comprou um vestido novo para a festa.","C) Vi o menino com o telescópio no terraço do prédio.","D) Todos os alunos entregaram as redações no prazo.","E) O cachorro latiu a noite toda."],
+r:2,exp:"'Vi o menino com o telescópio no terraço' é ambígua: quem estava com o telescópio? Quem estava no terraço?"},
+{q:`(FCC) Assinale o conector que preenche corretamente: "Treinou por meses _______ não estava confiante; _______, decidiu participar mesmo assim."`,
+opts:["A) mas / portanto","B) e / contudo","C) porque / logo","D) mas / no entanto","E) porém / assim"],
+r:3,exp:"'mas' (adversidade) e 'no entanto' (adversidade continuada) mantêm coerência semântica adversativa."},
+{q:`(FCC) "O fotógrafo revelou as fotos antigas da família." A transposição CORRETA para a voz passiva analítica é:`,
+opts:["A) As fotos antigas da família foram reveladas pelo fotógrafo.","B) As fotos antigas da família foram reveladas do fotógrafo.","C) O fotógrafo teve as fotos antigas reveladas pela família.","D) As fotos foram reveladas pela família do fotógrafo antigo.","E) As fotos antigas tinham sido reveladas pelo fotógrafo."],
+r:0,exp:"Voz passiva analítica correta: sujeito paciente + ser (pretérito perfeito) + particípio + agente da passiva."},
+{q:`(CESPE) Assinale a alternativa em que o 'se' funciona como ÍNDICE DE INDETERMINAÇÃO DO SUJEITO:`,
+opts:["A) Vendem-se casas no final desta rua.","B) Alugam-se bicicletas na praça.","C) Come-se bem naquele restaurante.","D) Constroem-se pontes sobre o rio.","E) Lavam-se roupas neste estabelecimento."],
+r:2,exp:"'Come-se bem' — verbo intransitivo; 'se' é índice de indeterminação do sujeito."},
+{q:`(FCC) Em "É fundamental que todos participem ativamente do processo", a oração sublinhada é:`,
+opts:["A) Subordinada adverbial final.","B) Subordinada substantiva objetiva direta.","C) Subordinada substantiva subjetiva.","D) Subordinada adjetiva explicativa.","E) Coordenada conclusiva."],
+r:2,exp:"Sujeito do verbo 'é' ('é fundamental que...') → oração subjetiva."},
+{q:`(CESPE) "Assim que o sol nasceu, os pássaros começaram a cantar." A oração sublinhada é:`,
+opts:["A) Subordinada adverbial condicional.","B) Subordinada adverbial temporal.","C) Subordinada adverbial causal.","D) Subordinada adverbial consecutiva.","E) Subordinada substantiva subjetiva."],
+r:1,exp:"'Assim que' é conjunção temporal: indica o momento em que a ação principal ocorreu."},
+{q:`(VUNESP) Assinale o par que apresenta relação de SINONÍMIA:`,
+opts:["A) Ávido / saciado","B) Tênue / intenso","C) Efêmero / passageiro","D) Austero / exuberante","E) Díspare / semelhante"],
+r:2,exp:"'Efêmero' e 'passageiro' = de curta duração, transitório."},
+{q:`(CESPE) Assinale a alternativa em que as palavras são ANTÔNIMAS:`,
+opts:["A) Ousado / audacioso","B) Frugal / sóbrio","C) Prolixo / lacônico","D) Verossímil / plausível","E) Diligente / zeloso"],
+r:2,exp:"'Prolixo' (extenso) × 'lacônico' (breve, conciso)."},
+{q:`(CESPE) Assinale a alternativa em que o uso do HÍFEN está CORRETO segundo o Acordo de 1990:`,
+opts:["A) Auto-escola, anti-inflamatório, guarda-chuva","B) Autoescola, anti-inflamatório, guarda-chuva","C) Auto-escola, antiinflamatório, guarda-chuva","D) Autoescola, antiinflamatório, guarda chuva","E) Autoescola, anti-inflamatório, guardachuva"],
+r:1,exp:"'Autoescola' sem hífen; 'anti-inflamatório' com hífen (vogal igual); 'guarda-chuva' com hífen (composto com verbo)."},
+{q:`(FCC) Em "Ela cantava tão bem que todos paravam para ouvi-la", a oração "que todos paravam para ouvi-la" é:`,
+opts:["A) Subordinada adverbial consecutiva.","B) Subordinada adverbial concessiva.","C) Subordinada adjetiva restritiva.","D) Coordenada explicativa.","E) Subordinada adverbial conformativa."],
+r:0,exp:"'Tão...que' é locução conjuntiva consecutiva."},
+{q:`(CESPE) Na frase "Não há mal que sempre dure, nem bem que nunca acabe", a figura de linguagem predominante é:`,
+opts:["A) Hipérbole","B) Metáfora","C) Antítese","D) Ironia","E) Gradação"],
+r:2,exp:"Antítese dupla: 'mal' × 'bem' e 'sempre' × 'nunca'."},
+{q:`(FCC) Assinale a alternativa em que a norma culta escrita está RESPEITADA:`,
+opts:["A) Haviam chegado muitos convidados antes do previsto.","B) Fazem cinco anos que ele mora nesta cidade.","C) Existem várias razões para acreditar na mudança.","D) Houveram muitos problemas durante o evento.","E) A e D estão corretas simultaneamente."],
+r:2,exp:"'Existem várias razões' — verbo 'existir' é pessoal e concorda com o sujeito 'razões' (plural)."},
+{q:`(VUNESP) O texto "Beba mais água. Durma bem. Pratique exercícios. Evite o estresse." pertence ao tipo textual:`,
+opts:["A) Narrativo.","B) Descritivo.","C) Argumentativo.","D) Injuntivo — orienta e instrui o leitor a realizar ações.","E) Expositivo."],
+r:3,exp:"Injuntivo: verbos no imperativo ('Beba', 'Durma', 'Pratique', 'Evite') orientam o leitor."},
+{q:`(FCC) Assinale a alternativa em que a palavra está empregada em sentido CONOTATIVO:`,
+opts:["A) A temperatura chegou a quarenta graus no verão passado.","B) O gato bebeu toda a água do pote antes do jantar.","C) O jogador deu uma banana à torcida adversária na partida.","D) Ela cortou o cabelo bem curto antes das férias.","E) A chuva caiu forte durante toda a tarde de domingo."],
+r:2,exp:"'Deu uma banana' é expressão idiomática conotativa: gesto desrespeitoso."},
+{q:`Leia o texto: "A cidade não é feita de pedra e cimento, mas de encontros." O texto defende principalmente que:`,
+opts:["A) A arquitetura deve priorizar materiais resistentes.","B) O patrimônio histórico urbano tem valor humano e afetivo que vai além do físico.","C) A memória coletiva só pode ser preservada por documentos escritos.","D) As cidades modernas devem ser reconstruídas.","E) A demolição de bairros antigos é inevitável."],
+r:1,exp:"A oposição 'pedra e cimento' × 'encontros/memórias' argumenta que o valor da cidade é humano e afetivo."},
+];
+
+// CEBRASPE — Simulado de Língua Portuguesa (Versão Mix)
+const questoes_cebraspe = [
+{q:`A inferência textual é uma conclusão lógica que decorre de informações do texto, enquanto a elucubração mistura dados textuais com a criatividade ou conhecimentos prévios do leitor.`,
+opts:["Certo","Errado"],
+r:0,exp:'O Cebraspe diferencia inferência (lógica) de elucubração (extrapolação).'},
+{q:`No gênero tirinha, a linguagem não verbal possui caráter meramente ilustrativo, não interferindo na compreensão da ironia ou da crítica central.`,
+opts:["Certo","Errado"],
+r:1,exp:'Em tirinhas, a linguagem não verbal é essencial, não meramente ilustrativa.'},
+{q:`A substituição de "Por isso" por "Logo" (sem vírgula subsequente) mantém o sentido conclusivo original, sem qualquer risco de interpretação temporal.`,
+opts:["Certo","Errado"],
+r:1,exp:'A substituição de "Por isso" por "Logo" exige vírgula para não soar como advérbio de tempo.'},
+{q:`O pronome "isso" é frequentemente empregado como elemento de coesão anafórica para retomar uma ideia inteira expressa anteriormente.`,
+opts:["Certo","Errado"],
+r:0,exp:'O pronome "isso" é o elemento anafórico por excelência para retomar ideias.'},
+{q:`Na frase "As propostas de redução de preço causaram polêmicas", o verbo "causaram" poderia ser flexionado no singular para concordar com "redução".`,
+opts:["Certo","Errado"],
+r:1,exp:'Em "As propostas de redução... causaram", o verbo concorda com o núcleo "propostas".'},
+{q:`Em ordens diretas, a inserção de uma única vírgula isolando o sujeito do seu respectivo verbo constitui erro gramatical grave.`,
+opts:["Certo","Errado"],
+r:0,exp:'Isolar o sujeito do verbo por uma única vírgula é erro grave.'},
+{q:`O emprego do sinal de crase em "à mão" justifica-se pela mesma regra que prevê o uso em "às vezes" (locuções adverbiais femininas).`,
+opts:["Certo","Errado"],
+r:0,exp:'"À mão" é locução adverbial feminina, exigindo crase.'},
+{q:`Palavras com funções morfológicas distintas, como um advérbio de modo e um adjetivo, desempenham obrigatoriamente a mesma função sintática.`,
+opts:["Certo","Errado"],
+r:1,exp:'Advérbios e adjetivos possuem funções sintáticas diferentes (adjunto adverbial vs. adnominal).'},
+{q:`Palavras de sentido negativo (como "não", "jamais", "nada") são fatores de atração obrigatória, exigindo a próclise pronominal.`,
+opts:["Certo","Errado"],
+r:0,exp:'Palavras negativas são fatores de atração obrigatória (próclise).'},
+{q:`Um texto que apresenta juízos de valor e defesa de opinião classifica-se como predominantemente argumentativo.`,
+opts:["Certo","Errado"],
+r:0,exp:'Defesa de opinião caracteriza o texto como argumentativo.'},
+{q:`Em casos de sujeito composto posposto ao verbo, o Cebraspe admite a concordância atrativa com o núcleo mais próximo.`,
+opts:["Certo","Errado"],
+r:0,exp:'Com sujeito composto posposto, aceita-se a concordância atrativa.'},
+{q:`O emprego do sinal indicativo de crase é obrigatório antes do pronome demonstrativo "essa".`,
+opts:["Certo","Errado"],
+r:1,exp:'Crase é proibida antes de pronomes demonstrativos como "essa".'},
+{q:`A substituição da locução "na medida em que" (causal) por "à medida que" (proporcional) preserva o sentido original do trecho.`,
+opts:["Certo","Errado"],
+r:1,exp:'"Na medida em que" é causa; "À medida que" é proporção. A troca altera o sentido.'},
+{q:`O pronome oblíquo "lhe" pode exercer a função sintática de complemento nominal quando estiver ligado a adjetivos como "agradável".`,
+opts:["Certo","Errado"],
+r:0,exp:'O pronome oblíquo "lhe" pode funcionar como complemento nominal de nomes/adjetivos.'},
+{q:`Se o texto afirma que a opinião pública "deixou de ser espontânea", infere-se corretamente que ela possuía natureza espontânea anteriormente.`,
+opts:["Certo","Errado"],
+r:0,exp:'Verbos de mudança ("deixou de ser") permitem inferir o estado anterior.'},
+{q:`De acordo com a norma culta, é correto inserir uma vírgula entre um adjetivo e o seu respectivo complemento nominal.`,
+opts:["Certo","Errado"],
+r:1,exp:'Não se separa por vírgula o nome de seu complemento nominal.'},
+{q:`O conectivo "porquanto" possui valor explicativo ou causal e pode ser substituído por "porque" sem prejuízo gramatical.`,
+opts:["Certo","Errado"],
+r:0,exp:'"Porquanto" e "porque" são permutáveis em contextos causais/explicativos.'},
+{q:`As conjunções "porquanto" e "conquanto" são sinônimas e intercambiáveis em qualquer contexto de conclusão.`,
+opts:["Certo","Errado"],
+r:1,exp:'"Porquanto" (causal) e "Conquanto" (concessivo) têm sentidos opostos.'},
+{q:`O termo "onde" deve ser utilizado estritamente para se referir a lugares físicos, podendo ser substituído pela locução "em que".`,
+opts:["Certo","Errado"],
+r:0,exp:'O termo "onde" deve ser restrito a lugares físicos.'},
+{q:`A substituição de uma forma na voz passiva ("foi exilado") por uma forma reflexiva ("exilou-se") mantém a exatidão semântica original.`,
+opts:["Certo","Errado"],
+r:1,exp:'A voz passiva analítica e a reflexiva têm sentidos semânticos distintos.'},
+{q:`A concordância verbal com o pronome relativo "que" deve ser feita com o termo antecedente que o pronome retoma.`,
+opts:["Certo","Errado"],
+r:0,exp:'A concordância com o "que" relativo faz-se com o antecedente.'},
+{q:`No trecho "Todo o planeta", a supressão do artigo "o" preserva o sentido de totalidade (o planeta inteiro).`,
+opts:["Certo","Errado"],
+r:1,exp:'"Todo o planeta" (totalidade) difere de "Todo planeta" (qualquer um).'},
+{q:`Na frase "Problema idêntico oferece a Índia", o termo "Problema idêntico" exerce a função de sujeito da oração.`,
+opts:["Certo","Errado"],
+r:1,exp:'Na ordem direta de "Oferece a Índia", o sujeito é "a Índia".'},
+{q:`O emprego de "esse" indica que o autor retoma algo já citado (anáfora), enquanto "este" antecipa algo que será citado (catáfora).`,
+opts:["Certo","Errado"],
+r:0,exp:'"Esse" é anafórico (retoma) e "este" é catafórico (antecipa).'},
+{q:`A substituição de "Por isso" por "Por conseguinte" no início de um parágrafo mantém a ideia conclusiva pretendida.`,
+opts:["Certo","Errado"],
+r:0,exp:'"Por isso" e "Por conseguinte" são ambos conectores conclusivos.'},
+{q:`A retirada de vírgulas que isolam uma oração adjetiva explicativa altera o sentido do texto, tornando-a restritiva.`,
+opts:["Certo","Errado"],
+r:1,exp:'A retirada de vírgulas torna a oração restritiva, mudando o sentido.'},
+{q:`A mudança de um verbo do indicativo (fato) para o subjuntivo (hipótese) preserva o sentido de afirmação factual do texto.`,
+opts:["Certo","Errado"],
+r:1,exp:'O subjuntivo indica hipótese, o que altera o valor factual do indicativo.'},
+{q:`No trecho "Sabe-se que...", a partícula "se" classifica-se como índice de indeterminação do sujeito.`,
+opts:["Certo","Errado"],
+r:1,exp:'Em "Sabe-se que...", o "se" é partícula apassivadora de um sujeito oracional.'},
+{q:`Os vocábulos "Política", "econômicas" e "pública" são acentuados em decorrência de regras de acentuação distintas.`,
+opts:["Certo","Errado"],
+r:0,exp:'"Política", "econômicas" e "pública" seguem a mesma regra (proparoxítonas).'},
+{q:`A expressão "ao" + infinitivo (ex: "Ao ser...") introduz tipicamente um valor de circunstância temporal.`,
+opts:["Certo","Errado"],
+r:0,exp:'A estrutura "ao + infinitivo" carrega valor temporal.'},
+{q:`A palavra "inaudita" pode ser substituída por "inesquecível" sem prejuízo para os sentidos originais do texto.`,
+opts:["Certo","Errado"],
+r:1,exp:'"Inaudita" significa algo nunca ouvido/extraordinário, não apenas inesquecível.'},
+{q:`O vocábulo "porquanto", no início de períodos, pode ser corretamente substituído pela conjunção "porque".`,
+opts:["Certo","Errado"],
+r:0,exp:'"Porquanto", no início de períodos, pode ser corretamente substituído pela conjunção "porque".'},
+{q:`O sinal de dois-pontos pode ser utilizado com a finalidade de esclarecer ou sintetizar uma ideia apresentada anteriormente.`,
+opts:["Certo","Errado"],
+r:0,exp:'Dois-pontos servem para esclarecer ou sintetizar.'},
+{q:`No trecho "se diz corretamente que...", a oração iniciada por "que" exerce a função de sujeito paciente do verbo dizer.`,
+opts:["Certo","Errado"],
+r:0,exp:'Em construções de voz passiva sintética, a oração seguinte é o sujeito paciente.'},
+{q:`É gramaticalmente obrigatório o uso de vírgula imediatamente após a conjunção adversativa "Mas" no início de frases.`,
+opts:["Certo","Errado"],
+r:0,exp:'O Cebraspe considera inadequada a vírgula após a conjunção "Mas".'},
+{q:`Quando o sujeito composto aparece antes do verbo, a concordância deve ser feita, obrigatoriamente, no plural.`,
+opts:["Certo","Errado"],
+r:1,exp:'Sujeito composto anteposto exige plural.'},
+{q:`Estariam mantidos os sentidos do texto caso se substituísse a forma verbal "têm enfatizado" por "veem enfatizando".`,
+opts:["Certo","Errado"],
+r:1,exp:'O plural de "ver" é "veem"; o de "vir" é "vêm". A troca incorreta anula o item.'},
+{q:`É proibido o uso de crase antes de verbos, pois estes não admitem flexão de gênero para serem antecedidos por artigo feminino.`,
+opts:["Certo","Errado"],
+r:0,exp:'Crase é proibida antes de verbos.'},
+{q:`Termos explicativos ou apostos devem vir obrigatoriamente isolados por vírgulas, travessões ou parênteses.`,
+opts:["Certo","Errado"],
+r:0,exp:'Apostos explicativos exigem isolamento por pontuação.'},
+{q:`O pronome oblíquo "lhe" pode exercer, indiferentemente, as funções de objeto direto ou indireto.`,
+opts:["Certo","Errado"],
+r:0,exp:'O pronome "lhe" nunca exerce a função de objeto direto.'},
+{q:`O gênero crônica caracteriza-se pelo uso de humor e subjetividade ao tratar de temas do cotidiano.`,
+opts:["Certo","Errado"],
+r:0,exp:'Abordagem do cotidiano com subjetividade define a crônica.'},
+{q:`A palavra "país" recebe acento gráfico em virtude da regra dos hiatos (i tônico isolado na sílaba).`,
+opts:["Certo","Errado"],
+r:0,exp:'"País" é acentuado pela regra do hiato (i tônico isolado).'},
+{q:`A conjunção "pois" pode apresentar valor conclusivo caso esteja deslocada no período (entre vírgulas).`,
+opts:["Certo","Errado"],
+r:1,exp:'O "pois" deslocado entre vírgulas assume valor conclusivo.'},
+{q:`Os conectores "Entretanto" e "Todavia" pertencem ao mesmo grupo semântico (adversativos) e são permutáveis.`,
+opts:["Certo","Errado"],
+r:0,exp:'"Entretanto" e "Todavia" são conjunções adversativas permutáveis.'},
+{q:`Quando o sujeito de uma oração é outra oração (sujeito oracional), o verbo principal deve permanecer na 3ª pessoa do singular.`,
+opts:["Certo","Errado"],
+r:0,exp:'Quando o sujeito é outra oração, o verbo principal permanece na 3ª pessoa do singular.'},
+{q:`Expressões explicativas como "por exemplo" e "ou seja" devem vir obrigatoriamente isoladas por vírgulas.`,
+opts:["Certo","Errado"],
+r:1,exp:'Expressões explicativas como "por exemplo" e "ou seja" devem ser isoladas por vírgulas.'},
+{q:`A mudança de uma oração restritiva para explicativa costuma manter a correção gramatical, embora altere o sentido.`,
+opts:["Certo","Errado"],
+r:1,exp:'A mudança de oração restritiva para explicativa mantém a gramática, mas altera o sentido.'},
+{q:`O uso da crase é facultativo antes de pronomes possessivos femininos que acompanham substantivos.`,
+opts:["Certo","Errado"],
+r:0,exp:'A crase é facultativa antes de possessivos femininos acompanhados de substantivo.'},
+{q:`O vocábulo "mesmo" pode ser utilizado com valor de conjunção concessiva (sentido de "embora").`,
+opts:["Certo","Errado"],
+r:0,exp:'"Mesmo" pode atuar como conectivo concessivo (sentido de "embora").'},
+{q:`Na passagem do discurso direto para o indireto, o tempo presente do indicativo deve ser convertido em pretérito imperfeito.`,
+opts:["Certo","Errado"],
+r:0,exp:'A transposição de tempos verbais (presente -> pretérito imperfeito) é regra no discurso indireto.'}
+];
+const questoes_legislacao = [
+{q:"Segundo a Lei Complementar nº 15/1996 (Lei Orgânica do MPAL), são princípios institucionais do Ministério Público:",
+opts:["A) Independência funcional, autonomia administrativa e unidade.","B) Unidade, indivisibilidade e independência funcional.","C) Hierarquia, disciplina e independência funcional.","D) Unidade, legalidade e impessoalidade.","E) Indivisibilidade, moralidade e independência funcional."],
+r:1,exp:"CF/88, art. 127, §1º: unidade, indivisibilidade e independência funcional."},
+{q:"De acordo com a Lei Orgânica do MPAL, é função institucional do Ministério Público:",
+opts:["A) Julgar e condenar os réus em crimes dolosos contra a vida.","B) Promover, privativamente, a ação penal pública.","C) Conceder habeas corpus em favor dos cidadãos.","D) Impor medidas cautelares pessoais aos investigados.","E) Presidir os inquéritos policiais em crimes hediondos."],
+r:1,exp:"Promoção privativa da ação penal pública: função exclusiva do MP (art. 129, I CF/88)."},
+{q:"São garantias dos membros do Ministério Público, conforme a Lei Orgânica do MPAL:",
+opts:["A) Vitaliciedade, inamovibilidade e irredutibilidade de subsídios.","B) Vitaliciedade, inamovibilidade e acumulação de cargos.","C) Estabilidade, inamovibilidade e irredutibilidade de vencimentos.","D) Vitaliciedade, inamovibilidade e imunidade civil absoluta.","E) Estabilidade, independência funcional e aposentadoria compulsória aos 65 anos."],
+r:0,exp:"CF/88, art. 128, §5º, I: vitaliciedade, inamovibilidade e irredutibilidade de subsídios."},
+{q:"É vedado ao membro do MPAL, nos termos da Lei Orgânica:",
+opts:["A) Exercer função eleitoral, salvo como mesário voluntário.","B) Receber, a qualquer título, honorários, percentagens ou custas processuais.","C) Participar de congressos jurídicos fora do Estado.","D) Ingressar em estabelecimentos prisionais sem autorização prévia.","E) Emitir opinião pública sobre questões de interesse social."],
+r:1,exp:"Vedação expressa: receber honorários/percentagens/custas processuais a qualquer título."},
+{q:"A carreira do MPAL é composta pelos seguintes cargos, em ordem crescente:",
+opts:["A) Promotor de Justiça Substituto, Promotor de Justiça e Procurador de Justiça.","B) Promotor de Justiça Substituto, Promotor de Justiça Adjunto e Procurador-Geral.","C) Procurador de Justiça, Promotor de Justiça e Promotor de Justiça Substituto.","D) Promotor de Justiça, Procurador de Justiça e Procurador-Geral de Justiça.","E) Promotor de Justiça Substituto, Promotor de Justiça Adjunto e Procurador de Justiça."],
+r:0,exp:"Promotor Substituto (inicial) → Promotor de Justiça → Procurador de Justiça (final)."},
+{q:"O Procurador-Geral de Justiça do MPAL é:",
+opts:["A) Nomeado pelo Governador a partir de lista tríplice formada pelo Colégio de Procuradores.","B) Eleito diretamente pelos cidadãos do Estado.","C) Indicado pelo Presidente do Tribunal de Justiça.","D) Nomeado pelo Presidente da República mediante aprovação do Senado.","E) Eleito pelos promotores de justiça em exercício."],
+r:0,exp:"Lista tríplice pelo Colégio de Procuradores → Governador nomeia → mandato de 2 anos."},
+{q:"O inquérito civil pode ser instaurado:",
+opts:["A) Apenas pelo Procurador-Geral, mediante portaria.","B) Por qualquer membro do MP, de ofício ou por provocação, para apurar lesão a direitos difusos ou coletivos.","C) Somente após autorização judicial prévia.","D) Exclusivamente a partir de representação do CNMP.","E) Apenas quando houver indícios de crime ambiental."],
+r:1,exp:"Procedimento administrativo do MP, instaurado de ofício ou por provocação, independente de autorização judicial."},
+{q:"O Conselho Superior do MPAL tem competência para:",
+opts:["A) Julgar os recursos das sanções disciplinares aplicadas a membros do MP.","B) Presidir as sessões plenárias do Tribunal de Justiça.","C) Nomear e empossar o Procurador-Geral.","D) Determinar o arquivamento de inquéritos policiais.","E) Publicar o Diário Oficial do Estado."],
+r:0,exp:"Competência administrativa e disciplinar: aprecia recursos, delibera sobre remoção/promoção."},
+{q:"A Lei nº 5.247/1991 aplica-se a:",
+opts:["A) Apenas servidores ocupantes de cargos efetivos.","B) Servidores públicos civis da administração direta, autárquica e fundacional do Estado de Alagoas.","C) Exclusivamente servidores do Poder Executivo estadual.","D) Servidores municipais do Estado de Alagoas.","E) Servidores temporários contratados por prazo determinado."],
+r:1,exp:"Estatuto dos Servidores Estaduais: abrange administração direta, autárquica e fundacional."},
+{q:"São formas de provimento derivado previstas no Estatuto:",
+opts:["A) Concurso público, readmissão e recondução.","B) Promoção, transferência, readaptação e reversão.","C) Aprovação em concurso, posse e exercício.","D) Recondução, aproveitamento e reintegração.","E) B e D estão corretas."],
+r:4,exp:"Provimento derivado pressupõe vínculo anterior: promoção, transferência, readaptação, reversão, recondução, aproveitamento, reintegração."},
+{q:"De acordo com a Lei nº 5.247/1991, o estágio probatório tem duração de:",
+opts:["A) 12 (doze) meses.","B) 24 (vinte e quatro) meses.","C) 36 (trinta e seis) meses.","D) 48 (quarenta e oito) meses.","E) 60 (sessenta) meses."],
+r:2,exp:"36 meses (3 anos), conforme orientação do STF (RE 736.539/SC)."},
+{q:"O servidor público estadual faz jus a férias anuais de:",
+opts:["A) 20 (vinte) dias úteis.","B) 25 (vinte e cinco) dias corridos.","C) 30 (trinta) dias consecutivos, não prejudicando o serviço.","D) 30 (trinta) dias úteis.","E) 15 (quinze) dias úteis por semestre."],
+r:2,exp:"30 dias consecutivos de férias anuais remuneradas."},
+{q:"São deveres do servidor público estadual previstos no Estatuto, EXCETO:",
+opts:["A) Exercer com zelo e dedicação as atribuições do cargo.","B) Ser leal às instituições a que servir.","C) Observar as normas legais e regulamentares.","D) Manter conduta compatível com a moralidade administrativa.","E) Participar obrigatoriamente de sindicatos da categoria."],
+r:4,exp:"Filiação sindical é DIREITO, não dever do servidor (CF/88, art. 37, VI)."},
+{q:"A pena de demissão NÃO é aplicável nos casos de:",
+opts:["A) Abandono de cargo.","B) Improbidade administrativa.","C) Aplicação irregular de dinheiros públicos.","D) Inassiduidade habitual.","E) Atraso reiterado ao serviço."],
+r:4,exp:"Atraso reiterado é punível com advertência/suspensão, não demissão."},
+{q:"A acumulação remunerada de cargos públicos é permitida nos seguintes casos:",
+opts:["A) Dois cargos de professor ou um de professor com outro técnico-científico.","B) Dois cargos de chefia em órgãos distintos.","C) Um cargo estadual com emprego em empresa privada.","D) Dois cargos efetivos de qualquer natureza.","E) Qualquer acumulação autorizada pelo Governador."],
+r:0,exp:"CF/88, art. 37, XVI: dois cargos de professor; professor + técnico/científico; dois cargos de saúde."},
+{q:"A promoção na carreira do MP Estadual pode ocorrer pelos critérios de:",
+opts:["A) Antiguidade e merecimento, alternadamente.","B) Exclusivamente por merecimento.","C) Antiguidade apenas.","D) Merecimento apenas.","E) Escolha do Procurador-Geral."],
+r:0,exp:"CF/88, art. 93, II: antiguidade e merecimento se alternam obrigatoriamente."},
+{q:"A vitaliciedade dos membros do MP implica que:",
+opts:["A) Eles não podem ser aposentados compulsoriamente.","B) A perda do cargo só pode ocorrer por sentença judicial transitada em julgado.","C) Estão imunes a qualquer processo administrativo disciplinar.","D) Não podem ser removidos em nenhuma hipótese.","E) Recebem imunidade penal pelas opiniões expressas no exercício do cargo."],
+r:1,exp:"Vitaliciedade (após 2 anos): perda do cargo apenas por sentença judicial transitada em julgado."},
+{q:"O princípio da independência funcional significa que o membro do MP:",
+opts:["A) Pode descumprir determinações do PGJ sem qualquer consequência.","B) Age conforme sua convicção jurídica, não podendo ser compelido a agir de modo diferente.","C) Está isento de qualquer controle administrativo ou disciplinar.","D) Pode recusar-se a atuar em comarcas sem justificativa.","E) Tem liberdade para criar normas processuais independentemente da lei."],
+r:1,exp:"Independência funcional: age conforme convicção jurídica, sem subordinação funcional a superior."},
+{q:"O Ministério Público possui legitimidade para propor ação civil pública em defesa de:",
+opts:["A) Apenas interesses difusos relacionados ao meio ambiente.","B) Interesses difusos, coletivos e individuais homogêneos.","C) Exclusivamente interesses de servidores públicos estaduais.","D) Apenas direitos individuais disponíveis.","E) Interesses da Fazenda Pública em litígios fiscais."],
+r:1,exp:"Lei nº 7.347/1985 e CF/88: MP é legítimo para ação civil pública em defesa de difusos, coletivos e individuais homogêneos."},
+{q:"O servidor nomeado deve tomar posse dentro do prazo de:",
+opts:["A) 15 (quinze) dias da publicação do ato de nomeação.","B) 20 (vinte) dias úteis da nomeação.","C) 30 (trinta) dias da publicação do ato de nomeação.","D) 60 (sessenta) dias da nomeação.","E) 90 (noventa) dias da publicação do ato de nomeação."],
+r:2,exp:"30 dias contados da publicação do ato de nomeação no Diário Oficial."},
+{q:"A Corregedoria-Geral do MPAL tem como função precípua:",
+opts:["A) Propor ações civis públicas de grande complexidade.","B) Fiscalizar as atividades funcionais e a conduta dos membros e servidores do MP.","C) Gerir os recursos financeiros e orçamentários do MPAL.","D) Representar o MPAL perante o Tribunal de Justiça.","E) Coordenar a elaboração do planejamento estratégico institucional."],
+r:1,exp:"Corregedoria: órgão fiscalizador interno — inspeciona promotorias, apura irregularidades e instrui procedimentos disciplinares."},
+{q:"A remoção do membro do MP pode ser:",
+opts:["A) A pedido, por permuta ou de ofício, mediante interesse público justificado.","B) Compulsória a qualquer tempo por determinação do PGJ.","C) Apenas a pedido do próprio membro.","D) Somente por decisão unânime do Conselho Superior.","E) Vedada antes de completar 10 anos na mesma comarca."],
+r:0,exp:"A pedido, por permuta ou de ofício (com justificativa e aprovação do Conselho Superior)."},
+{q:"O concurso público para provimento de cargo efetivo estadual tem validade de:",
+opts:["A) 1 (um) ano, prorrogável por igual período.","B) 2 (dois) anos, improrrogáveis.","C) 2 (dois) anos, prorrogáveis por igual período uma única vez.","D) 3 (três) anos, prorrogáveis por igual período.","E) 4 (quatro) anos, improrrogáveis."],
+r:2,exp:"CF/88, art. 37, III: até 2 anos, prorrogável uma única vez por igual período."},
+{q:"A licença-prêmio por assiduidade concede ao servidor estadual:",
+opts:["A) 30 dias a cada 5 anos sem faltas injustificadas.","B) 60 dias a cada 5 anos de serviço ininterrupto.","C) 90 dias a cada 5 anos de exercício sem punição disciplinar.","D) 15 dias por ano de serviço.","E) Um mês a cada 3 anos de exercício."],
+r:2,exp:"90 dias consecutivos a cada quinquênio de exercício sem faltas injustificadas e sem punição disciplinar."},
+{q:"A revisão do processo administrativo disciplinar NÃO pode:",
+opts:["A) Ser instaurada a qualquer tempo mediante fatos novos.","B) Ser requerida uma vez, após trânsito em julgado.","C) Ser proibida após 1 ano da aplicação da penalidade.","D) Ser realizada apenas judicialmente.","E) Agravar a penalidade imposta ao servidor."],
+r:4,exp:"Princípio da 'non reformatio in pejus': a revisão não pode agravar a penalidade do servidor."},
+{q:"A vedação ao nepotismo proíbe:",
+opts:["A) A nomeação de qualquer familiar de servidor para cargo efetivo.","B) A nomeação de parentes de autoridades para cargos comissionados ou funções de confiança.","C) O ingresso de filhos de servidores no serviço público.","D) A atuação de cônjuge de servidor no mesmo departamento, em qualquer cargo.","E) Apenas a nomeação de filhos e cônjuges."],
+r:1,exp:"Súmula Vinculante nº 13: proíbe nomeação de parentes até 3º grau para cargos em comissão ou funções de confiança."},
+{q:"O Colégio de Procuradores de Justiça é composto por:",
+opts:["A) Todos os membros do MP em atividade.","B) Apenas os Procuradores de Justiça em atividade.","C) Procuradores de Justiça e membros aposentados.","D) Procuradores de Justiça, o PGJ e o Corregedor-Geral.","E) Representantes eleitos de cada nível da carreira."],
+r:1,exp:"Apenas os Procuradores de Justiça em atividade compõem o Colégio, responsável pela lista tríplice."},
+{q:"As Promotorias de Justiça do MPAL são classificadas conforme sua:",
+opts:["A) Localização geográfica, todas com competência idêntica.","B) Matéria de atuação e entrância da comarca onde se situam.","C) Número de promotores que atuam simultaneamente.","D) Quantidade de processos distribuídos mensalmente.","E) Tipo de remuneração dos promotores que as integram."],
+r:1,exp:"Matéria de atuação (criminal, cível, infância...) e entrância da comarca (inicial, intermediária, final)."},
+{q:"Os Centros de Apoio Operacional (CAO) do MPAL têm como função:",
+opts:["A) Realizar investigações criminais em apoio às promotorias.","B) Apoiar tecnicamente os membros do MP com informações especializadas e coordenação temática.","C) Substituir os promotores em caso de afastamento.","D) Julgar recursos interpostos pelos membros ao Conselho Superior.","E) Fiscalizar a arrecadação tributária estadual."],
+r:1,exp:"CAOs: suporte técnico especializado por área temática (patrimônio público, infância, meio ambiente etc.)."}
+];
+
+const questoes_comunicacao = [
+{q:`Uma instituição pública identificou que um vídeo gerou interpretações equivocadas. A equipe precisa responder sem ampliar o ruído.\n\nAssinale a estratégia MAIS adequada:`,
+opts:["A) Apagar a publicação para reduzir o alcance.","B) Responder apenas a comentários positivos.","C) Publicar esclarecimento objetivo com informações verificáveis, indicando canal oficial e mantendo tom não confrontativo.","D) Transferir a responsabilidade ao público.","E) Publicar nota extensa em linguagem jurídica."],
+r:2,exp:"Resposta eficaz em crise digital: rápida, clara, verificável e adequada ao canal. Apagar piora (efeito Streisand)."},
+{q:"A teoria hipodérmica pressupõe que:",
+opts:["A) O receptor é ativo e reinterpreta as mensagens.","B) Os meios têm efeito limitado e mediado por líderes de opinião.","C) A mensagem midiática é injetada diretamente no receptor, produzindo efeitos imediatos e uniformes.","D) A comunicação é um processo dialógico.","E) Os efeitos dependem dos usos que os receptores fazem dos meios."],
+r:2,exp:"Teoria hipodérmica (Lasswell): mensagens injetadas no público passivo e uniforme. Metáfora da 'agulha'."},
+{q:"O conceito de 'agenda setting' (McCombs e Shaw, 1972) afirma que:",
+opts:["A) A mídia define o que o público deve pensar sobre os temas.","B) A mídia decide quais temas o público irá discutir, mas não necessariamente como pensar sobre eles.","C) O público define a pauta da mídia.","D) Os políticos utilizam a mídia para impor sua agenda.","E) A mídia e o público estabelecem agenda compartilhada democraticamente."],
+r:1,exp:"Agenda setting: a mídia diz sobre o que pensar, não o que pensar — influencia relevância, não opinião."},
+{q:"A comunicação organizacional integrada consiste em:",
+opts:["A) Concentrar as ações sob responsabilidade exclusiva do marketing.","B) Articular harmoniosamente os diferentes tipos de comunicação (interna, externa, institucional e mercadológica).","C) Produzir materiais gráficos padronizados para todas as plataformas.","D) Terceirizar as atividades de comunicação para agências.","E) Utilizar exclusivamente mídias digitais."],
+r:1,exp:"Conceito de Margarida Kunsch: articulação harmoniosa de todas as comunicações organizacionais."},
+{q:"A assessoria de imprensa em instituições públicas tem como atribuição primária:",
+opts:["A) Censurar informações negativas antes de chegarem à imprensa.","B) Mediar as relações entre a organização e os veículos de comunicação, garantindo fluxo transparente de informações de interesse público.","C) Produzir apenas publicidade paga.","D) Substituir jornalistas nos veículos que cobrem a instituição.","E) Controlar o que os servidores falam publicamente."],
+r:1,exp:"Assessoria de imprensa: mediação com veículos, facilitar acesso à informação de interesse público."},
+{q:"SEO (Search Engine Optimization) visa:",
+opts:["A) Produzir anúncios pagos para aumentar visibilidade nos buscadores.","B) Otimizar um site para melhorar seu posicionamento orgânico nos mecanismos de busca.","C) Monitorar tráfego pago de campanhas de links patrocinados.","D) Criar perfis em redes sociais para aumentar engajamento da marca.","E) Desenvolver aplicativos mobile para ampliar audiência digital."],
+r:1,exp:"SEO: posicionamento orgânico (não pago) nos buscadores via técnicas on-page e off-page."},
+{q:"O media training prepara porta-vozes para:",
+opts:["A) Produzir matérias jornalísticas sobre a organização.","B) Evitar completamente qualquer contato com a imprensa.","C) Comunicar-se eficazmente com os meios de comunicação, transmitindo mensagens claras e alinhadas com os interesses institucionais.","D) Censurar perguntas de repórteres.","E) Substituir jornalistas na produção de conteúdo editorial."],
+r:2,exp:"Media training: habilidades de comunicação oral, mensagens-chave, postura e lidar com perguntas difíceis."},
+{q:"Em crise comunicacional, a conduta mais recomendada para instituição pública é:",
+opts:["A) Silenciar completamente até tudo ser esclarecido.","B) Negar todos os fatos até que provas contrárias sejam apresentadas.","C) Comunicar rapidamente, com transparência, o que é sabido e o que está sendo feito.","D) Transferir a responsabilidade para terceiros imediatamente.","E) Publicar apenas nas redes sociais, ignorando mídias tradicionais."],
+r:2,exp:"Gestão de crise: transparência, agilidade, designar porta-voz oficial e manter públicos informados."},
+{q:"A invenção da prensa de tipos móveis por Gutenberg revolucionou a comunicação porque:",
+opts:["A) Substituiu a comunicação oral pela escrita definitivamente.","B) Permitiu a reprodução em larga escala de textos, democratizando o acesso à informação escrita.","C) Criou o primeiro jornal diário da história.","D) Eliminou a necessidade de copistas.","E) Inaugurou o período das redes sociais digitais."],
+r:1,exp:"Gutenberg: reprodução em larga escala → democratização da informação, Reforma Protestante, Renascimento."},
+{q:"A objetividade jornalística exige do jornalista:",
+opts:["A) Total ausência de subjetividade.","B) A apresentação imparcial dos fatos, com distinção entre informação e opinião.","C) Submissão total à linha editorial do veículo.","D) A publicação apenas de fatos absolutamente verificados e sem contestação.","E) A proibição de qualquer recurso retórico."],
+r:1,exp:"Objetividade: separação entre informação e opinião; não ausência de subjetividade (impossível humanamente)."},
+{q:"A reportagem diferencia-se da notícia principalmente porque:",
+opts:["A) A notícia apresenta opinião do repórter, enquanto a reportagem é objetiva.","B) A reportagem aprofunda e contextualiza o fato, enquanto a notícia relata o acontecimento de forma mais direta e imediata.","C) A reportagem é publicada exclusivamente em revistas.","D) A notícia apresenta dados exclusivos; a reportagem usa fontes secundárias.","E) A reportagem exige menos verificação."],
+r:1,exp:"Reportagem: aprofundamento, investigação e contextualização. Notícia: relato sintético e imediato."},
+{q:"A técnica da pirâmide invertida consiste em:",
+opts:["A) Iniciar com dados menos relevantes.","B) Estruturar o texto com as informações mais importantes no início (lead), seguidas de informações complementares em ordem decrescente.","C) Organizar em formato de enquete, começando pela conclusão.","D) Utilizar apenas parágrafos curtos de três linhas.","E) Redigir textos com desfecho oculto até o último parágrafo."],
+r:1,exp:"Pirâmide invertida: lead no início (quem, o quê, quando, onde, como, por quê) + detalhes em ordem decrescente."},
+{q:"Um release bem elaborado deve conter principalmente:",
+opts:["A) Texto publicitário com linguagem promocional e adjetivos superlativos.","B) Informações de interesse jornalístico, escritas em linguagem objetiva e no estilo da pirâmide invertida.","C) Exclusivamente dados quantitativos e estatísticos.","D) Argumentos jurídicos que justifiquem as ações da organização.","E) Texto extenso com histórico completo da organização."],
+r:1,exp:"Release: linguagem jornalística, pirâmide invertida, informações de interesse público verificáveis."},
+{q:"O clipping consiste em:",
+opts:["A) Criar e editar vídeos institucionais.","B) Monitorar e reunir sistematicamente as publicações sobre uma organização nos meios de comunicação.","C) Planejar campanhas publicitárias em múltiplas plataformas.","D) Produzir boletins internos de comunicação.","E) Gerenciar as contas de redes sociais institucionais."],
+r:1,exp:"Clipping: monitoramento e seleção de matérias/publicações sobre a organização em todos os meios."},
+{q:"O sigilo das fontes jornalísticas é um direito assegurado porque:",
+opts:["A) Permite ao jornalista inventar fontes sem comprometer credibilidade.","B) Protege a identidade de informantes que poderiam sofrer represálias por fornecer informações ao jornalismo.","C) Libera o jornalista de responsabilidade por informações falsas.","D) Impede que a polícia investigue crimes cometidos por fontes.","E) Garante que o jornalista não precisará testemunhar em processos."],
+r:1,exp:"Sigilo das fontes (CF/88, art. 5º, XIV): protege informantes de interesse público de represálias."},
+{q:"O Código de Ética dos Jornalistas Brasileiros (FENAJ, 2007) estabelece que o jornalista deve:",
+opts:["A) Priorizar o interesse comercial do veículo.","B) Defender os interesses do governo quando este financiar o veículo.","C) Lutar pela liberdade de pensamento e de expressão, defender o livre exercício do jornalismo e zelar pelo interesse público.","D) Publicar exclusivamente informações que favoreçam as fontes.","E) Omitir informações prejudiciais à imagem das fontes que lhe concedem acesso."],
+r:2,exp:"FENAJ: liberdade de expressão, compromisso com a verdade, defesa do interesse público."},
+{q:"A comunicação pública distingue-se da comunicação governamental porque:",
+opts:["A) A comunicação pública é produzida exclusivamente por empresas privadas.","B) A comunicação pública visa o interesse coletivo e o diálogo com a sociedade, transcendendo a autopromoção governamental.","C) A comunicação governamental atende apenas o Poder Executivo.","D) A comunicação pública dispensa a participação da imprensa.","E) São sinônimas e podem ser usadas como termos intercambiáveis."],
+r:1,exp:"Comunicação pública (Duarte e Brandão): interesse público, diálogo Estado-sociedade, prestação de contas."},
+{q:"A teoria dos usos e gratificações (Katz et al., 1974) propõe que:",
+opts:["A) Os meios determinam os comportamentos do público.","B) O público usa ativamente os meios para satisfazer necessidades e obter gratificações específicas.","C) Os efeitos midiáticos são sempre negativos.","D) A audiência é passiva e não interfere na produção de sentido.","E) A televisão é o meio mais eficaz para influenciar comportamentos."],
+r:1,exp:"Usos e gratificações: receptor ativo; pergunta 'o que as pessoas fazem com a mídia?' e não 'o que a mídia faz com as pessoas?'"},
+{q:"A teoria da Espiral do Silêncio (Noelle-Neumann) propõe que:",
+opts:["A) A censura governamental é a principal causa do silêncio da imprensa.","B) Indivíduos tendem a silenciar sua opinião quando percebem que ela é minoritária, para evitar o isolamento social.","C) A audiência silencia o jornalismo ao ignorar conteúdos.","D) O jornalismo silencia as fontes ao omitir informações.","E) A comunicação digital criou uma espiral de silêncio nas mídias tradicionais."],
+r:1,exp:"Espiral do Silêncio: monitora 'clima de opinião' e cala quando percebe ser minoria para evitar isolamento."},
+{q:"O conceito de 'framing' (enquadramento) refere-se a:",
+opts:["A) A formatação visual e gráfica dos conteúdos jornalísticos.","B) A forma como os meios selecionam, enfatizam e estruturam aspectos da realidade, influenciando a percepção do público.","C) A técnica de composição fotográfica dos fotojornalistas.","D) O uso de aspas e citações diretas em textos jornalísticos.","E) A delimitação do espaço físico de transmissão de sinal das emissoras."],
+r:1,exp:"Framing (Goffman, Entman): molduras interpretativas que orientam como o público percebe a realidade."},
+{q:"O jornalismo investigativo distingue-se do informativo diário principalmente porque:",
+opts:["A) É praticado exclusivamente por grandes veículos.","B) Baseia-se em denúncias anônimas sem verificação.","C) Envolve pesquisa aprofundada, cruzamento de dados e investigação proativa de fatos que os envolvidos prefeririam manter ocultos.","D) Foca exclusivamente em casos de corrupção política.","E) É produzido sem prazos editoriais."],
+r:2,exp:"Jornalismo investigativo: busca proativa de informações ocultas, cruzamento de fontes, longas apurações."},
+{q:"A Lei de Acesso à Informação (LAI – Lei nº 12.527/2011) impacta a comunicação pública porque:",
+opts:["A) Proíbe a divulgação de informações sobre processos em andamento.","B) Garante ao cidadão o direito de acesso a informações produzidas ou custodiadas pelo Estado, salvo exceções legais.","C) Restringe o uso de redes sociais por órgãos públicos.","D) Obriga os órgãos públicos a contratar assessores de imprensa.","E) Cria regime de sigilo para informações administrativas."],
+r:1,exp:"LAI: transparência ativa e passiva — o sigilo é exceção, a transparência é a regra."},
+{q:"O concept de 'gatekeeping' no jornalismo refere-se ao processo pelo qual:",
+opts:["A) Jornalistas são impedidos de entrar em eventos privados.","B) Editores e redações selecionam, filtram e hierarquizam quais informações se tornarão notícia.","C) O governo controla o fluxo de informações para os veículos.","D) Anunciantes determinam quais temas podem ser cobertos.","E) Leitores escolhem quais notícias querem ler nas plataformas digitais."],
+r:1,exp:"Gatekeeping (Lewin, White): processo de filtragem pelo qual redações decidem o que vira notícia."},
+{q:"Qual é a diferença entre desinformação (disinformation) e misinformation?",
+opts:["A) Desinformação é sempre propagada por governos; misinformation por cidadãos.","B) Desinformação refere-se a informação falsa criada e propagada com intenção de enganar; misinformation é informação falsa disseminada sem intenção deliberada.","C) São sinônimas.","D) Misinformation é exclusiva das redes sociais.","E) Desinformação é falta de acesso à informação; misinformation é excesso de informações."],
+r:1,exp:"Disinformation: intencional para enganar. Misinformation: sem intenção deliberada. Malinformation: verdade usada para prejudicar."},
+{q:"O Mix de Comunicação de Marketing inclui:",
+opts:["A) Propaganda, relações públicas, marketing direto, promoção de vendas e vendas pessoais.","B) Apenas propaganda televisiva e digital.","C) Exclusivamente comunicação digital e mídia social.","D) Apenas comunicação B2B.","E) Somente comunicação interna e endomarketing."],
+r:0,exp:"Mix de Comunicação (Kotler): propaganda, RP, marketing direto, promoção de vendas, vendas pessoais e marketing digital."},
+{q:"O rádio tem como característica diferencial:",
+opts:["A) A capacidade de transmitir imagens de alta resolução em tempo real.","B) A imediação, a mobilidade e o alcance em regiões de difícil acesso, sendo relevante em situações de emergência.","C) A maior credibilidade informativa em comparação a todos os outros meios.","D) A exigência de maior atenção e concentração do ouvinte.","E) A possibilidade de aprofundamento ilimitado dos temas."],
+r:1,exp:"Rádio: imediação, mobilidade, alcance em regiões remotas — especialmente relevante em emergências."},
+{q:"A liberdade de imprensa é considerada pilar da democracia porque:",
+opts:["A) Garante acesso gratuito a todos os meios de comunicação.","B) Permite que o jornalismo fiscalize o poder, informe o cidadão e contribua para uma opinião pública informada.","C) Proíbe o Estado de criar veículos públicos de comunicação.","D) Assegura que a imprensa nunca cometa erros jornalísticos.","E) Garante que jornalistas não possam ser responsabilizados por seus erros."],
+r:1,exp:"Liberdade de imprensa (CF/88, arts. 5º e 220): 'quarto poder' — fiscaliza, informa e forma opinião pública crítica."},
+{q:"O Inbound Marketing distingue-se do outbound porque:",
+opts:["A) Utiliza exclusivamente televisão e rádio.","B) Atrai o público por meio de conteúdo relevante e valioso, em vez de interromper com mensagens não solicitadas.","C) É estratégia exclusiva para grandes corporações.","D) Foca apenas em vendas imediatas.","E) Depende exclusivamente de anúncios pagos."],
+r:1,exp:"Inbound: atrai com conteúdo útil (blog, e-book, podcast) em vez de interromper com publicidade não solicitada."},
+{q:"O fact-checking é uma prática jornalística que:",
+opts:["A) É realizada exclusivamente antes de matérias investigativas.","B) Consiste em verificar a veracidade de afirmações, dados e declarações públicas, especialmente de figuras políticas e autoridades.","C) Pode ser substituída por declarações de porta-vozes.","D) É desnecessária quando a fonte é um órgão governamental.","E) É aplicável apenas a conteúdos digitais."],
+r:1,exp:"Fact-checking: verificação de afirmações públicas confrontando com dados, documentos e fontes independentes."},
+{q:"Configura conflito de interesses na prática jornalística:",
+opts:["A) O jornalista cobrir área em que possui profundo conhecimento técnico.","B) O jornalista receber presentes, cortesias ou vantagens de fontes ou organizações que cobre.","C) O jornalista utilizar fontes anônimas em reportagens investigativas.","D) O jornalista cobrir empresas listadas na Bolsa de Valores.","E) O jornalista ter opinião pessoal formada sobre temas que cobre."],
+r:1,exp:"'Jabaculê': receber benefícios de fontes compromete independência editorial — violação do código de ética."}
+];
+
+const questoes_sistemas = [
+{q:`Em um diagrama de atividades da UML, você precisa representar a sincronização de múltiplos fluxos paralelos antes de prosseguir para uma única sequência.\n\nAssinale o nó de controle apropriado.`,
+opts:["A) Fork (divisão).","B) Join (junção).","C) Merge.","D) Decision.","E) Swimlane."],
+r:1,exp:"Fork divide; Join sincroniza/aguarda múltiplos fluxos para continuar."},
+{q:"O modelo Waterfall é caracterizado por:",
+opts:["A) Ciclos iterativos curtos com entregas incrementais.","B) Fases sequenciais e lineares, onde cada fase deve ser concluída antes da próxima.","C) Desenvolvimento baseado em prototipação contínua.","D) Ausência de documentação formal.","E) Entrega contínua de software a cada duas semanas."],
+r:1,exp:"Waterfall: Requisitos → Design → Implementação → Teste → Implantação → Manutenção, sequencialmente."},
+{q:"No Scrum, a Sprint é definida como:",
+opts:["A) Uma reunião diária de 15 minutos.","B) Um evento de revisão ao final de cada ciclo.","C) Um período fixo de trabalho (1 a 4 semanas) ao final do qual um incremento potencialmente entregável é produzido.","D) O documento que descreve os requisitos priorizados.","E) A cerimônia de planejamento inicial do projeto."],
+r:2,exp:"Sprint: timebox fixo com Sprint Planning, Daily Scrum, Sprint Review e Sprint Retrospective."},
+{q:"Em programação segura, a mitigação mais eficaz para SQL Injection é:",
+opts:["A) Criptografar o HTML do formulário.","B) Usar consultas parametrizadas (prepared statements) e evitar concatenação de entrada do usuário na query.","C) Aumentar o timeout do banco.","D) Armazenar a senha do usuário com hash forte.","E) Habilitar CORS restritivo no backend."],
+r:1,exp:"Prepared statements/parametrização: mitigação efetiva de SQLi."},
+{q:"O BPMN é utilizado para:",
+opts:["A) Documentar a arquitetura técnica de sistemas.","B) Modelar visualmente processos de negócio, representando fluxo de atividades, decisões e eventos.","C) Criar diagramas de classes OO.","D) Descrever a estrutura de APIs REST.","E) Representar o modelo físico de banco de dados."],
+r:1,exp:"BPMN: notação padrão OMG para modelagem de processos de negócio."},
+{q:"Em OO, polimorfismo refere-se a:",
+opts:["A) A capacidade de herdar atributos e métodos.","B) O mecanismo de ocultação dos detalhes internos.","C) A capacidade de um mesmo método se comportar de formas diferentes conforme o contexto ou tipo do objeto.","D) A definição de contratos de interface.","E) A criação de múltiplas instâncias."],
+r:2,exp:"Polimorfismo: mesmo método assume múltiplas formas conforme o tipo do objeto."},
+{q:"Em JavaScript, qual é a diferença entre '==' e '==='?",
+opts:["A) '==' compara referências; '===' compara valores primitivos.","B) '==' realiza comparação com coerção de tipos; '===' compara valor E tipo (comparação estrita).","C) '===' é usado apenas para strings.","D) São equivalentes.","E) '===' lança exceção quando os tipos são diferentes."],
+r:1,exp:"'==' faz coerção de tipo (ex.: 0 == '0' → true); '===' compara valor E tipo sem coerção."},
+{q:"TypeScript adiciona principalmente:",
+opts:["A) Um runtime diferente que executa código mais rápido.","B) Tipagem estática opcional e recursos de OOP mais robustos, compilando para JavaScript.","C) Um framework de front-end para UIs.","D) Suporte nativo para SQL no JavaScript.","E) Um gerenciador de pacotes substituto ao npm."],
+r:1,exp:"TypeScript: superset do JS com tipagem estática opcional, transpilado para JS puro."},
+{q:"O código de status HTTP 404 indica:",
+opts:["A) Requisição bem-sucedida com retorno de conteúdo.","B) Erro interno no servidor.","C) O recurso solicitado não foi encontrado no servidor.","D) A requisição foi aceita mas ainda está sendo processada.","E) O cliente não possui autorização para acessar o recurso."],
+r:2,exp:"404 Not Found: servidor não encontrou o recurso na URL fornecida."},
+{q:"Em Git, 'git rebase' difere do 'git merge' porque:",
+opts:["A) 'rebase' cria um commit de merge explícito.","B) 'rebase' move ou reaplica commits sobre outra branch, reescrevendo o histórico para criar uma sequência linear.","C) 'rebase' é usado apenas para resolver conflitos.","D) 'merge' é mais seguro para branches públicas.","E) 'rebase' só pode ser usado em branches locais."],
+r:1,exp:"Rebase: histórico linear sem commits de merge; nunca faça rebase de branches públicas."},
+{q:"A pirâmide de testes (Mike Cohn) sugere que:",
+opts:["A) A maior parte dos testes deve ser de UI.","B) A distribuição ideal é: muitos testes unitários na base, menos de integração no meio e poucos de UI/E2E no topo.","C) Os testes de integração devem ser mais numerosos que os unitários.","D) Testes manuais devem ser a base da pirâmide.","E) Apenas testes E2E são suficientes."],
+r:1,exp:"Pirâmide: unitários (base, muitos, rápidos) → integração (meio) → UI/E2E (topo, poucos, lentos)."},
+{q:"A arquitetura de microserviços oferece como vantagem principal:",
+opts:["A) Simplicidade de desenvolvimento por centralizar toda a lógica.","B) Facilidade de debug por manter toda a base em um repositório.","C) Escalabilidade independente de serviços, deploys autônomos e isolamento de falhas.","D) Eliminação completa da necessidade de API Gateway.","E) Menor latência em todas as operações."],
+r:2,exp:"Microserviços: escalabilidade seletiva, deploy independente, isolamento de falhas."},
+{q:"Um container Docker difere de uma VM principalmente porque:",
+opts:["A) Containers executam um OS completo com kernel próprio.","B) Containers compartilham o kernel do OS host e isolam apenas o processo e suas dependências, sendo mais leves e rápidos.","C) Docker é exclusivo para Linux.","D) Containers não podem ser usados em produção.","E) VMs são mais portáteis que containers."],
+r:1,exp:"Containers: compartilham kernel do host, mais leves (MB vs GB), iniciam em ms. VMs: kernel próprio."},
+{q:"Em DevOps, CI/CD refere-se a:",
+opts:["A) Cloud Infrastructure / Cloud Deployment.","B) Continuous Integration / Continuous Delivery ou Deployment.","C) Code Inspection / Code Documentation.","D) Containerization Interface / Container Deployment.","E) Critical Infrastructure / Critical Data."],
+r:1,exp:"CI: integrar código frequentemente com validação automática. CD: entrega ou deploy contínuo automatizado."},
+{q:"A tríade CIA de segurança da informação representa:",
+opts:["A) Controle, Integridade e Autenticação.","B) Confidencialidade, Integridade e Disponibilidade.","C) Controle, Identificação e Autorização.","D) Criptografia, Identidade e Auditoria.","E) Conformidade, Inspeção e Acesso."],
+r:1,exp:"CIA: Confidencialidade (só autorizados acessam) + Integridade (não alterada indevidamente) + Disponibilidade (acessível quando necessário)."},
+{q:"O XSS (Cross-Site Scripting) consiste em:",
+opts:["A) Interceptar a comunicação entre cliente e servidor (man-in-the-middle).","B) Injetar scripts maliciosos em páginas web visualizadas por outros usuários, executando código no navegador das vítimas.","C) Forçar requisições autenticadas para um site malicioso.","D) Enumerar usuários válidos.","E) Explorar falhas na configuração do servidor web."],
+r:1,exp:"XSS: injeção de scripts (JS) em páginas que serão executados no browser de outros usuários."},
+{q:"O princípio SRP (Single Responsibility) do SOLID afirma que:",
+opts:["A) Uma classe deve implementar apenas uma interface.","B) Uma classe deve ter apenas um método público.","C) Uma classe deve ter apenas uma razão para mudar — ser responsável por apenas um aspecto do comportamento.","D) Cada módulo deve ser implantado em um único servidor.","E) Um método deve realizar apenas uma operação matemática."],
+r:2,exp:"SRP: uma razão para mudar = uma responsabilidade. Classes com múltiplas responsabilidades são difíceis de manter."},
+{q:"O OAuth 2.0 é um protocolo de:",
+opts:["A) Criptografia de dados em repouso.","B) Autorização que permite que aplicações de terceiros acessem recursos em nome do usuário, sem compartilhar credenciais.","C) Autenticação por certificado digital para sistemas governamentais.","D) Tunelamento seguro entre microserviços.","E) Gerenciamento de senhas e políticas de complexidade."],
+r:1,exp:"OAuth 2.0: framework de autorização (não autenticação). Para autenticação usa-se OpenID Connect."},
+{q:"No SQL, a diferença entre INNER JOIN e LEFT JOIN é:",
+opts:["A) INNER JOIN retorna todas as linhas de ambas as tabelas; LEFT JOIN retorna apenas as da esquerda.","B) INNER JOIN retorna apenas linhas com correspondência em ambas as tabelas; LEFT JOIN retorna todas as linhas da tabela esquerda, mesmo sem correspondência na direita.","C) LEFT JOIN é mais eficiente que INNER JOIN.","D) INNER JOIN funciona apenas com chaves primárias.","E) São equivalentes."],
+r:1,exp:"INNER JOIN: interseção. LEFT JOIN: todas da esquerda + correspondências da direita (NULL onde não há match)."},
+{q:"A Terceira Forma Normal (3FN) exige que:",
+opts:["A) Todos os atributos sejam dependentes apenas da chave primária composta.","B) A tabela esteja na 2FN e não existam dependências transitivas entre atributos não-chave.","C) Cada campo contenha apenas valores atômicos.","D) Toda tabela possua uma chave primária simples.","E) Não existam grupos de repetição."],
+r:1,exp:"3FN: 2FN + sem dependências transitivas (atributo não-chave não pode depender de outro atributo não-chave)."},
+{q:"O modelo serverless caracteriza-se por:",
+opts:["A) Execução em servidores físicos dedicados.","B) A abstração total da infraestrutura pelo provedor, com cobrança por execução e escalabilidade automática.","C) Desenvolvimento de aplicações que não precisam de servidor.","D) Uso exclusivo de containers Docker sem orquestração.","E) Execução de código nos dispositivos dos usuários (edge computing)."],
+r:1,exp:"Serverless (FaaS): desenvolvedor implanta funções, provedor gerencia tudo; cobrança por execução."},
+{q:"Os três pilares da observabilidade em sistemas distribuídos são:",
+opts:["A) Segurança, Performance e Disponibilidade.","B) Logs, Métricas e Rastreamento distribuído (traces).","C) CPU, Memória e I/O de disco.","D) Testes unitários, integração e E2E.","E) Uptime, Latência e Taxa de erros."],
+r:1,exp:"Observabilidade: Logs (eventos) + Métricas (medidas numéricas) + Traces (rastreamento entre serviços)."},
+{q:"GraphQL, em comparação com REST, apresenta como diferencial:",
+opts:["A) Usa XML ao invés de JSON.","B) Permite ao cliente especificar exatamente quais dados deseja, evitando overfetching e underfetching.","C) Funciona apenas com bancos GraphDB.","D) É exclusivo para aplicações móveis nativas.","E) Substitui completamente o protocolo HTTP."],
+r:1,exp:"GraphQL: cliente especifica campos necessários → evita overfetching e underfetching."},
+{q:"Os LLMs (Large Language Models) são baseados na arquitetura:",
+opts:["A) Redes Neurais Convolucionais (CNN).","B) Transformer, que utiliza mecanismo de atenção (self-attention) para processar sequências de tokens em paralelo.","C) Redes Neurais Recorrentes (RNN/LSTM).","D) Árvores de Decisão combinadas com boosting.","E) Algoritmos de busca heurística como A*."],
+r:1,exp:"Transformer (Vaswani et al., 2017): self-attention, parallelismo, captura dependências de longo alcance."}
 ];
 
 // ══════════════════════════════════════════════════════════════════════════════
-// ENGINE
+// PROVA 2018 — Comunicação Social (texto raw para parser)
 // ══════════════════════════════════════════════════════════════════════════════
-let currentQuestions = [];
+const prova2018_comunicacao_raw = `Língua Portuguesa
+TEXTO 1
+OPORTUNISMO À DIREITA E À ESQUERDA
+Numa democracia, é livre a expressão, estão garantidos o direito
+de reunião e de greve, entre outros, obedecidas leis e regras,
+lastreadas na Constituição. Em um regime de liberdades, há
+sempre o risco de excessos, a serem devidamente contidos e seus
+responsáveis, punidos, conforme estabelecido na legislação.
+É o que precisa acontecer no rescaldo da greve dos
+caminhoneiros, concluídas as investigações, por exemplo, da
+ajuda ilegal de patrões ao movimento, interessados em se
+beneficiar do barateamento do combustível.
+Sempre há, também, o oportunismo político-ideológico para se
+aproveitar da crise. Inclusive, neste ano de eleição, com o
+objetivo de obter apoio a candidatos. Não faltam, também, os
+arautos do quanto pior, melhor, para desgastar governantes e
+reforçar seus projetos de poder, por mais delirantes que sejam.
+Também aqui vale o que está delimitado pelo estado
+democrático de direito, defendido pelos diversos instrumentos
+institucionais de que conta o Estado – Polícia, Justiça, Ministério
+Público, Forças Armadas etc.
+A greve atravessou vários sinais ao estrangular as vias de
+suprimento que mantêm o sistema produtivo funcionando, do
+qual depende a sobrevivência física da população. Isso não pode
+ser esquecido e serve de alerta para que as autoridades
+desenvolvam planos de contingência.
+O Globo, 31/05/2018.
+1
+"Numa democracia, (1) é livre a expressão, estão garantidos o
+direito de reunião e de greve, (2) entre outros, obedecidas leis e
+regras, (3) lastreadas na Constituição. Em um regime de
+liberdades, (4) há sempre o risco de excessos, (5) a serem
+devidamente contidos e seus responsáveis, punidos, conforme
+estabelecido na legislação".
+Nesse segmento inicial do texto, a vírgula que tem caráter
+optativo é a indicada pelo número
+(A) (1).
+(B) (2).
+(C) (3).
+(D) (4).
+(E) (5).
+2
+"Numa democracia, é livre a expressão, estão garantidos o direito
+de reunião e de greve, entre outros, / obedecidas leis e regras,
+lastreadas na Constituição".
+No segmento acima, o conectivo que substituiria adequadamente
+a barra inserida entre as duas orações é:
+(A) apesar de.
+(B) desde que.
+(C) embora.
+(D) além de.
+(E) após.
+3
+Assinale a opção que apresenta o tom presente no primeiro
+parágrafo do texto.
+(A) Anarquista.
+(B) Libertário.
+(C) Legalista.
+(D) Socialista.
+(E) Individualista.
+4
+O texto, em sua organização, deve ser caracterizado como
+(A) narrativo, já que expõe uma série de fatos.
+(B) argumentativo, pois defende uma tese.
+(C) expositivo, já que informa fatos recentemente ocorridos.
+(D) descritivo, porque fornece características e qualidades.
+(E) poético, pois expõe uma realidade de forma sentimental.
+5
+Uma das maneiras de tornar mais clara a expressão escrita é
+redigir as frases em ordem direta. A frase a seguir,
+"Numa democracia, é livre a expressão, estão garantidos o direito
+de reunião e de greve."
+se colocada em ordem direta, seria redigida do seguinte modo:
+(A) "Numa democracia, é livre a expressão, o direito de reunião e de greve estão garantidos".
+(B) "É livre a expressão, estão garantidos o direito de reunião e de greve numa democracia."
+(C) "A expressão é livre, o direito de reunião e de greve estão garantidos, numa democracia."
+(D) "Numa democracia a expressão é livre e estão garantidos i direito de reunião e de greve."
+(E) "A expressão é livre numa democracia e estão garantidos o direito de reunião e de greve."
+6
+"Numa democracia, é livre a expressão, estão garantidos o direito
+de reunião e de greve, entre outros, obedecidas leis e regras,
+lastreadas na Constituição. / Em um regime de liberdades, há
+sempre o risco de excessos, a serem devidamente contidos e seus
+responsáveis, punidos, conforme estabelecido na legislação".
+Entre os dois segmentos separados por uma barra inclinada há
+uma relação lógica de
+(A) explicação.
+(B) concessão.
+(C) conclusão.
+(D) oposição.
+(E) adição.
+7
+"É o que precisa acontecer no rescaldo da greve dos
+caminhoneiros, concluídas as investigações, por exemplo, da
+ajuda ilegal de patrões ao movimento, interessados em se
+beneficiar do barateamento do combustível."
+Segundo esse parágrafo do texto, o que "precisa acontecer" é
+(A) manter-se o direito de livre expressão do pensamento.
+(B) garantir-se o direito de reunião e de greve.
+(C) lastrear leis e regras na Constituição.
+(D) punirem-se os responsáveis por excessos.
+(E) concluírem-se as investigações sobre a greve.
+8
+"É o que precisa acontecer no rescaldo da greve dos
+caminhoneiros, / concluídas as investigações, por exemplo, da
+ajuda ilegal de patrões ao movimento, / interessados em se
+beneficiar do barateamento do combustível."
+As conjunções que poderiam ser empregadas, respectivamente,
+são:
+(A) depois de / quando.
+(B) após / já que.
+(C) assim que / caso.
+(D) apesar de / visto que.
+(E) caso / dado que.
+9
+"Sempre há, também, o oportunismo político-ideológico para se
+aproveitar da crise".
+Explica-se o emprego de "também" nesse segmento, porque
+(A) marca o acréscimo de aspectos negativos ligados à greve.
+(B) indica a adição de punições que devem ser aplicadas.
+(C) mostra um novo aspecto de aproveitamento positivo da crise.
+(D) demonstra mais uma lembrança afetiva da recente crise.
+(E) comprova a necessidade de retificar uma informação dada.
+10
+Em muitos casos, os infinitivos podem ser substituídos por
+substantivos cognatos. Assinale a substituição inadequada.
+(A) "...interessados em se beneficiar do barateamento do combustível" / interessados no benefício do barateamento do combustível.
+(B) "...para desgastar governantes" / para o desgaste dos governantes.
+(C) "...com o objetivo de obter apoio a candidatos" / com o objetivo de obtenção de apoio a candidatos.
+(D) "...para se aproveitar da crise" / para o proveito da crise.
+(E) "...e reforçar seus projetos de poder" / e reforço de seus projetos de poder.
+11
+O emprego de etc ao final do segmento indica que
+(A) há outros instrumentos institucionais de menor importância.
+(B) existem outros instrumentos não lembrados pelo enunciador.
+(C) não há qualquer outro instrumento institucional a ser citado.
+(D) existem outros instrumentos, mas não pertinentes ao texto.
+(E) não há necessidade textual de citar outros instrumentos.
+12
+Ao dizer que "a greve atravessou vários sinais", o autor do texto
+quer dizer que a greve
+(A) foi anunciada muitas vezes antes de ocorrer.
+(B) foi preparada cuidadosamente antes de ser deflagrada.
+(C) atravessou várias etapas antes de chegar ao clímax.
+(D) preveniu as autoridades muitas vezes.
+(E) cometeu várias irregularidades.
+13
+Assinale a opção em que a substituição de termos desse segmento é inadequada.
+(A) "vários sinais" por "sinais vários".
+(B) "ao estrangular" por "quando estrangulou".
+(C) "que mantêm o" por "mantenedoras do".
+(D) "funcionando" por "em funcionamento".
+(E) "da população" por "populacional".
+14
+A frase a seguir que apresenta uma forma de voz passiva é:
+(A) "Numa democracia, é livre a expressão".
+(B) "A greve atravessou vários sinais ao estrangular as vias de suprimento...".
+(C) "Em um regime de liberdades, há sempre o risco de excessos, a serem devidamente contidos".
+(D) "Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise".
+(E) "...que mantêm o sistema produtivo funcionando".
+15
+Assinale a opção em que o termo sublinhado funciona como sujeito.
+(A) "Em um regime de liberdades, há sempre o risco de excessos".
+(B) "Sempre há, também, o oportunismo político-ideológico para se aproveitar da crise".
+(C) "Não faltam, também, os arautos do quanto pior, melhor, ...".
+(D) "A greve atravessou vários sinais ao estrangular as vias de suprimento que mantêm o sistema produtivo funcionando".
+(E) "Numa democracia, é livre a expressão".
+16
+Assinale o instrumento constitucional mais adequado para impugnar judicialmente o indeferimento da licença paternidade.
+(A) Mandado de revogação.
+(B) Mandado de segurança.
+(C) Mandado de injunção.
+(D) Direito de petição.
+(E) Habeas Data.
+17
+Sobre a tramitação de um projeto de lei orgânica municipal, está correto o que se afirma em
+(A) II e III, apenas.
+(B) I e III, apenas.
+(C) II, apenas.
+(D) I, apenas.
+(E) I, II e III.
+18
+À luz da sistemática constitucional, o segundo cargo passível de ser ocupado por Artur é o de
+(A) membro do Ministério Público.
+(B) profissional da área de saúde.
+(C) caráter técnico ou científico.
+(D) magistrado.
+(E) professor.
+19
+A referida lei complementar está sujeita aos balizamentos estabelecidos
+(A) pela lei nacional, editada pela União sob a forma de lei complementar.
+(B) pela lei nacional, editada pela União sob a forma de lei ordinária.
+(C) pela lei nacional, editada pela União em conjunto com os Estados.
+(D) pela Constituição da República, somente.
+(E) pela Constituição Estadual, somente.
+20
+O referido acórdão pode ser impugnado via
+(A) recurso extraordinário, endereçado ao Supremo Tribunal Federal.
+(B) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.
+(C) recurso especial, endereçado ao Supremo Tribunal Federal.
+(D) recurso extraordinário, endereçado ao Superior Tribunal de Justiça.
+(E) reclamação constitucional, endereçada ao Supremo Tribunal Federal.
+21
+João e André praticaram ato de improbidade que consubstancia
+(A) violação aos princípios regentes da atividade estatal.
+(B) dano ao patrimônio público.
+(C) crime de responsabilidade.
+(D) enriquecimento ilícito.
+(E) excesso de exação.
+22
+Considerando a sistemática da Lei nº 13.019/14, o instrumento indicado é
+(A) Acordo de cooperação.
+(B) Termo de colaboração.
+(C) Termo de fomento.
+(D) Contrato de gestão.
+(E) Termo de parceria.
+23
+À luz da Lei nº 10.520/02, a irregularidade da narrativa é que
+(A) A modalidade licitação é incompatível com o objeto e a habilitação deve ser posterior à fase competitiva.
+(B) O pregão não é uma modalidade específica de licitação.
+(C) Os envelopes não devem ser entregues em sessão, mas pelo correio.
+(D) A modalidade de licitação é incompatível com o objeto indicado.
+(E) A habilitação deve ser sempre posterior à fase competitiva do pregão.
+24
+O referido regime de contratação
+(A) compreende a elaboração do projeto básico, não do executivo, bem como a execução da obra.
+(B) compreende a elaboração dos projetos básico e executivo, a execução da obra e outras operações.
+(C) compreende a elaboração dos projetos básico e executivo, mas não a execução da obra.
+(D) não é compatível com o Regime Diferenciado de Contratações Públicas.
+(E) somente poderia ser utilizado na execução direta de obras de engenharia.
+25
+Segundo a sistemática da Lei nº 8.666/93, o motivo que permite a rescisão do contrato é
+(A) Fato da Administração.
+(B) Alteração unilateral.
+(C) Fato do príncipe.
+(D) Álea econômica.
+(E) Álea ordinária.
+26
+A exigência de residência no Estado organizador do concurso é
+(A) compatível com o princípio da legalidade.
+(B) adequada em relação ao princípio da dignidade da pessoa humana.
+(C) inconstitucional, por registrar uma discriminação incompatível com o princípio da impessoalidade.
+(D) inconstitucional, por não haver razoabilidade na exigência formulada.
+(E) compatível com o princípio da isonomia material.
+27
+Sobre o caso narrado, a afirmativa correta é
+(A) O Município está obrigado a fornecer a medicação, conforme orientação do médico.
+(B) O Município, ao favorecer Manuel, irá contra o princípio da igualdade.
+(C) O Município só está obrigado a entregar os remédios se houvesse disponibilidade orçamentária.
+(D) O Município não está obrigado a atender aos interesses locais.
+(E) O Município não está obrigado a fornecer a medicação fora da relação municipal de medicamentos.
+28
+Com relação à revisão de processo disciplinar, está incorreto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) I e III, apenas.
+(D) I, II e III.
+(E) III, apenas.
+29
+A todas as infrações listadas cabe pena de advertência, à exceção de
+(A) Desobediência à determinação de caráter geral originada do Conselho Superior do MP.
+(B) Infração à ética funcional, tratando com grave descortesia autoridade judiciária.
+(C) Desatendimento a pedido de informação, que emane de órgão do MP.
+(D) Desobediência à ordem de caráter geral que tenha emanado do Procurador Geral de Justiça.
+(E) Eventual atuação de forma negligente no exercício de suas funções.
+30
+O fragmento trata do princípio
+(A) da autonomia funcional.
+(B) da unidade de atuação.
+(C) da representatividade.
+(D) da indivisibilidade.
+(E) do promotor natural.
+31
+Assinale a opção cujos itens completam corretamente as lacunas do texto sobre objetividade e recepção da mensagem no jornalismo.
+(A) opinião, igualdade, inclusão, emissor
+(B) reportagem, disrrupção, reflexão, público
+(C) informação, assimetria, distorção, mídia
+(D) fotografia, simetria, alteração, audiência
+(E) matéria, correspondência, exclusão, assessor de imprensa
+32
+A Teoria do Espelho propõe que o jornalista seja um
+(A) mediador desinteressado, que, por meio da objetividade, separa fatos e opiniões para emitir um relato equilibrado.
+(B) manipulador das massas, oferecendo a elas apenas o que é rentável para a empresa.
+(C) agente de conscientização da sociedade, porque, por meio da prática do denuncismo, defende o bem comum.
+(D) construtor da realidade, a partir de um olhar próprio e de critérios de noticiabilidade profissionalmente aceitos.
+(E) servo da audiência, que move suas decisões pelas pesquisas de opinião e pelos estereótipos socialmente aceitos.
+33
+O uso da câmera escondida foi reconhecido na primeira edição do Prêmio Esso de Telejornalismo, atribuído ao jornalista
+(A) Vladimir Herzog, pela reportagem Porões da Ditadura.
+(B) Alberto Dines, pelo Observatório da Imprensa.
+(C) Tim Lopes, pela reportagem Feira das Drogas.
+(D) Caco Barcellos, pela reportagem Rota 66.
+(E) Fernando Gabeira, pela reportagem Tortura Nunca Mais.
+34
+Uma das principais metáforas para entender a sociedade atual nos é dada por Zygmund Bauman, ao tratar da
+(A) vida anticonsumo.
+(B) indústria cultural.
+(C) modernidade líquida.
+(D) pós-modernidade sólida.
+(E) comunicação face a face.
+35
+Para Walter Benjamim, a reprodutibilidade técnica das obras de arte era vista como
+(A) a oportunidade de mais pessoas experimentarem a aura da arte frente a qualquer cópia.
+(B) a valorização das cópias e a desvalorização dos originais no mercado de arte.
+(C) a primeira possibilidade de fazer cópias de obras de arte.
+(D) um processo crítico de reinvenção da arte, a partir de obras originais.
+(E) a perda da aura da obra de arte original em suas cópias.
+36
+A Teoria da Agulha Hipodérmica também é conhecida como
+(A) Teoria do Agendamento.
+(B) Teoria do Espelho.
+(C) Espiral do Silêncio.
+(D) Teoria da Bala Mágica.
+(E) Teoria do Newsmaking.
+37
+Sobre a Sociedade da Informação, está correto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) III, apenas.
+(D) II e III, apenas.
+(E) I, II e III.
+38
+Assinale a opção cujos itens completam corretamente as lacunas do texto sobre hipertexto.
+(A) impedir, embaralhadas, hipertexto.
+(B) estimular, interativas, rede.
+(C) fragmentar, desconexas, Internet.
+(D) organizar, independentes, multimídia.
+(E) interromper, interligadas, link.
+39
+As opções a seguir apresentam mudanças introduzidas pelas mídias digitais, à exceção de uma. Assinale-a.
+(A) Adaptação nos papéis de divulgação e de público.
+(B) Diminuição da conectividade de rede.
+(C) Mobilidade para emitir e receber mensagens.
+(D) Convergência das mídias.
+(E) Aumento da interatividade em rede.
+40
+O termo fake news foi revigorado a partir do (da)
+(A) aumento do custo na produção e disseminação de conteúdos em mídias digitais.
+(B) criação de algoritmos que enfraquecem as bolhas de compartilhamento de opiniões iguais.
+(C) restrição imposta aos jornalistas como única fonte confiável.
+(D) surgimento de agências de checagem baseadas unicamente na análise dos algoritmos.
+(E) explosão da quantidade de informações geradas ou compartilhadas nas redes sociais digitais.
+41
+Sobre o processo de informatização das redações nos jornais diários brasileiros, está correto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) III, apenas.
+(D) II e III, apenas.
+(E) I, II e III.
+42
+Relacione as fases da televisão brasileira aos períodos:
+1-Fase Populista; 2-Fase do Desenvolvimento Tecnológico; 3-Fase Elitista; 4-Fase da Globalização e da TV Paga; 5-Fase de Transição e da Expansão Internacional
+( ) 1950–1964 ( ) 1964–1975 ( ) 1975–1985 ( ) 1985–1990 ( ) 1990–2000
+(A) 1, 2, 5, 4 e 3.
+(B) 2, 1, 3, 4 e 5.
+(C) 3, 1, 2, 5 e 4.
+(D) 1, 2, 3, 5 e 4.
+(E) 3, 2, 4, 5 e 1.
+43
+Sobre o Decreto nº 21.111, de 1932, assinale a afirmativa correta.
+(A) Liberava as emissoras comerciais da necessidade de concessão estatal.
+(B) Obrigava os órgãos públicos a dividir, igualmente, 40% de suas verbas de publicidade entre as emissoras de rádio.
+(C) Liberava o uso da frequência modulada para qualquer emissora que transmitisse a Voz do Brasil.
+(D) Permitia a veiculação de propaganda comercial nas emissoras, sem necessidade de autorização prévia.
+(E) Instituía o Projeto Minerva, com objetivo de levar a educação pelo rádio para todo o país.
+44
+Quanto à adequação do Código de Ética dos Jornalistas Brasileiros, está correto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) III, apenas.
+(D) II e III, apenas.
+(E) I, II e III.
+45
+Sobre o prazo de concessão dos serviços de radiodifusão, assinale a afirmativa correta.
+(A) Dez anos para as emissoras de rádio e quinze para as de TV.
+(B) Quinze anos tanto para as emissoras de rádio quanto para as de TV.
+(C) Vinte anos para as emissoras de TV e dez para as de rádio.
+(D) Dez anos tanto para as emissoras de rádio quanto para as de TV.
+(E) Vinte e cinco anos para as emissoras de TV e quinze para as de rádio.
+46
+Relacione os tipos de pesquisa às características e assinale a relação correta.
+(A) 1, 4, 5, 3 e 2.
+(B) 3, 4, 1, 2 e 5.
+(C) 5, 1, 3, 2 e 4.
+(D) 3, 2, 5, 1 e 4.
+(E) 1, 2, 4, 5 e 3.
+47
+Sobre o marketing de causa, está correto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) III, apenas.
+(D) II e III, apenas.
+(E) I, II e III.
+48
+Relacione os tipos de abordagem formal da propaganda às características e assinale a relação correta.
+(A) 4, 1, 5, 3 e 2.
+(B) 2, 1, 3, 4 e 5.
+(C) 1, 4, 2, 5 e 3.
+(D) 1, 5, 4, 2 e 3.
+(E) 2, 5, 3, 4 e 1.
+49
+A consonância é entendida como
+(A) a capacidade de relatar um fato de maneira simples, reduzindo sua ambiguidade e complexidade.
+(B) o ato de amplificar o acontecimento e suas consequências, com o objetivo de reforçar o impacto da notícia.
+(C) a intenção de mostrar o sentido do acontecimento a fim de aumentar a sua relevância.
+(D) a estratégia de inserir a novidade em um contexto já conhecido, correspondendo às expectativas do receptor.
+(E) a estruturação da notícia, ressaltando aspectos dramáticos e apelando para as emoções da audiência.
+50
+Assinale a opção cujos itens completam corretamente as lacunas do texto sobre reportagem e democracia.
+(A) imagem, limitação, ampliação, unificada.
+(B) informação, pluralidade, expansão, polifônica.
+(C) opinião, unicidade, controle, utópica.
+(D) interpretação, seleção, cerceamento, imprevisível.
+(E) multimídia, distorção, restrição, improvável.
+51
+Assinale a opção que apresenta apenas critérios contextuais.
+(A) Disponibilidade, visualidade e concorrência.
+(B) Inesperado, proximidade e notoriedade.
+(C) Interesse humano, novidade e relevância.
+(D) Tempo, infração e escândalo.
+(E) Conflito, ineditismo e morte.
+52
+Sobre a tipologia dos leads, está correto o que se afirma em
+(A) I, apenas.
+(B) II, apenas.
+(C) III, apenas.
+(D) II e III, apenas.
+(E) I, II e III.
+53
+Assinale a opção que apresenta a família de letras sem serifa.
+(A) Lapidária
+(B) Egípcia
+(C) Romana Moderna
+(D) Romana Antiga
+(E) Suméria
+54
+A gramatura de um papel é expressa em
+(A) Kg/cm².
+(B) gramas.
+(C) centímetros.
+(D) g/m².
+(E) graus.
+55
+No discurso noticioso, o chamado nariz de cera se caracteriza como um texto
+(A) prolixo.
+(B) objetivo.
+(C) conciso.
+(D) direto.
+(E) idêntico ao do lead.
+56
+Assinale o exemplo que NÃO representa o gênero opinativo no jornalismo.
+(A) Crônica.
+(B) Artigo.
+(C) Reportagem.
+(D) Editorial.
+(E) Comentário.
+57
+Assinale a estrutura que NÃO deve ser evitada em um texto a ser lido no rádio.
+(A) Aliterações.
+(B) Cacofonias.
+(C) Abreviaturas.
+(D) Chavões.
+(E) Frases afirmativas.
+58
+No jornalismo televisivo, a relação entre texto e imagem deve ser de
+(A) conflito.
+(B) independência.
+(C) complementariedade.
+(D) repetição.
+(E) descrição.
+59
+Relacione as visões de comunicação pública às funções e assinale a relação correta.
+(A) 5, 2, 1, 4 e 3.
+(B) 5, 3, 2, 1 e 4.
+(C) 1, 4, 3, 2 e 5.
+(D) 2, 4, 5, 3 e 1.
+(E) 2, 5, 1, 3 e 4.
+60
+Sobre as atitudes dos assessores de imprensa, espera-se que
+(A) verifiquem as pautas e as matérias antes de sua publicação.
+(B) tenham o feeling da notícia adequada para cada veículo, antecipando-se às demandas.
+(C) privilegiem os veículos nacionais em detrimento dos regionais e locais.
+(D) entrem em contato com os editores quando houver qualquer conflito com os jornalistas.
+(E) distribuam os releases e façam o follow up, presencialmente, nos horários de fechamento das edições.
+61
+No newsletter, o estilo de diagramação pode ser
+(A) vertical, horizontal ou modular.
+(B) vertical, irregular ou circular.
+(C) horizontal ou modular, apenas.
+(D) diagonal, circular ou triangular.
+(E) diagonal ou vertical, apenas.
+62
+Assinale a ação do assessor de imprensa no processo de media training.
+(A) Informar ao assessorado como funciona um veículo de comunicação e a lógica de pensamento dos jornalistas.
+(B) Oferecer cursos para que o assessorado redija e envie os releases.
+(C) Estimular o assessorado a estreitar o relacionamento com os jornalistas e a agir como fã.
+(D) Desenvolver estratégias para dificultar o acesso da imprensa aos diretores da organização.
+(E) Orientar os dirigentes a fornecer informações desconexas para ganhar tempo em crises.
+63
+Assinale uma vantagem do uso das redes sociais digitais como fonte de insumos para os jornalistas.
+(A) O acesso a informações pessoais disseminadas indiscriminadamente nos perfis corporativos.
+(B) O uso prioritário do ambiente digital para divulgação publicitária.
+(C) A maior rapidez de acesso à informação e a maior proximidade das fontes.
+(D) A divulgação de material formatado jornalisticamente diretamente para os cidadãos.
+(E) A divulgação global dos acontecimentos, burlando os controles locais e expondo prematuramente as pautas.
+64
+A assessoria de imprensa deve cuidar do monitoramento de resultados por meio do
+(A) mailing.
+(B) follow-up
+(C) briefing.
+(D) check list.
+(E) clipping.
+65
+Sobre o objetivo central do release, assinale a afirmativa correta.
+(A) Evita o contato direto entre os executivos e os jornalistas.
+(B) Atende às demandas da sociedade em situações de crise.
+(C) Leva a melhor mensagem do cliente para a mídia.
+(D) Funciona como métrica de competência do trabalho do assessor.
+(E) Monitora a opinião pública em relação ao cliente assessorado.
+66
+A comunicação institucional, como elemento da comunicação empresarial integrada, abrange
+(A) o marketing direto.
+(B) a promoção de vendas.
+(C) a propaganda comercial.
+(D) o merchandising.
+(E) o marketing cultural.
+67
+Nessas ações de conscientização, a propaganda está exercendo sua função
+(A) de serviço público.
+(B) de identidade.
+(C) de atividade comercial.
+(D) de proteção da marca.
+(E) de mediação de conflitos.
+68
+Quando uma organização deseja usar as mídias sociais como autêntico espaço de relacionamento, ela deve priorizar seu uso
+(A) na publicidade de seus produtos e serviços.
+(B) como canal de vendas online
+(C) para interagir com os públicos estratégicos.
+(D) na divulgação exclusiva de releases para os jornalistas.
+(E) em ações para calar as críticas aos seus produtos.
+69
+A comunicação digital trouxe novos desafios para a estratégia comunicacional das instituições, na medida em que
+(A) reforça o poder da imprensa como única mediadora confiável para os stakeholders.
+(B) potencializa canais alternativos de interação com os públicos de interesse da organização.
+(C) diminui o poder dos influenciadores digitais para construção da reputação.
+(D) uniformiza as estratégias de comunicação em virtude da globalização dos públicos-alvo.
+(E) restringe o acesso direto aos stakeholders.
+70
+Assinale os termos que completam corretamente as lacunas do fragmento sobre comunicação organizacional em tempos de redes sociais.
+(A) inacessível, profunda, descentralização, digital.
+(B) fraco, incontrolável, centralização, empresarial.
+(C) antigo, controlável, firmeza, emocional.
+(D) novo, lenta, cautela, imaginário.
+(E) forte, rápida, agilidade, virtual.
+71
+Assinale a opção que apresenta apenas exemplos de aspectos intangíveis de uma crise.
+(A) Patrimônio líquido e líderes da empresa.
+(B) Imagem e reputação.
+(C) Identidade e parque tecnológico.
+(D) Balanço patrimonial e marca.
+(E) Carteira de clientes e conta bancária.
+72
+Sobre a gestão de crises de comunicação, assinale a afirmativa correta.
+(A) A empresa deve estimular as redes informais de comunicação interna.
+(B) A empresa deve cooptar os jornalistas graças ao oferecimento regular de verba publicitária.
+(C) A empresa deve optar, sempre que possível, pelo "nada a declarar".
+(D) A empresa deve reunir seus executivos e oferecer diversas versões da crise para a imprensa.
+(E) A empresa deve treinar previamente porta-vozes e manter relação estreita e confiável com editores e jornalistas especializados.
+73
+Assinale as atividades desenvolvidas nas fases de concepção e pré-evento, respectivamente.
+(A) Elaboração do balanço financeiro e planejamento da recepção dos convidados.
+(B) Identificação dos objetivos do evento e preparação dos press releases para apresentação à mídia.
+(C) Elaboração do hotsite do evento e levantamento da exequibilidade técnica do evento.
+(D) Elaboração dos contornos gerais do projeto do evento e apresentação do clipping geral do evento.
+(E) Montagem da sala de imprensa e elaboração de estimativas de custo do evento.
+74
+Relacione os tipos de eventos às características e assinale a relação correta.
+1-Roadshow; 2-Showcasing; 3-Workshop; 4-Brainstorming; 5-Open Day
+(A) 2, 3, 5, 1 e 4.
+(B) 3, 5, 2, 4 e 1.
+(C) 4, 2, 5, 3 e 1.
+(D) 3, 2, 1, 4 e 5.
+(E) 2, 5, 1, 3 e 4.
+75
+Assinale a condição que NÃO é necessária para classificar um evento como megaevento.
+(A) Requer a criação e ajustes de infraestrutura e comodidades para realização do evento.
+(B) Embora tenda a ser de curta duração, espera-se que deixe um legado de longa duração.
+(C) Deve ser programado com muita antecedência.
+(D) Como produção com legado social, necessita da aprovação formal dos cidadãos da cidade-sede.
+(E) Deve ter mais de 5 mil participantes.
+76
+O anúncio veiculado abaixo do preço de tabela ou gratuitamente quando há sobra de espaço/tempo é conhecido no jargão profissional como
+(A) bônus sobre volume.
+(B) institucional.
+(C) layout.
+(D) calhau.
+(E) calandra.
+77
+Assinale a opção que NÃO representa tarefa da propaganda como instrumento de promoções de vendas.
+(A) Promoção da marca, ressaltando seus aspectos competitivos.
+(B) Educação do mercado para formação de novos hábitos de consumo.
+(C) Correção do mercado, em caso de a imagem da marca não estar sendo percebida adequadamente.
+(D) Incentivo a comportamentos úteis em nível individual e promoção de causas sociais.
+(E) Expansão do mercado graças à conquista de mais consumidores.
+78
+A função predominante da linguagem em um texto publicitário deliberativo tende a ser a
+(A) emotiva.
+(B) referencial.
+(C) fática.
+(D) metalinguística.
+(E) conativa.
+79
+O sistema de TV digital brasileiro que deve passar para a resolução 4K é conhecida como
+(A) UHF.
+(B) Ultra HD.
+(C) Full HD.
+(D) VGA.
+(E) Mega HD.
+80
+Assinale o país da América do Sul que NÃO vem adotando o padrão nipo-brasileiro de TV digital.
+(A) Colômbia
+(B) Argentina
+(C) Venezuela
+(D) Uruguai
+(E) Bolívia`;
+
+// ══════════════════════════════════════════════════════════════════════════════
+// ESTADO DA APLICAÇÃO
+// ══════════════════════════════════════════════════════════════════════════════
+let currentCategory = null;
+let currentExamId = null;
+let questions = [];
 let currentIndex = 0;
 let correctCount = 0;
-let answered = 0;
-let currentCategory = '';
-let currentLabel = '';
+let wrongCount = 0;
+let answered = false;
+let examMode = false;
 
-function startExam(examId) {
-  if (examId === '2018-desenvolvimento') {
-    currentQuestions = questoes_2018_dev.slice();
-    currentLabel = '2018 — Desenvolvimento de Sistemas';
+const catLabels = {
+  portugues: 'Português',
+  cebraspe: 'Cebraspe',
+  legislacao: 'Legislação',
+  comunicacao: 'Comunicação Social',
+  sistemas: 'Analista de Sistemas'
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FUNÇÕES UTILITÁRIAS
+// ══════════════════════════════════════════════════════════════════════════════
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  currentCategory = examId;
+  return a;
+}
+
+function normalizeLine(line) {
+  return String(line || '').replace(/\s+/g, ' ').trim();
+}
+
+function parseFGV2018(raw) {
+  const lines = String(raw || '')
+    .split('\n')
+    .map(l => l.replace(/\r/g, ''))
+    .map(l => l.trim())
+    .filter(Boolean)
+    .filter(l => !l.startsWith('pcimarkpci'))
+    .filter(l => !l.includes('www.pciconcursos.com.br'))
+    .filter(l => !/^--\s*\d+\s*of\s*\d+\s*--$/i.test(l))
+    .filter(l => !l.includes('Ministério Público do Estado de Alagoas - 2018 FGV'))
+    .filter(l => !l.includes('Analista do Ministério Público'))
+    .filter(l => l !== 'Realização');
+
+  const qStartIdx = lines.findIndex(l => /^\d+$/.test(l) && l === '1');
+  const textBlock = qStartIdx > 0 ? lines.slice(0, qStartIdx).join('\n') : '';
+
+  const blocks = [];
+  let i = qStartIdx >= 0 ? qStartIdx : 0;
+  while (i < lines.length) {
+    if (!/^\d+$/.test(lines[i])) { i++; continue; }
+    const start = i;
+    i++;
+    while (i < lines.length && !/^\d+$/.test(lines[i])) i++;
+    blocks.push(lines.slice(start, i));
+  }
+
+  const questionsParsed = blocks.map(b => {
+    const num = b[0];
+    const body = b.slice(1);
+    const optIdx = body.findIndex(l => /^\([A-E]\)/.test(l));
+    const stemLines = (optIdx >= 0 ? body.slice(0, optIdx) : body).map(normalizeLine).filter(Boolean);
+    const stem = stemLines.join('\n');
+    const opts = [];
+    let currentOpt = null;
+    for (const line of body.slice(optIdx >= 0 ? optIdx : body.length)) {
+      const m = line.match(/^\(([A-E])\)\s*(.*)$/);
+      if (m) {
+        if (currentOpt) opts.push(currentOpt.trim());
+        currentOpt = m[2] || '';
+      } else if (currentOpt !== null) {
+        currentOpt += (currentOpt ? ' ' : '') + normalizeLine(line);
+      }
+    }
+    if (currentOpt) opts.push(currentOpt.trim());
+    while (opts.length < 5) opts.push('—');
+    return { n: Number(num), q: stem, opts: opts.slice(0, 5) };
+  });
+
+  const withText = questionsParsed.map(qq => {
+    if (qq.n >= 1 && qq.n <= 15 && textBlock) {
+      return { ...qq, q: `${textBlock}\n\n${qq.q}` };
+    }
+    return qq;
+  });
+
+  return withText.sort((a, b) => a.n - b.n).map(({ n, ...rest }) => ({ ...rest, _num: n }));
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INICIAR CATEGORIA (banco próprio)
+// ══════════════════════════════════════════════════════════════════════════════
+function startCategory(cat) {
+  currentCategory = cat;
+  currentExamId = null;
+  examMode = false;
+  answered = false;
   currentIndex = 0;
   correctCount = 0;
-  answered = 0;
-  showScreen('quiz');
-  document.getElementById('quiz-cat-label').textContent = currentLabel;
+  wrongCount = 0;
+
+  let pool;
+  if (cat === 'portugues') pool = questoes_portugues;
+  else if (cat === 'cebraspe') pool = questoes_cebraspe;
+  else if (cat === 'legislacao') pool = questoes_legislacao;
+  else if (cat === 'comunicacao') pool = questoes_comunicacao;
+  else pool = questoes_sistemas;
+
+  if (cat === 'cebraspe') {
+    questions = shuffle(pool).slice(0, Math.min(50, pool.length)).map(q => ({ ...q, opts: [...q.opts] }));
+  } else {
+    questions = shuffle(pool).slice(0, Math.min(30, pool.length)).map(q => ({ ...q, opts: [...q.opts] }));
+  }
+
+  document.getElementById('quiz-cat-label').textContent = catLabels[cat];
+  showScreen('screen-quiz');
   renderQuestion();
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// INICIAR PROVA OFICIAL
+// ══════════════════════════════════════════════════════════════════════════════
+function startExam(examId) {
+  currentCategory = null;
+  currentExamId = examId;
+  examMode = true;
+  answered = false;
+  currentIndex = 0;
+  correctCount = 0;
+  wrongCount = 0;
+
+  let parsed;
+  if (examId === '2018-comunicacao') {
+    parsed = parseFGV2018(prova2018_comunicacao_raw);
+    document.getElementById('quiz-cat-label').textContent = 'Prova 2018 — Comunicação Social';
+    // Injeta gabarito oficial em cada questão
+    questions = parsed.map(q => {
+      const g = q._num ? GABARITO_2018_COM[q._num] : undefined;
+      return { ...q, opts: [...q.opts], r: (g !== undefined ? g : null) };
+    });
+  } else {
+    // Prova de Desenvolvimento sem gabarito oficial embutido (modo simulação)
+    parsed = [];
+    document.getElementById('quiz-cat-label').textContent = 'Prova 2018 — Desenvolvimento de Sistemas';
+    // Sem gabarito oficial nesta versão
+    questions = parsed.map(q => ({ ...q, opts: [...q.opts] }));
+    alert('A prova 2018 — Desenvolvimento de Sistemas estará disponível em breve.');
+    return;
+  }
+
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// RENDERIZAR QUESTÃO
+// ══════════════════════════════════════════════════════════════════════════════
 function renderQuestion() {
-  const q = currentQuestions[currentIndex];
-  const total = currentQuestions.length;
+  answered = false;
+  const q = questions[currentIndex];
+  const total = questions.length;
+  const num = currentIndex + 1;
 
-  // Atualiza progresso
-  const pct = ((currentIndex) / total) * 100;
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-label').textContent = `Questão ${currentIndex + 1} de ${total}`;
-  document.getElementById('score-correct').textContent = correctCount;
-  document.getElementById('score-total').textContent = answered;
-
-  // Número
-  const num = String(currentIndex + 1).padStart(2, '0');
-  document.getElementById('question-num').textContent = num;
-
-  // Texto
+  document.getElementById('question-num').textContent = String(num).padStart(2, '0');
   document.getElementById('question-text').textContent = q.q;
+  document.getElementById('progress-fill').style.width = ((num - 1) / total * 100) + '%';
+  document.getElementById('progress-label').textContent = `Questão ${num} de ${total}`;
+  document.getElementById('score-correct').textContent = correctCount;
+  document.getElementById('score-total').textContent = correctCount + wrongCount;
 
-  // Opções
-  const optList = document.getElementById('options-list');
-  optList.innerHTML = '';
+  const optsList = document.getElementById('options-list');
+  optsList.innerHTML = '';
+  const letters = currentCategory === 'cebraspe' ? ['', ''] : ['A', 'B', 'C', 'D', 'E'];
   q.opts.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'option-btn';
-    btn.innerHTML = `<span class="option-letter">${'ABCDE'[i]}</span><span>${opt.replace(/^[A-E]\)\s*/,'')}</span>`;
-    btn.onclick = () => selectAnswer(i);
-    optList.appendChild(btn);
+    if (currentCategory === 'cebraspe') {
+      btn.innerHTML = `<span>${opt}</span>`;
+    } else {
+      btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    }
+    btn.onclick = () => selectOption(i);
+    optsList.appendChild(btn);
   });
 
-  // Esconde explicação e botão
   document.getElementById('explanation-box').style.display = 'none';
   document.getElementById('btn-next').style.display = 'none';
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) {
+    if (currentCategory === 'cebraspe') {
+      skipBtn.style.display = 'block';
+      skipBtn.disabled = false;
+    } else {
+      skipBtn.style.display = 'none';
+    }
+  }
 
-  // Scroll topo
-  document.getElementById('quiz-card').scrollTo ? document.getElementById('quiz-card').scrollTo(0,0) : window.scrollTo(0,0);
-  document.querySelector('#screen-quiz').scrollTo(0,0);
+  const card = document.getElementById('quiz-card');
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(12px)';
+  requestAnimationFrame(() => {
+    card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    card.style.opacity = '1';
+    card.style.transform = 'translateY(0)';
+  });
 }
 
-function selectAnswer(chosenIdx) {
-  const q = currentQuestions[currentIndex];
-  const correct = q.r; // null = gabarito pendente
-  const buttons = document.querySelectorAll('.option-btn');
-  buttons.forEach(b => b.disabled = true);
-  answered++;
+// ══════════════════════════════════════════════════════════════════════════════
+// SELECIONAR OPÇÃO
+// ══════════════════════════════════════════════════════════════════════════════
+function selectOption(selectedIndex) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentIndex];
+  const optBtns = document.querySelectorAll('.option-btn');
+  const letters = ['A', 'B', 'C', 'D', 'E'];
 
   const expBox = document.getElementById('explanation-box');
   const expIcon = document.getElementById('explanation-icon');
   const expText = document.getElementById('explanation-text');
 
-  if (correct === null) {
-    // Gabarito ainda não inserido
-    buttons[chosenIdx].style.borderColor = '#C8A97A';
-    buttons[chosenIdx].style.background = '#FDF6EC';
+  if (q.r === null || q.r === undefined) {
+    // Questão anulada
+    optBtns.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === selectedIndex) btn.classList.add('correct');
+    });
     expBox.className = 'explanation-box info-exp';
     expIcon.textContent = 'ℹ️';
-    expText.innerHTML = '<strong>Gabarito pendente</strong>O gabarito desta questão ainda não foi inserido. Sua resposta foi registrada.';
-  } else if (chosenIdx === correct) {
-    buttons[chosenIdx].classList.add('correct');
-    correctCount++;
-    expBox.className = 'explanation-box correct-exp';
-    expIcon.textContent = '✅';
-    expText.innerHTML = `<strong>Correto!</strong>${q.exp}`;
+    expText.innerHTML = `<strong>Questão anulada pela banca.</strong>Questão sem gabarito oficial — pontuação não contabilizada.`;
+    expBox.style.display = 'flex';
   } else {
-    buttons[chosenIdx].classList.add('wrong');
-    buttons[correct].classList.add('correct');
-    expBox.className = 'explanation-box wrong-exp';
-    expIcon.textContent = '❌';
-    expText.innerHTML = `<strong>Incorreto.</strong>A resposta correta é <b>${'ABCDE'[correct]}</b>. ${q.exp}`;
+    const correct = q.r;
+    optBtns.forEach((btn, i) => {
+      btn.disabled = true;
+      if (i === correct) btn.classList.add('correct');
+      if (i === selectedIndex && selectedIndex !== correct) btn.classList.add('wrong');
+    });
+
+    const isCorrect = selectedIndex === correct;
+    if (isCorrect) correctCount++;
+    else wrongCount++;
+
+    document.getElementById('score-correct').textContent = correctCount;
+    document.getElementById('score-total').textContent = correctCount + wrongCount;
+
+    expBox.className = 'explanation-box ' + (isCorrect ? 'correct-exp' : 'wrong-exp');
+    expIcon.textContent = isCorrect ? '✅' : '❌';
+    const correctLabel = currentCategory === 'cebraspe' ? (correct === 0 ? 'Certo' : 'Errado') : letters[correct];
+    const expContent = q.exp ? `<strong>${isCorrect ? 'Correto!' : `Incorreto! Resposta: ${correctLabel}`}</strong>${q.exp}` :
+      `<strong>${isCorrect ? 'Correto!' : `Incorreto! Resposta correta: ${correctLabel}`}</strong>`;
+    expText.innerHTML = expContent;
+    expBox.style.display = 'flex';
   }
 
-  expBox.style.display = 'flex';
-  document.getElementById('score-correct').textContent = correctCount;
-  document.getElementById('score-total').textContent = answered;
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.style.display = 'none';
 
-  const btnNext = document.getElementById('btn-next');
-  btnNext.style.display = 'block';
-  btnNext.textContent = currentIndex < currentQuestions.length - 1 ? 'Próxima Questão →' : 'Ver Resultado';
+  document.getElementById('btn-next').style.display = 'block';
+  document.getElementById('btn-next').textContent =
+    currentIndex + 1 < questions.length ? 'Próxima Questão →' : 'Ver Resultado →';
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+function skipQuestion() {
+  if (answered) return;
+  answered = true;
+  document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+  const expBox = document.getElementById('explanation-box');
+  const expIcon = document.getElementById('explanation-icon');
+  const expText = document.getElementById('explanation-text');
+  expBox.className = 'explanation-box info-exp';
+  expIcon.textContent = '⏭️';
+  expText.innerHTML = '<strong>Questão pulada.</strong> Nenhuma alteração na pontuação.';
+  expBox.style.display = 'flex';
+  document.getElementById('btn-next').style.display = 'block';
+  document.getElementById('btn-next').textContent = currentIndex + 1 < questions.length ? 'Próxima Questão →' : 'Ver Resultado →';
+  const skipBtn = document.getElementById('btn-skip');
+  if (skipBtn) skipBtn.style.display = 'none';
+}
+
+// PRÓXIMA QUESTÃO
+// ═════════════════════════════════════════════════════════════════════════════=
 function nextQuestion() {
   currentIndex++;
-  if (currentIndex >= currentQuestions.length) {
+  if (currentIndex >= questions.length) {
     showResult();
-  } else {
-    renderQuestion();
-    window.scrollTo(0,0);
+    return;
   }
+  renderQuestion();
+  document.getElementById('quiz-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// RESULTADO FINAL
+// ══════════════════════════════════════════════════════════════════════════════
 function showResult() {
-  showScreen('result');
-  const total = currentQuestions.length;
-  const pct = Math.round((correctCount / total) * 100);
-  document.getElementById('result-score-big').textContent = pct + '%';
-  document.getElementById('stat-correct').textContent = correctCount;
-  document.getElementById('stat-wrong').textContent = total - correctCount;
-
+  const total = questions.length;
+  let scoreText;
   let emoji, title, msg;
-  if (pct >= 80) { emoji='🏆'; title='Excelente!'; msg='Desempenho acima da média. Continue assim!'; }
-  else if (pct >= 60) { emoji='📚'; title='Bom trabalho!'; msg='Você está no caminho certo. Revise os erros.'; }
-  else if (pct >= 40) { emoji='💪'; title='Continue estudando!'; msg='Foque nos pontos fracos e tente novamente.'; }
-  else { emoji='📖'; title='Precisa estudar mais!'; msg='Revise o conteúdo e tente de novo — você consegue!'; }
+  if (currentCategory === 'cebraspe') {
+    const netScore = correctCount - wrongCount;
+    scoreText = `${netScore}`;
+    if (netScore >= 30) { emoji = '🏆'; title = 'Excelente!'; msg = 'Boa pontuação no simulado Cebraspe. Erros e acertos se anulam.'; }
+    else if (netScore >= 15) { emoji = '🎯'; title = 'Muito Bom!'; msg = 'Bom desempenho no Cebraspe; revise as questões erradas e continue.'; }
+    else if (netScore >= 0) { emoji = '📚'; title = 'Bom Progresso'; msg = 'Você está no caminho certo. Aproveite o saldo para avançar.'; }
+    else { emoji = '💪'; title = 'Continue Estudando'; msg = 'Erros anularam acertos. Revise e tente novamente.'; }
+  } else {
+    const answered_count = correctCount + wrongCount;
+    const pct = answered_count > 0 ? Math.round((correctCount / answered_count) * 100) : 0;
+    scoreText = pct + '%';
+    if (pct >= 90) { emoji = '🏆'; title = 'Excelente!'; msg = 'Desempenho excepcional. Você está muito bem preparado!'; }
+    else if (pct >= 70) { emoji = '🎯'; title = 'Muito Bom!'; msg = 'Ótimo desempenho. Continue revisando os pontos que errou.'; }
+    else if (pct >= 50) { emoji = '📚'; title = 'Bom Progresso'; msg = 'Você está no caminho certo. Revise os tópicos com mais dificuldade.'; }
+    else { emoji = '💪'; title = 'Continue Estudando'; msg = 'Revise o conteúdo e tente novamente. Cada tentativa é aprendizado!'; }
+  }
 
   document.getElementById('result-emoji').textContent = emoji;
   document.getElementById('result-title').textContent = title;
+  document.getElementById('result-score-big').textContent = scoreText;
   document.getElementById('result-msg').textContent = msg;
+  document.getElementById('stat-correct').textContent = correctCount;
+  document.getElementById('stat-wrong').textContent = wrongCount;
+
+  showScreen('screen-result');
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+// NAVEGAÇÃO
+// ══════════════════════════════════════════════════════════════════════════════
 function retryCategory() {
-  startExam(currentCategory);
+  if (examMode && currentExamId) startExam(currentExamId);
+  else if (currentCategory) startCategory(currentCategory);
 }
 
 function goHome() {
-  showScreen('home');
+  showScreen('screen-home');
 }
 
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + id).classList.add('active');
-  window.scrollTo(0,0);
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  requestAnimationFrame(() => el.classList.add('active'));
+  window.scrollTo(0, 0);
 }
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.screen').forEach(s => { s.style.display = 'none'; });
+  const home = document.getElementById('screen-home');
+  home.style.display = 'flex';
+  home.classList.add('active');
+});
 </script>
 </body>
 </html>
